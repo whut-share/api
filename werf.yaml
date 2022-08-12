@@ -5,6 +5,10 @@ image: backend
 from: node:14-alpine
 git:
 - to: /usr/src/app
+  excludePaths:
+  - .helm
+  - .github
+
   stageDependencies:
     install:
     - package*.json
