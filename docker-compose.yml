@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+
+  database:
+    restart: on-failure
+    extra_hosts:
+      database: 127.0.0.1
+    build: 
+      context: .
+      dockerfile: mongo.dockerfile
+    ports:
+      - 27017:27017
+    volumes:
+      - .mongo:/data/db
+
+  api:
+    restart: on-failure
+    build: 
+      context: .
+      dockerfile: dev.dockerfile
+    volumes:
+      - .:/usr/src/app:delegated
+      - /usr/src/app/node_modules/
+    ports:
+      - 8000:8000
+      - 8001:8001
+    env_file: .env

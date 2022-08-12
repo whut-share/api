@@ -1,0 +1,8 @@
+export const contract_routes = [
+  {
+    address: '0x0000000000000000000000000000000000000000',
+    network: 'ethereum',
+    deployed_at_tx: '0x0000000000000000000000000000000000000000000000000000000000000000',
+    type: 'erc1155',
+  },
+];

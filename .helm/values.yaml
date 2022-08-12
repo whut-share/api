@@ -1,0 +1,13 @@
+host:
+  prod: api.interactwith.io
+  test: test-api.interactwith.io
+
+# yeah i know it's temporary
+replicas:
+  prod: 1
+  test: 1
+
+
+# ---- will be added during CI build ---- #
+
+# pullsecret: "..."
