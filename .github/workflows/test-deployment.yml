@@ -5,7 +5,7 @@ concurrency: test-deployment
 on:
   push:
     branches:
-      - env-test
+      - master
 
 jobs:
   converge:
