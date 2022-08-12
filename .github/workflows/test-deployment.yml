@@ -18,9 +18,9 @@ jobs:
         with:
           fetch-depth: 0
         
-      - run: echo "${{ secrets.HELM_VALUES }}" >> "${{ GITHUB_WORKSPACE }}/.helm/values.yaml"
+      - run: echo "${{ secrets.HELM_VALUES }}" >> "${GITHUB_WORKSPACE}/.helm/values.yaml"
         
-      - run: echo "${{ secrets.HELM_TEST_ENV }}" >> "${{ GITHUB_WORKSPACE }}/.helm/env.test.yaml"
+      - run: echo "${{ secrets.HELM_TEST_ENV }}" >> "${GITHUB_WORKSPACE}/.helm/env.test.yaml"
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
