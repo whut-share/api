@@ -13,33 +13,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
         
-      - run: |
-        echo "${{ secrets.HELM_VALUES }}" >> "${{ GITHUB_WORKSPACE }}/.helm/values.yaml"
+      - run: echo "${{ secrets.HELM_VALUES }}" >> "${{ GITHUB_WORKSPACE }}/.helm/values.yaml"
         
-      - run: |
-        echo "${{ secrets.HELM_TEST_ENV }}" >> "${{ GITHUB_WORKSPACE }}/.helm/env.test.yaml"
+      - run: echo "${{ secrets.HELM_TEST_ENV }}" >> "${{ GITHUB_WORKSPACE }}/.helm/env.test.yaml"
 
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
-
       - name: Converge
         uses: werf/actions/converge@v1.2
         with:
           env: test
           kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
-      
-
-      # - name: Dismiss
-      #   uses: werf/actions/dismiss@master
-      #   with:
-      #     env: test
-      #     kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
