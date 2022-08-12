@@ -24,9 +24,11 @@ shell:
   - apk add --no-cache openssh
 
   install:
+  - cd /usr/src/app
   - npm i
 
   setup:
+  - cd /usr/src/app
   - npm run build
 
 docker:
