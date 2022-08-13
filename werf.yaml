@@ -5,9 +5,9 @@ image: backend
 from: node:14-alpine
 git:
 - to: /usr/src/app
-  # excludePaths:
-  # - .helm
-  # - .github
+  excludePaths:
+  - .helm/env.yaml
+  - .helm/values.yaml
 
   stageDependencies:
     install:
