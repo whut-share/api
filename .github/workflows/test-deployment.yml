@@ -34,8 +34,12 @@ jobs:
       - name: Prepare kubeconfig
         run: doctl kubernetes cluster kubeconfig save ${{ secrets.KUBE_CLUSTER_ID }}
 
-      - name: Converge
-        uses: werf/actions/converge@v1.2
+      # - name: Converge
+      #   uses: werf/actions/converge@v1.2
+      #   with:
+      #     env: test
+
+      - name: Dismiss
+        uses: werf/actions/dismiss@master
         with:
           env: test
-          # kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
