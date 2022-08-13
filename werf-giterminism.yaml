@@ -2,5 +2,5 @@ giterminismConfigVersion: 1
 
 helm:
   allowUncommittedFiles:
-  - .helm/values.yaml
-  - .helm/env.yaml
+  - values.yaml
+  - env.yaml
