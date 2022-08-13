@@ -28,8 +28,11 @@ jobs:
         with:
           token: ${{ secrets.DIGITALOCEAN_ACCESS_TOKEN }}
 
+      - name: Prepare kubeconfig
+        run: doctl kubernetes cluster kubeconfig save ${{ secrets.KUBE_CLUSTER_ID }}
+
       - name: Converge
         uses: werf/actions/converge@v1.2
         with:
           env: test
-          kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
+          # kube-config-base64-data: ${{ secrets.KUBE_CONFIG_BASE64_DATA }}
