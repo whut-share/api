@@ -8,6 +8,7 @@ git:
   excludePaths:
   - .helm/env.yaml
   - .helm/values.yaml
+  - .github
 
   stageDependencies:
     install:
