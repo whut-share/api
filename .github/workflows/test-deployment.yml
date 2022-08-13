@@ -40,6 +40,6 @@ jobs:
       #     env: test
 
       - name: Dismiss
-        uses: werf/actions/dismiss@master
+        uses: werf/actions/dismiss@v1.2
         with:
           env: test
