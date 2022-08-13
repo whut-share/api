@@ -6,8 +6,3 @@ host:
 replicas:
   prod: 1
   test: 1
-
-
-# ---- will be added during CI build ---- #
-
-# pullsecret: "..."
