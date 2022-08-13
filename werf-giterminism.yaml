@@ -1,4 +1,6 @@
 giterminismConfigVersion: 1
 
 helm:
-  allowUncommittedFiles: true
+  allowUncommittedFiles:
+  - .helm/values.yaml
+  - .helm/env.test.yaml
