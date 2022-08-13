@@ -36,5 +36,5 @@ lerna-debug.log*
 
 # etc
 .mongo
-.helm/env.yaml
-.helm/values.yaml
+# .helm/env.yaml
+# .helm/values.yaml
