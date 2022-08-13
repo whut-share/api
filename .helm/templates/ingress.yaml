@@ -40,10 +40,10 @@ spec:
             port:
               number: 8000
 
-      - path: /admin
-        pathType: Prefix
-        backend:
-          service:
-            name: {{ .Chart.Name }}-background-svc
-            port:
-              number: 8000
+      # - path: /admin
+      #   pathType: Prefix
+      #   backend:
+      #     service:
+      #       name: {{ .Chart.Name }}-background-svc
+      #       port:
+      #         number: 8000
