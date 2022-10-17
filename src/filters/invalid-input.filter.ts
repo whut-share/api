@@ -1,17 +1,20 @@
 import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
+import { GqlArgumentsHost, GqlExceptionFilter } from '@nestjs/graphql';
 import { Request, Response } from 'express';
-import { InvalidInputException } from 'src/exceptions/invalid-input.exception';
+import { GraphQLError } from 'graphql';
+import { InvalidInputException } from 'src/exceptions';
 
 @Catch(InvalidInputException)
 export class InvalidInputFilter implements ExceptionFilter {
-  catch(exception: InvalidInputException, host: ArgumentsHost) {
+  catch(e: InvalidInputException, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     
     response
       .status(400)
       .json({
-        err: exception.errors,
+        message: e.message,
+        code: e.code,
         timestamp: new Date().toISOString(),
         statusCode: 400
       });

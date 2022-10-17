@@ -1,20 +1,18 @@
 export const networks_list = [
 
   {
-    rpc: 'https://mainnet.infura.io/v3/d9f0f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8',
+    default_rpc: 'http://blockchain:8545',
+    archive_rpc: 'http://blockchain:8545',
+    key: 'local',
+    type: 'evm',
+    block_time: 3000,
+  },
+
+  {
+    default_rpc: 'http://blockchain:8545',
+    archive_rpc: 'http://blockchain:8545',
     key: 'ethereum',
     type: 'evm',
-  },
-
-  {
-    rpc: 'https://mainnet.infura.io/v3/d9f0f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8',
-    key: 'bsc',
-    type: 'evm',
-  },
-
-  {
-    rpc: 'https://mainnet.infura.io/v3/d9f0f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8f8',
-    key: 'avalanche',
-    type: 'evm',
+    block_time: 10000,
   },
 ];

@@ -1,7 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-
-export type UserDocument = User & Document;
+import { FileManager } from '@/providers/file-manager';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Mixed, ObjectId, Types } from 'mongoose';
+import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
 @Schema({
   timestamps: true,
@@ -11,15 +12,63 @@ export type UserDocument = User & Document;
   toJSON: {
     virtuals: true
   },
-  minimize: false
+  minimize: false,
+  id: false,
 })
-export class User {
-  @Prop()
-  email: string;
+@ObjectType()
+export class ScanTarget extends BaseClass {
 
-  // public get fullName() {
-  //   return `${this.firstName} ${this.lastName}`;
-  // }
+  @Prop({ required: true })
+  public _id: string;
+
+  public get id(): string {
+    return this._id;
+  };
+
+  @Prop({ required: true })
+  @Field()
+  public address: string;
+
+  @Prop({ required: true })
+  @Field()
+  public deploy_tx: string;
+
+  @Prop({ required: true })
+  @Field()
+  public network: string;
+
+  @Prop()
+  @Field({ nullable: true })
+  public project: string;
+
+  @Prop({ default: false })
+  @Field()
+  public is_inner_usage: boolean;
+
+  @Prop({ required: true })
+  @Field()
+  public contract_name: string;
+
+  @Prop({ default: [], type: [String] })
+  @Field(type => [String])
+  public events: string[];
+
+  @Prop({ default: {}, type: Object })
+  public metadata?: any;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const ScanTargetSchema = fixSchema(SchemaFactory.createForClass(ScanTarget), ScanTarget);
+
+export const ScanTargetModelModule = MongooseModule.forFeatureAsync([
+  {
+    name: ScanTarget.name,
+    imports: [
+
+    ],
+    useFactory: defaultUseFactory(ScanTargetSchema),
+    inject: [
+      FileManager, 
+      // getModelToken(Character.name)
+    ],
+  }
+]);

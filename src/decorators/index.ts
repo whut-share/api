@@ -1,7 +1,3 @@
-// import { EntityParam } from "./entity.decorator";
-import { ModelParam } from "./model.decorator";
-
-export {
-  // EntityParam,
-  ModelParam,
-}
+// export * from './seeder.decorator';
+export * from './user-param.decorator';
+export * from './roles.decorator';

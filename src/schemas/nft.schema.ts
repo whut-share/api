@@ -1,7 +1,8 @@
-import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-
-export type UserDocument = User & Document;
+import { FileManager } from '@/providers/file-manager';
+import { Field, ObjectType } from '@nestjs/graphql';
+import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, Mixed, ObjectId, Types } from 'mongoose';
+import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
 @Schema({
   timestamps: true,
@@ -13,13 +14,51 @@ export type UserDocument = User & Document;
   },
   minimize: false
 })
-export class User {
-  @Prop()
-  email: string;
+@ObjectType()
+export class Nft extends BaseClass {
 
-  // public get fullName() {
-  //   return `${this.firstName} ${this.lastName}`;
-  // }
+  @Prop({ required: true })
+  @Field()
+  user: string;
+
+  @Prop({ required: true })
+  @Field()
+  owner: string;
+
+  @Prop({ required: true })
+  @Field()
+  mint_tx: string;
+
+  @Prop({ required: true })
+  @Field()
+  network: string;
+
+  @Prop({ required: true })
+  @Field()
+  token_id: number;
+
+  @Prop({ required: true })
+  @Field()
+  local_token_id: string;
+
+  @Prop({ required: true })
+  @Field()
+  owner_synced_at: number;
+
 }
 
-export const UserSchema = SchemaFactory.createForClass(User);
+export const NftSchema = SchemaFactory.createForClass(Nft);
+
+export const NftModelModule = MongooseModule.forFeatureAsync([
+  {
+    name: Nft.name,
+    imports: [
+
+    ],
+    useFactory: defaultUseFactory(NftSchema),
+    inject: [
+      FileManager, 
+      // getModelToken(Character.name)
+    ],
+  }
+]);

@@ -20,9 +20,34 @@ services:
       context: .
       dockerfile: dev.dockerfile
     volumes:
-      - .:/usr/src/app:delegated
-      - /usr/src/app/node_modules/
+      - .:/usr/src:delegated
+      - /usr/src/node_modules/
+      - /usr/src/dist/
     ports:
       - 8000:8000
       - 8001:8001
     env_file: .env
+
+  blockchain:
+    restart: on-failure
+    image: trufflesuite/ganache-cli
+    ports:
+      - 8546:8545
+    volumes:
+      - .bc:/ganache_data
+    entrypoint:
+      - node
+      - /app/ganache-core.docker.cli.js
+      - --deterministic
+      - --db=/ganache_data
+      - --mnemonic
+      - '${MNEMONIC}'
+      - --networkId
+      - '${NETWORK_ID}'
+      - --chainId
+      - '${NETWORK_ID}'
+      - --hostname
+      - '0.0.0.0'
+      - --quiet
+      - --allowUnlimitedContractSize
+      - -l 100000000

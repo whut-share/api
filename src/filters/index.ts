@@ -1,5 +1,2 @@
-import { InvalidInputFilter } from "./invalid-input.filter";
-
-export {
-  InvalidInputFilter,
-}
+export * from "./gql-invalid-input.filter";
+export * from "./invalid-input.filter";

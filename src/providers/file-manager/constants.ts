@@ -1,0 +1,1 @@
+export const DEFAULT_FILE_MANAGER_TOKEN = 'file-manager';
