@@ -6,18 +6,21 @@ import { UsersModule } from './modules/users/users.module';
 import { AppMongooseModule } from './providers/app-mongoose.module';
 import { AppFileManagerModule } from './providers/app-file-manager.module';
 import { DassetsModule } from './modules/dassets/dassets.module';
-import { AppChSyModule } from './providers/app-chsy.module';
 import { SyncerModule } from './modules/syncer/syncer.module';
+import { ProjectsModule } from './modules/projects/projects.module';
+import { ChainSyncerModule } from './providers/chain-syncer';
+import { WebhooksModule } from './modules/webhooks/webhooks.module';
 
 @Module({
   imports: [
     AppMongooseModule,
     AppFileManagerModule,
-    AppChSyModule,
 
     UsersModule,
     DassetsModule,
     SyncerModule,
+    ProjectsModule,
+    WebhooksModule,
   ],
   controllers: [AppController],
   providers: [AppService],

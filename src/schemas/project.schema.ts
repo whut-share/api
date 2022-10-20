@@ -42,6 +42,9 @@ export class ProjectDassetsData {
 
   @Prop()
   public token_base_url: string;
+
+  @Prop()
+  public webhook_events_url: string;
 }
 
 export const ProjectDassetsDataSchema = fixSchema(SchemaFactory.createForClass(ProjectDassetsData), ProjectDassetsData);

@@ -1,21 +1,31 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ScanTargetModelModule, User, UserSchema } from '@/schemas';
+import { DassetNftModelModule, ProjectModelModule, ScanTargetModelModule, User, UserSchema, WebhookModelModule } from '@/schemas';
 import { DassetsMigrateCmd } from './cmd/dassets-migrate.cmd';
 import { DassetsMigratorService } from './services/dassets-migrator.service';
 import { SyncerService } from '../syncer/services/syncer.service';
-import { DassetsInitService } from './services/dassets-init.service';
-import { AppChSyModule } from '@/providers/app-chsy.module';
+import { DassetsListenerService } from './services/dassets-listener.service';
+import { DassetsMintCmd } from './cmd/dassets-mint.cmd';
+import { DassetsMinterService } from './services/dassets-minter.service';
+import { ChainSyncerModule, ChainSyncerProvider } from '@/providers/chain-syncer';
+import { WebhooksService } from '../webhooks/services/webhooks.service';
 
 @Module({
   imports: [
     ScanTargetModelModule,
+    ProjectModelModule,
+    DassetNftModelModule,
+    ChainSyncerModule,
+    WebhookModelModule,
   ],
   providers: [
     DassetsMigrateCmd,
     DassetsMigratorService,
     SyncerService,
-    DassetsInitService,
+    DassetsListenerService,
+    DassetsMintCmd,
+    DassetsMinterService,
+    WebhooksService,
   ],
   controllers: [],
 })

@@ -15,11 +15,16 @@ import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
   minimize: false
 })
 @ObjectType()
-export class Nft extends BaseClass {
+export class DassetNft extends BaseClass {
+
+  @Prop({ required: true })
+  _id: string;
+
+  id: string;
 
   @Prop({ required: true })
   @Field()
-  user: string;
+  project: string;
 
   @Prop({ required: true })
   @Field()
@@ -37,9 +42,9 @@ export class Nft extends BaseClass {
   @Field()
   token_id: number;
 
-  @Prop({ required: true })
-  @Field()
-  local_token_id: string;
+  @Prop()
+  @Field({ nullable: true })
+  client_token_id?: string;
 
   @Prop({ required: true })
   @Field()
@@ -47,15 +52,15 @@ export class Nft extends BaseClass {
 
 }
 
-export const NftSchema = SchemaFactory.createForClass(Nft);
+export const DassetNftSchema = SchemaFactory.createForClass(DassetNft);
 
-export const NftModelModule = MongooseModule.forFeatureAsync([
+export const DassetNftModelModule = MongooseModule.forFeatureAsync([
   {
-    name: Nft.name,
+    name: DassetNft.name,
     imports: [
 
     ],
-    useFactory: defaultUseFactory(NftSchema),
+    useFactory: defaultUseFactory(DassetNftSchema),
     inject: [
       FileManager, 
       // getModelToken(Character.name)

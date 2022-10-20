@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
 import { ScanTarget, User } from '@/schemas';
 import { ChainSyncer } from 'chain-syncer';
+import { ChainSyncerProvider } from '@/providers/chain-syncer';
 
 @Injectable()
 export class SyncerInitService implements OnModuleInit {
@@ -13,8 +14,7 @@ export class SyncerInitService implements OnModuleInit {
     @InjectModel(ScanTarget.name)
     private scan_target_model: Model<ScanTarget>,
 
-    @Inject('ChainSyncer')
-    private chsy: Record<string, ChainSyncer>,
+    private chsy_provider: ChainSyncerProvider,
   ) {}
 
 
@@ -25,19 +25,13 @@ export class SyncerInitService implements OnModuleInit {
 
       for (const event of t.events) {
         if(t.is_inner_usage) {
-          this.chsy[t.network].on(`!${t.contract_name}.${event}`, () => {
-            console.log('inner usage', t.network, t.contract_name, event);
-          });
+          // ...
         } else {
-          this.chsy[t.network].on(`${t.address}.${event}`, () => {
+          this.chsy_provider.get()[t.network].on(`${t.address}.${event}`, () => {
             console.log('external usage', t.network, t.address, event);
           });
         }
       }
-    }
-
-    for (const network in this.chsy) {
-      await this.chsy[network].start();
     }
   }
 }

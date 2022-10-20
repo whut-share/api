@@ -1,4 +1,6 @@
 export * from './user.schema';
 export * from './scan-target.schema';
 export * from './project.schema';
-export * from './nft.schema';
+export * from './dasset-nft.schema';
+export * from './webhook.schema';
+export * from './archive-webhook.schema';

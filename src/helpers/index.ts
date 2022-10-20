@@ -13,6 +13,16 @@ export const randomElement = <T>(array: T[]): T => {
   return array[Math.floor(Math.random() * array.length)];
 }
 
+export const assemblyContractRoute = (contract: string, network: string) => {
+
+  const mapping = {
+    'InteractERC1155': 'erc1155',
+    'InteractERC721': 'erc721',
+  }
+
+  return `${network}-${mapping[contract]}`;
+}
+
 export const smartMergeById = <T1>(source: any[], target: any[]): T1[] => {
   
   const new_els = target.filter(n => !n.id);

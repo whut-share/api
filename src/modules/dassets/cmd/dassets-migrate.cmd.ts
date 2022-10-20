@@ -11,7 +11,7 @@ interface BasicCommandOptions {
 
 @Command({
   name: 'dassets:migrate', 
-  description: 'migrate dassets contracts and sove output',
+  description: 'migrate dassets contracts and save output',
 })
 export class DassetsMigrateCmd extends CommandRunner {
 
