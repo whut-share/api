@@ -4,7 +4,7 @@ configVersion: 1
 image: backend
 from: node:14-alpine
 git:
-- to: /usr/src/app
+- to: /usr/src
   excludePaths:
   # - .helm/env.yaml
   # - .helm/values.yaml
@@ -25,13 +25,13 @@ shell:
   - apk add --no-cache openssh
 
   install:
-  - cd /usr/src/app
+  - cd /usr/src
   - npm i
 
   setup:
-  - cd /usr/src/app
+  - cd /usr/src
   - npm run build
 
 docker:
-  WORKDIR: /usr/src/app
+  WORKDIR: /usr/src
   CMD: npm run start:prod
