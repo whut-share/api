@@ -13,7 +13,7 @@ export class AuthController {
     private auth_service: AuthService,
   ) {}
   
-  @Post()
+  @Post('login')
   login(@Body() data: IAuthLogin): Promise<{ token: string }> {
     return this.auth_service.login(data);
   }

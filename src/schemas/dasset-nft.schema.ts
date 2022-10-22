@@ -1,3 +1,4 @@
+import { AddressScalar } from '@/graphql/scalars';
 import { FileManager } from '@/providers/file-manager';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -27,7 +28,7 @@ export class DassetNft extends BaseClass {
   project: string;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => AddressScalar)
   owner: string;
 
   @Prop({ required: true })

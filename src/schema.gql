@@ -1,0 +1,43 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: ObjectId!
+  email: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+"""A simple ObjectId parser (eg. "62d13a8b029b95001b881441")"""
+scalar ObjectId
+
+type ProjectSyncerData {
+  include_networks: [String!]!
+  contracts_base_url: String!
+}
+
+type ProjectDassetsData {
+  include_networks: [String!]!
+  token_base_url: String!
+  webhook_events_url: String!
+}
+
+type Query {
+  me: User!
+  users: [User!]!
+}
+
+type Mutation {
+  usersSignUp(data: IUsersSignUp!): User!
+}
+
+input IUsersSignUp {
+  email: String!
+  password: String!
+}

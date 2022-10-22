@@ -3,6 +3,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
+import GraphQLJSON from 'graphql-type-json';
 
 export type WebhookDocument = Webhook & Document;
 
@@ -42,7 +43,7 @@ export class Webhook extends BaseClass {
   public idempotency_key: string;
 
   @Prop({ required: true, type: Object })
-  @Field()
+  @Field(type => GraphQLJSON)
   public data: any;
 
   @Prop({ type: Object })

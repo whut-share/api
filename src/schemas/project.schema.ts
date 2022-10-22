@@ -17,9 +17,11 @@ import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 export class ProjectSyncerData {
 
   @Prop()
+  @Field(type => [String])
   public include_networks: string[];
 
   @Prop()
+  @Field()
   public contracts_base_url: string;
 }
 
@@ -38,12 +40,15 @@ export const ProjectSyncerDataSchema = fixSchema(SchemaFactory.createForClass(Pr
 export class ProjectDassetsData {
 
   @Prop()
+  @Field(type => [String])
   public include_networks: string[];
 
   @Prop()
+  @Field()
   public token_base_url: string;
 
   @Prop()
+  @Field()
   public webhook_events_url: string;
 }
 
