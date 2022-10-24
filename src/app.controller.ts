@@ -20,7 +20,7 @@ export class AppController {
     if(this.webhook_test_fail) {
       throw new BadRequestException('Testing error from the webhook - this should trigger the webhook loop timeout')
     } else {
-      return { ok: true }
+      return { ok: true };
     }
   }
 
