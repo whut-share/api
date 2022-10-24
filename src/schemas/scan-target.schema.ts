@@ -5,7 +5,10 @@ import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
 @Schema({
-  timestamps: true,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
   toObject: {
     virtuals: true
   },

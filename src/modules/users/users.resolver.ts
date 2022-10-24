@@ -5,16 +5,17 @@ import { Loader } from 'nestjs-dataloader';
 import { User } from "@/schemas";
 import { ObjectIdScalar } from "@/graphql/scalars";
 import { IPagination, ISort } from "@/interfaces";
-import { UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
+import { HttpException, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { GqlAuthGuard } from "@/guards";
 import { UserParam } from "@/decorators";
 import { VoidScalar } from "@/graphql/scalars/void.scalar";
 import { IAggregate } from "@/interfaces";
 import { UsersService } from "./services/users.service";
 import { IUsersSignUp } from "./interfaces/users-sign-up.interface";
+import { InvalidInputException } from "@/exceptions";
 
 @Resolver(of => User)
-@UsePipes(new ValidationPipe({ transform: true }))
+// @UsePipes(new ValidationPipe({ transform: true }))
 export class UsersResolver {
 
   constructor(
@@ -24,7 +25,9 @@ export class UsersResolver {
 
   @Query(returns => User)
   @UseGuards(GqlAuthGuard)
-  async me(@UserParam() user: User): Promise<User> {
+  async me(
+    @UserParam() user: User
+  ): Promise<User> {
     return user;
   }
 

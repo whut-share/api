@@ -19,25 +19,55 @@ scalar ObjectId
 
 type ProjectSyncerData {
   include_networks: [String!]!
-  contracts_base_url: String!
+  contracts_base_url: String
 }
 
 type ProjectDassetsData {
   include_networks: [String!]!
-  token_base_url: String!
-  webhook_events_url: String!
+  token_base_url: String
+  webhook_events_url: String
+}
+
+type Project {
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: String!
+  user: String!
+  name: String!
+  pic: String
+  dassets: ProjectDassetsData!
+  syncer: ProjectSyncerData!
 }
 
 type Query {
   me: User!
   users: [User!]!
+  projects: [Project!]!
+  project(id: ObjectId!): Project!
 }
 
 type Mutation {
   usersSignUp(data: IUsersSignUp!): User!
+  projectsCreate(data: IProjectsCreate!): Project!
+  projectsUpdate(id: ObjectId!, data: IProjectsUpdate!): Project!
 }
 
 input IUsersSignUp {
   email: String!
   password: String!
+}
+
+input IProjectsCreate {
+  name: String!
+}
+
+input IProjectsUpdate {
+  name: String
+  dassets: IProjectsDassetsDataUpdate
+}
+
+input IProjectsDassetsDataUpdate {
+  include_networks: [String!]
+  token_base_url: String
+  webhook_events_url: String
 }

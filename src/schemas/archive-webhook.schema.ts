@@ -8,7 +8,10 @@ import { Webhook } from './webhook.schema';
 export type ArchiveWebhookDocument = ArchiveWebhook & Document;
 
 @Schema({
-  timestamps: true,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
   toObject: {
     virtuals: true
   },

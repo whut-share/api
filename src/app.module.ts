@@ -27,6 +27,7 @@ import { AuthModule } from './modules/auth/auth.module';
       playground: true,
       introspection: true,
       persistedQueries: false,
+      cache: 'bounded',
       formatError: error => {
         
         return {

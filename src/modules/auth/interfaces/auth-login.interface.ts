@@ -3,7 +3,7 @@ import { Field, InputType } from "@nestjs/graphql";
 
 export class IAuthLogin {
 
-  login: string;
+  email: string;
   password: string;
   
 }

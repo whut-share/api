@@ -7,8 +7,13 @@ import { FileManager } from '@/providers/file-manager';
 import { ObjectIdScalar } from '@/graphql/scalars';
 import { Field, ObjectType } from '@nestjs/graphql';
 
+export type UserDocument = User & Document;
+
 @Schema({
-  timestamps: true,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
   toObject: {
     virtuals: true
   },

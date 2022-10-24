@@ -1,19 +1,18 @@
-import { ExceptionFilter, Catch, ArgumentsHost, HttpException } from '@nestjs/common';
+import { ExceptionFilter, Catch, ArgumentsHost, HttpException, BadRequestException, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { GqlArgumentsHost, GqlContextType, GqlExceptionFilter } from '@nestjs/graphql';
+import { ValidationError } from 'class-validator';
 import { Request, Response } from 'express';
 import { GraphQLError } from 'graphql';
 import { InvalidInputException } from 'src/exceptions';
 
-@Catch(InvalidInputException)
-export class InvalidInputFilter implements ExceptionFilter {
-  catch(e: InvalidInputException, host: ArgumentsHost) {
+@Catch(BadRequestException)
+export class BadRequestExceptionFilter implements ExceptionFilter {
+  catch(e: BadRequestException, host: ArgumentsHost) {
 
-    console.log('asdasdasdas', host.getType<GqlContextType>());
-    
     if(host.getType<GqlContextType>() === 'graphql') {
       return new GraphQLError(e.message, {
         extensions: {
-          code: e.code,
+          code: 'BAD_INPUT',
         },
       });
     } else {
@@ -24,7 +23,6 @@ export class InvalidInputFilter implements ExceptionFilter {
         .status(400)
         .json({
           message: e.message,
-          code: e.code,
           timestamp: new Date().toISOString(),
           statusCode: 400
         });

@@ -16,7 +16,7 @@ export class AuthService {
 
   async login(data: IAuthLogin): Promise<{ token: string }> {
     
-    const user = await this.user_model.findOne({ login: data.login });
+    const user = await this.user_model.findOne({ email: data.email });
 
     if(!user) {
       throw new InvalidInputException('AUTH_FAIL_LOGIN', 'Auth failed');

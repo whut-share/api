@@ -8,7 +8,10 @@ import GraphQLJSON from 'graphql-type-json';
 export type WebhookDocument = Webhook & Document;
 
 @Schema({
-  timestamps: true,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
   toObject: {
     virtuals: true
   },

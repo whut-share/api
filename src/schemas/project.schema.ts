@@ -4,6 +4,8 @@ import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
+export type ProjectDocument = Project & Document;
+
 @Schema({
   toObject: {
     virtuals: true
@@ -16,12 +18,12 @@ import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 @ObjectType()
 export class ProjectSyncerData {
 
-  @Prop()
+  @Prop({ default: [] })
   @Field(type => [String])
   public include_networks: string[];
 
   @Prop()
-  @Field()
+  @Field({ nullable: true })
   public contracts_base_url: string;
 }
 
@@ -39,23 +41,26 @@ export const ProjectSyncerDataSchema = fixSchema(SchemaFactory.createForClass(Pr
 @ObjectType()
 export class ProjectDassetsData {
 
-  @Prop()
+  @Prop({ default: [] })
   @Field(type => [String])
   public include_networks: string[];
 
   @Prop()
-  @Field()
+  @Field({ nullable: true })
   public token_base_url: string;
 
   @Prop()
-  @Field()
+  @Field({ nullable: true })
   public webhook_events_url: string;
 }
 
 export const ProjectDassetsDataSchema = fixSchema(SchemaFactory.createForClass(ProjectDassetsData), ProjectDassetsData);
 
 @Schema({
-  timestamps: true,
+  timestamps: {
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
+  },
   toObject: {
     virtuals: true
   },
@@ -70,26 +75,29 @@ export class Project extends BaseClass {
 
   public _id: ObjectId;
 
+  @Field()
   public get id(): string {
     return this._id.toString();
   };
 
   @Prop({ required: true })
+  @Field()
   public user: string;
 
   @Prop({ required: true })
+  @Field()
   public name: string;
   
   @Prop()
   @Field({ nullable: true })
   public pic?: string;
 
-  @Prop({ type: ProjectDassetsDataSchema })
-  @Field({ nullable: true })
+  @Prop({ type: ProjectDassetsDataSchema, default: () => new ProjectDassetsData() })
+  @Field()
   public dassets?: ProjectDassetsData;
 
-  @Prop({ type: ProjectSyncerData })
-  @Field({ nullable: true })
+  @Prop({ type: ProjectSyncerData, default: () => new ProjectSyncerData() })
+  @Field()
   public syncer?: ProjectSyncerData;
 
   // public get fullName() {

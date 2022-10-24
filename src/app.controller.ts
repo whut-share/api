@@ -6,7 +6,7 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
-  private webhook_test_fail: boolean = true;
+  private webhook_test_fail: boolean = false;
 
   @Get()
   getHello(): string {

@@ -9,6 +9,7 @@ import { DassetsMintCmd } from './cmd/dassets-mint.cmd';
 import { DassetsMinterService } from './services/dassets-minter.service';
 import { ChainSyncerModule, ChainSyncerProvider } from '@/providers/chain-syncer';
 import { WebhooksService } from '../webhooks/services/webhooks.service';
+import { DassetsController } from './dassets.controller';
 
 @Module({
   imports: [
@@ -27,6 +28,6 @@ import { WebhooksService } from '../webhooks/services/webhooks.service';
     DassetsMinterService,
     WebhooksService,
   ],
-  controllers: [],
+  controllers: [DassetsController],
 })
 export class DassetsModule {}
