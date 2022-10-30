@@ -14,6 +14,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AppGqlModule } from './providers/app-gql.module';
 import { AppSichModule } from './providers/app-sich.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
+import { StripeModule } from './modules/stripe/stripe.module';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
     ProjectsModule,
     WebhooksModule,
     AuthModule,
+    StripeModule,
   ],
   controllers: [AppController],
   providers: [AppService],
