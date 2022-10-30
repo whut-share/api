@@ -126,7 +126,7 @@ export class StripeMigratorService implements OnModuleInit {
 
   async onModuleInit() {
     
-    if(process.env['STRIPE_MIGRATE'] === 'true') {
+    if(process.env['STRIPE_MIGRATE'] === 'true' && process.env['IS_BACKGROUND'] === 'true') {
 
       await this.migrateWebhooks();
       await this.migrateProducts();
