@@ -114,6 +114,7 @@ export class StripeMigratorService implements OnModuleInit {
           nickname: needed_price.nickname,
           currency: 'USD',
           product: product.id,
+          unit_amount: needed_price.unit_amount,
         });
       }
 
