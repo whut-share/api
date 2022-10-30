@@ -106,17 +106,15 @@ export class StripeMigratorService implements OnModuleInit {
         throw new Error('Too many stripe prices');
       }
 
-      for (const product_name in STRIPE_PRICES_MIGRATE_DATA[key]) {
+      const needed_price = STRIPE_PRICES_MIGRATE_DATA[key];
 
-        const needed_price = STRIPE_PRICES_MIGRATE_DATA[key][product_name];
+      if(!prices.data.find(n => n.nickname === needed_price.nickname)) {
 
-        if(!prices.data.find(n => n.nickname === needed_price.nickname)) {
-
-          await this.stripe.prices.create({
-            ...STRIPE_PRICES_MIGRATE_DATA[key][product_name],
-            product: product.id,
-          });
-        }
+        await this.stripe.prices.create({
+          nickname: needed_price.nickname,
+          currency: 'USD',
+          product: product.id,
+        });
       }
 
     }
