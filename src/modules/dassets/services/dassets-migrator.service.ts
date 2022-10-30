@@ -8,6 +8,7 @@ import { networks_list } from '@/providers/networks/networks-list';
 import * as FS from 'fs'
 import * as Ethers from 'ethers';
 import { join } from 'path';
+import { getContractsPath } from '@/helpers';
 
 interface ContractRoute {
   key: string;
@@ -26,15 +27,10 @@ export class DassetsMigratorService {
   ) {}
 
 
-  path(str: string) {
-    return join(__dirname, './../../../../contracts', str)
-  }
-
-
   async deployContract(contract: string, network: string, rpc: string) {
     
-    const { bytecode } = JSON.parse(FS.readFileSync(this.path(`/binaries/${contract}.json`), 'utf8'));
-    const abi = JSON.parse(FS.readFileSync(this.path(`/abis/${contract}.json`), 'utf8'));
+    const { bytecode } = JSON.parse(FS.readFileSync(getContractsPath(`binaries/${contract}.json`), 'utf8'));
+    const abi = JSON.parse(FS.readFileSync(getContractsPath(`abis/${contract}.json`), 'utf8'));
 
     const provider = new Ethers.providers.JsonRpcProvider(rpc);
     
@@ -70,7 +66,7 @@ export class DassetsMigratorService {
 
     for (const route of routes) {
       
-      if(FS.existsSync(this.path(`/routes/${route}.json`)) && !force) {
+      if(FS.existsSync(getContractsPath(`routes/${route}.json`)) && !force) {
         continue;
       }
 
@@ -80,7 +76,7 @@ export class DassetsMigratorService {
 
       console.log('Migrated ...', tx_hash, address, '\n\n-------\n');
 
-      FS.writeFileSync(this.path(`/routes/${route.key}.json`), JSON.stringify({
+      FS.writeFileSync(getContractsPath(`routes/${route.key}.json`), JSON.stringify({
         tx_hash,
         address,
         network: route.network,

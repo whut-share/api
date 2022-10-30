@@ -2,6 +2,8 @@ import { IRange } from "@/interfaces";
 import { randomBytes } from "crypto";
 import { cloneDeep, merge } from "lodash";
 import { Types } from "mongoose";
+import { join } from "path";
+import * as FS from "fs";
 
 type EntityWithId = { id: string };
 
@@ -49,6 +51,23 @@ export const recursiveStringToObjectId = (source: any) => {
     }
   }
 
+}
+
+export function getContractsPath(path_to_add: string): string {
+  return join(process.cwd(), 'contract', path_to_add)
+}
+
+export function getInternalContractData(
+  contract_name: string, 
+  network: string
+): { abi: any, address: string } {
+  const abi = JSON.parse(FS.readFileSync(getContractsPath(`abis/${contract_name}.json`), 'utf8'));
+  const route = JSON.parse(FS.readFileSync(getContractsPath(`routes/${assemblyContractRoute(contract_name, network)}.json`), 'utf8'));
+
+  return {
+    address: route.address,
+    abi
+  }
 }
 
 export function rangeToMongoQuery(range: IRange) {

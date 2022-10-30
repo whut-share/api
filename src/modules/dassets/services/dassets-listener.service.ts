@@ -7,7 +7,6 @@ import { SyncerService } from '@/modules/syncer/services/syncer.service';
 import { networks_list } from '@/providers/networks/networks-list';
 import * as FS from 'fs'
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
-import { join } from 'path';
 import { ChainSyncer } from 'chain-syncer';
 import { BigNumber, utils } from 'ethers';
 import Axios from 'axios';
@@ -32,10 +31,6 @@ export class DassetsListenerService implements OnModuleInit {
 
     private readonly webhooks_service: WebhooksService,
   ) {}
-
-  path(str: string) {
-    return join(__dirname, './../../../../contracts', str)
-  }
 
   async onModuleInit() {
 
