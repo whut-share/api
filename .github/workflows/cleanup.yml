@@ -1,4 +1,4 @@
-name: test-cleanup
+name: cleanup
 on:
   schedule:
   - cron:  '0 6 * * *'
