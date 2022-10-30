@@ -10,7 +10,7 @@ const stripe_provider = {
   useFactory: () => {
     return new Stripe(process.env['STRIPE_SK'], {
       // @ts-ignore
-      apiVersion: '2022-10-20',
+      apiVersion: '2022-08-01',
     });
   }
 };
