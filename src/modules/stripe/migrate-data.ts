@@ -8,5 +8,7 @@ export const STRIPE_PRICES_MIGRATE_DATA = {
   'Dassets': {
     nickname: 'minting',
     unit_amount: 1000,
+    recurring_interval: 'month',
+    recurring_usage_type: 'metered',
   },
 };

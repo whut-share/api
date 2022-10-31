@@ -115,6 +115,10 @@ export class StripeMigratorService implements OnModuleInit {
           currency: 'USD',
           product: product.id,
           unit_amount: needed_price.unit_amount,
+          recurring: {
+            interval: needed_price.recurring_interval,
+            usage_type: needed_price.recurring_usage_type,
+          }
         });
       }
 
