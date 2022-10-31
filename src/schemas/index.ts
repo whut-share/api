@@ -5,3 +5,4 @@ export * from './dasset-nft.schema';
 export * from './webhook.schema';
 export * from './archive-webhook.schema';
 export * from './persistent-record.schema';
+export * from './dasset-flow-session.schema';

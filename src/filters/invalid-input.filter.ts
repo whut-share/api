@@ -7,8 +7,6 @@ import { InvalidInputException } from 'src/exceptions';
 @Catch(InvalidInputException)
 export class InvalidInputFilter implements ExceptionFilter {
   catch(e: InvalidInputException, host: ArgumentsHost) {
-
-    console.log('asdasdasdas', host.getType<GqlContextType>());
     
     if(host.getType<GqlContextType>() === 'graphql') {
       return new GraphQLError(e.message, {

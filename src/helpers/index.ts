@@ -25,6 +25,16 @@ export const assemblyContractRoute = (contract: string, network: string) => {
   return `${network}-${mapping[contract]}`;
 }
 
+export const typeToContractName = (type: string): string => {
+
+  const mapping = {
+    'erc1155': 'InteractERC1155',
+    'erc721': 'InteractERC721',
+  }
+
+  return mapping[type];
+}
+
 export const smartMergeById = <T1>(source: any[], target: any[]): T1[] => {
   
   const new_els = target.filter(n => !n.id);
@@ -54,7 +64,7 @@ export const recursiveStringToObjectId = (source: any) => {
 }
 
 export function getContractsPath(path_to_add: string): string {
-  return join(process.cwd(), 'contract', path_to_add)
+  return join(process.cwd(), 'contracts', path_to_add)
 }
 
 export function getInternalContractData(

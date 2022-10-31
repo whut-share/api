@@ -14,5 +14,6 @@ export const networks_list = [
     key: 'goerli',
     type: 'evm',
     block_time: 10000,
+    native_curr_symbol: 'ETH',
   },
 ];

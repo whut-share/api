@@ -1,4 +1,4 @@
-import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import { Inject, Injectable, Logger, LoggerService, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
@@ -13,6 +13,8 @@ import { STRIPE_PRICES_MIGRATE_DATA, STRIPE_PRODUCTS_MIGRATE_DATA } from '../mig
 
 @Injectable()
 export class StripeMigratorService implements OnModuleInit {
+
+  private readonly logger = new Logger(StripeMigratorService.name);
 
   constructor(
 
@@ -31,11 +33,11 @@ export class StripeMigratorService implements OnModuleInit {
       throw new Error('Too many stripe webhooks');
     }
 
-    const needed_webhook = list.data.find(webhook => (new RegExp(process.env['APP_URL'])).test(webhook.url));
+    const needed_webhook = list.data.find(webhook => (new RegExp(process.env['API_URL'])).test(webhook.url));
 
     if(!needed_webhook) {
       const wh = await this.stripe.webhookEndpoints.create({
-        url: `${process.env['APP_URL']}/stripe/webhooks`,
+        url: `${process.env['API_URL']}/stripe/webhooks`,
         enabled_events: [ '*' ],
       });
 
@@ -131,9 +133,13 @@ export class StripeMigratorService implements OnModuleInit {
     
     if(process.env['STRIPE_MIGRATE'] === 'true' && process.env['IS_BACKGROUND'] === 'true') {
 
-      await this.migrateWebhooks();
-      await this.migrateProducts();
-      await this.migratePrices();
+      try {
+        await this.migrateWebhooks();
+        await this.migrateProducts();
+        await this.migratePrices();
+      } catch (error) {
+        this.logger.error(error);
+      }
     }
   }
 }

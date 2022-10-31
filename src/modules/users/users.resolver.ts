@@ -15,7 +15,7 @@ import { IUsersSignUp } from "./interfaces/users-sign-up.interface";
 import { InvalidInputException } from "@/exceptions";
 
 @Resolver(of => User)
-// @UsePipes(new ValidationPipe({ transform: true }))
+@UsePipes(new ValidationPipe({ transform: true }))
 export class UsersResolver {
 
   constructor(

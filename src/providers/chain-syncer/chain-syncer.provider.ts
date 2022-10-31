@@ -1,4 +1,4 @@
-import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { SyncerService } from '@/modules/syncer/services/syncer.service';
 import { networks_list } from '@/providers/networks/networks-list';
 import * as FS from 'fs'
@@ -9,15 +9,12 @@ import { ChainSyncer } from 'chain-syncer';
 import { MongoDBAdapter } from '@chainsyncer/mongodb-adapter';
 import { Connection } from 'mongoose';
 import { getConnectionToken, InjectConnection } from '@nestjs/mongoose';
-import { assemblyContractRoute } from '@/helpers';
-
-function path(str: string) {
-  return join(__dirname, '../../../contracts', str)
-}
+import { assemblyContractRoute, getContractsPath } from '@/helpers';
 
 @Injectable()
 export class ChainSyncerProvider implements OnModuleDestroy {
 
+  private readonly logger = new Logger(ChainSyncerProvider.name);
 
   constructor(
     @InjectConnection() 
@@ -27,10 +24,6 @@ export class ChainSyncerProvider implements OnModuleDestroy {
 
   private is_inited: boolean = false;
   private chsy: Record<string, any> = {};
-
-  path(str: string) {
-    return join(__dirname, './../../../../contracts', str)
-  }
 
 
   get() {
@@ -81,8 +74,8 @@ export class ChainSyncerProvider implements OnModuleDestroy {
             let inst, deployed_transaction_hash;
   
             if(is_inner_usage) {
-              const abi = JSON.parse(FS.readFileSync(path(`abis/${contract}.json`), 'utf8'));
-              const route = JSON.parse(FS.readFileSync(path(`routes/${assemblyContractRoute(contract, n.key)}.json`), 'utf8'));
+              const abi = JSON.parse(FS.readFileSync(getContractsPath(`abis/${contract}.json`), 'utf8'));
+              const route = JSON.parse(FS.readFileSync(getContractsPath(`routes/${assemblyContractRoute(contract, n.key)}.json`), 'utf8'));
               inst = new Ethers.Contract(route.address, abi, provider);
               deployed_transaction_hash = route.tx_hash;
             } else {
@@ -105,9 +98,9 @@ export class ChainSyncerProvider implements OnModuleDestroy {
   }
 
   async onApplicationBootstrap() {
-    if(process.env['ENABLE_CHSY'] === 'true') {
+    if(process.env['ENABLE_CHSY'] === 'true' && process.env['IS_BACKGROUND'] === 'true') {
       for (const key in this.chsy) {
-        console.log(`Starting ChainSyncer for ${key} ...`);
+        this.logger.verbose(`Starting ChainSyncer for ${key} ...`);
         await this.chsy[key].start();
       }
     }
