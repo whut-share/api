@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, RawBodyRequest, Req } from '@nestjs/common';
 import { PersistentRecord, PersistentRecordDocument, User } from '@/schemas';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 import { Request } from 'express';
@@ -27,11 +27,14 @@ export class StripeController {
   }
 
   @Post('webhooks')
-  async webhooks(@Body() body, @Req() req: Request) {
+  async webhooks(@Req() req: RawBodyRequest<Request>) {
 
     const sig = req.headers['stripe-signature'];
     const secret = await this.getSecret();
-    const event = this.stripe.webhooks.constructEvent(JSON.stringify(body), sig, secret);
+    
+    console.log(sig, secret, req.rawBody);
+    
+    const event = this.stripe.webhooks.constructEvent(req.rawBody, sig, secret);
 
     this.event_emitter.emit(
       'stripe.' + event.type,
