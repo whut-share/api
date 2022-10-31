@@ -30,15 +30,15 @@ export class DassetsPriceEstimatorService {
     const contract_name = typeToContractName(type);
 
     const args = [
-      '0x0000000000000000000000000000000000000000', 
-      '0x', 
+      '0xaa321420817C11860824a7cc5b30f6f18918EA15', 
+      '0x2020202020202020202020202020202020202020202020202020202020202020', 
       1, 
       '0x'
     ];
 
     const { total_eth, gas, gas_price } = await this.sich.estimateJobGas(contract_name, 'mint', args, network_key);
     const network = networks_list.find(n => n.key === network_key);
-
+    
     const data = await Axios.get('https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest', {
       headers: {
         'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY
@@ -46,7 +46,7 @@ export class DassetsPriceEstimatorService {
       params: {
         symbol: network.native_curr_symbol,
       }
-    }).then(res => res.data.data[0]);
+    }).then(res => res.data.data['ETH'][0]);
 
     const eth_price = data.quote['USD'].price;
 

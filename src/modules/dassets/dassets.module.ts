@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DassetFlowSessionModelModule, DassetNftModelModule, ProjectModelModule, ScanTargetModelModule, User, UserSchema, WebhookModelModule } from '@/schemas';
+import { DassetFlowSessionModelModule, DassetNftModelModule, ProjectModelModule, ScanTargetModelModule, User, UserModelModule, UserSchema, WebhookModelModule } from '@/schemas';
 import { DassetsMigrateCmd } from './cmd/dassets-migrate.cmd';
 import { DassetsMigratorService } from './services/dassets-migrator.service';
 import { SyncerService } from '../syncer/services/syncer.service';
@@ -14,6 +14,8 @@ import { StripeModule } from '../stripe/stripe.module';
 import { AppSichModule } from '@/providers/app-sich.module';
 import { DassetsPriceEstimatorService } from './services/dassets-price-estimator.service';
 import { DassetsSessionService } from './services/dassets-session.service';
+import { DassetsSessionSeedCmd } from './cmd/dassets-session-seed.cmd';
+import { AuthService } from '../auth/services/auth.service';
 
 @Module({
   imports: [
@@ -22,11 +24,13 @@ import { DassetsSessionService } from './services/dassets-session.service';
     DassetNftModelModule,
     ChainSyncerModule,
     WebhookModelModule,
+    UserModelModule,
     DassetFlowSessionModelModule,
     StripeModule,
     AppSichModule,
   ],
   providers: [
+    AuthService,
     DassetsMigrateCmd,
     DassetsMigratorService,
     SyncerService,
@@ -36,6 +40,7 @@ import { DassetsSessionService } from './services/dassets-session.service';
     WebhooksService,
     DassetsPriceEstimatorService,
     DassetsSessionService,
+    DassetsSessionSeedCmd,
   ],
   controllers: [DassetsController],
 })

@@ -76,7 +76,7 @@ export class DassetsSessionService {
       .estimate(session.network, session.contract_type);
 
     const pi = await this.stripe.paymentIntents.create({
-      amount: price,
+      amount: Number(price.toFixed(2)) * 100,
       currency: "USD",
       automatic_payment_methods: {
         enabled: true,

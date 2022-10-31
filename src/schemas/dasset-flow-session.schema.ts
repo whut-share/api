@@ -36,19 +36,19 @@ export class DassetFlowSession extends BaseClass {
 
   @Prop()
   @Field()
-  public address: string;
+  public address?: string;
 
-  @Prop({ required: true })
+  @Prop()
   @Field()
-  public mint_tx: string;
+  public mint_tx?: string;
 
-  @Prop({ required: true })
+  @Prop()
   @Field()
-  public network: string;
+  public network?: string;
 
-  @Prop({ required: true })
+  @Prop()
   @Field()
-  public token_id: number;
+  public minted_token_id?: number;
 
   @Prop({ required: true })
   @Field()

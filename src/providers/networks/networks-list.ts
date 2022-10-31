@@ -6,6 +6,7 @@ export const networks_list = [
     key: 'local',
     type: 'evm',
     block_time: 3000,
+    native_curr_symbol: 'ETH',
   },
 
   { // testnet
