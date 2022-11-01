@@ -19,7 +19,13 @@ export class DassetsMinterService {
   ) {}
 
 
-  async mint(contract_name: string, network: string, project_id: string) {
+  async mint(
+    contract_name: string, 
+    network: string, 
+    project_id: string, 
+    owner_address?: string
+  ) {
+    
     const { address, abi } = getInternalContractData(contract_name, network);
     const rpc = networks_list.find(n => n.key === network).archive_rpc;
 
@@ -32,6 +38,6 @@ export class DassetsMinterService {
     const contract = new Ethers.Contract(address, abi, wallet);
 
     // await contract.setMintPermission(wallet.address, true);
-    return await contract.mint(wallet.address, Ethers.utils.formatBytes32String(project_id), 1, '0x');
+    return await contract.mint(owner_address || wallet.address, Ethers.utils.formatBytes32String(project_id), 1, '0x');
   }
 }

@@ -16,6 +16,7 @@ import { DassetsPriceEstimatorService } from './services/dassets-price-estimator
 import { DassetsSessionService } from './services/dassets-session.service';
 import { DassetsSessionSeedCmd } from './cmd/dassets-session-seed.cmd';
 import { AuthService } from '../auth/services/auth.service';
+import { DassetsStripeListenerService } from './services/dassets-stripe-listener.service';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { AuthService } from '../auth/services/auth.service';
     DassetsPriceEstimatorService,
     DassetsSessionService,
     DassetsSessionSeedCmd,
+    DassetsStripeListenerService,
   ],
   controllers: [DassetsController],
 })

@@ -81,6 +81,10 @@ export class DassetsSessionService {
       automatic_payment_methods: {
         enabled: true,
       },
+      metadata: {
+        type: 'dasset-flow-session',
+        dasset_flow_session_id: session._id,
+      },
     });
 
 

@@ -32,8 +32,6 @@ export class StripeController {
     const sig = req.headers['stripe-signature'];
     const secret = await this.getSecret();
     
-    console.log(sig, secret, req.rawBody);
-    
     const event = this.stripe.webhooks.constructEvent(req.rawBody, sig, secret);
 
     this.event_emitter.emit(
