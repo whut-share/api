@@ -21,10 +21,15 @@ module.exports = {
 };
 
 process.env = Object.assign(process.env, {
-  IS_BACKGROUND: 'false',
+  IS_BACKGROUND: 'true',
+  ENABLE_WEBHOOKS: 'false',
+  STRIPE_MIGRATE: 'false',
+  CHSY_VERBOSE: 'false',
+
   MONGO_SRV: process.env['MONGO_SRV'].replace('/app?', '/test-app?'),
   LOCAL_FS_BASEDIR: 'public/test-files',
   FILESYSTEM_DRIVER: 'local',
   IS_UNIT_TEST: 'true',
   NETWORKS_WHITELIST: 'local-test',
+  
 });

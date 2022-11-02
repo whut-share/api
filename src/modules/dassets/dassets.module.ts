@@ -4,7 +4,7 @@ import { DassetFlowSessionModelModule, DassetNftModelModule, ProjectModelModule,
 import { DassetsMigrateCmd } from './cmd/dassets-migrate.cmd';
 import { DassetsMigratorService } from './services/dassets-migrator.service';
 import { SyncerService } from '../syncer/services/syncer.service';
-import { DassetsListenerService } from './services/dassets-listener.service';
+import { DassetsSyncerListenerService } from './services/dassets-syncer-listener.service';
 import { DassetsMintCmd } from './cmd/dassets-mint.cmd';
 import { DassetsMinterService } from './services/dassets-minter.service';
 import { ChainSyncerModule, ChainSyncerProvider } from '@/providers/chain-syncer';
@@ -17,6 +17,7 @@ import { DassetsSessionService } from './services/dassets-session.service';
 import { DassetsSessionSeedCmd } from './cmd/dassets-session-seed.cmd';
 import { AuthService } from '../auth/services/auth.service';
 import { DassetsStripeListenerService } from './services/dassets-stripe-listener.service';
+import { DassetsEventsProcessorService } from './services/dassets-events-processor.service';
 
 @Module({
   imports: [
@@ -35,7 +36,6 @@ import { DassetsStripeListenerService } from './services/dassets-stripe-listener
     DassetsMigrateCmd,
     DassetsMigratorService,
     SyncerService,
-    DassetsListenerService,
     DassetsMintCmd,
     DassetsMinterService,
     WebhooksService,
@@ -43,6 +43,8 @@ import { DassetsStripeListenerService } from './services/dassets-stripe-listener
     DassetsSessionService,
     DassetsSessionSeedCmd,
     DassetsStripeListenerService,
+    DassetsSyncerListenerService,
+    DassetsEventsProcessorService,
   ],
   controllers: [DassetsController],
 })

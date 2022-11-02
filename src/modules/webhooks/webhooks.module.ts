@@ -14,6 +14,9 @@ import { WebhooksService } from './services/webhooks.service';
     WebhooksLoopService,
     WebhooksService,
   ],
+  exports: [
+    WebhooksService,
+  ],
   controllers: [],
 })
 export class WebhooksModule {}

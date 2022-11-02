@@ -1,6 +1,6 @@
 import { generateDefaultTestHooks, generateDefaultTestingModule } from '@/helpers';
 import { StripeModule } from '@/modules/stripe/stripe.module';
-import { DassetFlowSessionModelModule, ProjectModelModule, UserModelModule } from '@/schemas';
+import { DassetFlowSessionModelModule, DassetNftModelModule, ProjectModelModule, UserModelModule, WebhookModelModule } from '@/schemas';
 import { Test, TestingModule } from '@nestjs/testing';
 import { DassetsMinterService } from '../services/dassets-minter.service';
 import { DassetsSessionService } from '../services/dassets-session.service';
@@ -14,6 +14,10 @@ import { ChainSyncerModule } from '@/providers/chain-syncer';
 import { DassetsMigratorService } from '../services/dassets-migrator.service';
 import { ProjectsModule } from '@/modules/projects/projects.module';
 import { DassetsPriceEstimatorService } from '../services/dassets-price-estimator.service';
+import { EventEmitter2 } from '@nestjs/event-emitter';
+import { DassetsSyncerListenerService } from '../services/dassets-syncer-listener.service';
+import { DassetsEventsProcessorService } from '../services/dassets-events-processor.service';
+import { WebhooksModule } from '@/modules/webhooks/webhooks.module';
 
 describe(DassetsStripeListenerService.name, () => {
 
@@ -21,6 +25,7 @@ describe(DassetsStripeListenerService.name, () => {
   let dassets_session_service: DassetsSessionService;
   let projects_service: ProjectsService;
   let users_service: UsersService;
+  let event_emitter: EventEmitter2;
 
   const address = '0xaa321420817C11860824a7cc5b30f6f18918EA15';
 
@@ -30,10 +35,13 @@ describe(DassetsStripeListenerService.name, () => {
         DassetFlowSessionModelModule,
         ProjectModelModule,
         UserModelModule,
+        DassetNftModelModule,
+        WebhookModelModule,
         StripeModule,
         AppSichModule,
         ChainSyncerModule,
         ProjectsModule,
+        WebhooksModule,
       ],
       providers: [
         DassetsMinterService, 
@@ -42,6 +50,8 @@ describe(DassetsStripeListenerService.name, () => {
         DassetsSessionService,
         UsersService,
         DassetsMigratorService,
+        DassetsSyncerListenerService,
+        DassetsEventsProcessorService,
       ],
     },
     async beforeEachHandler(app) {
@@ -49,6 +59,7 @@ describe(DassetsStripeListenerService.name, () => {
       dassets_session_service = app.get<DassetsSessionService>(DassetsSessionService);
       projects_service = app.get<ProjectsService>(ProjectsService);
       users_service = app.get<UsersService>(UsersService);
+      event_emitter = app.get(EventEmitter2);
       const dassets_migrator_service = app.get<DassetsMigratorService>(DassetsMigratorService);
 
       await dassets_migrator_service.migrate();
@@ -75,6 +86,9 @@ describe(DassetsStripeListenerService.name, () => {
         name: 'test',
       });
 
+      project.dassets.webhook_events_url = 'http://localhost:8000';
+      await project.save();
+
       const d_session = await dassets_session_service.create(user, {
         project: project.id,
       });
@@ -94,7 +108,10 @@ describe(DassetsStripeListenerService.name, () => {
         evt_id: '123'
       });
 
-      
-    });
+      await new Promise((resolve, reject) => {
+        event_emitter.once('dassets.erc1155.nft-minted', () => resolve(undefined));
+      });
+
+    }, 100000);
   });
 });

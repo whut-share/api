@@ -76,9 +76,9 @@ export const generateDefaultTestHooks = (opts: {
     await fm.purgeAll();
     purgeLocalTestingContractRoutes();
 
-    await app.init();
-
     await opts.beforeEachHandler(app);
+
+    await app.init();
   });
 
   afterEach(async () => {
