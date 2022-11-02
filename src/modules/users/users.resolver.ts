@@ -43,6 +43,6 @@ export class UsersResolver {
   async usersSignUp(
     @Args('data') data: IUsersSignUp
   ): Promise<User> {
-    return await this.users_service.createUser(data);
+    return await this.users_service.create(data);
   }
 }

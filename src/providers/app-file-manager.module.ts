@@ -1,5 +1,5 @@
 import { Endpoint, S3 } from "aws-sdk";
-import { AWSDriver, FileManagerModule, LocalDriver } from "./file-manager";
+import { AWSDriver, FileManagerModule, LocalDriver } from "@/libs/file-manager";
 
 export const AppFileManagerModule = FileManagerModule.forRoot(() => {
   if(process.env['FILESYSTEM_DRIVER'] === 'aws') {

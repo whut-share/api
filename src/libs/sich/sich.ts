@@ -16,6 +16,9 @@ export class Sich {
   protected loop_interval: number;
   protected max_errors_count: number;
 
+  private _is_started = false;
+  private _currently_processing = false;
+
   protected networks: ISichNetwork[] = [];
 
   protected fee_data = {
@@ -53,17 +56,36 @@ export class Sich {
   public onReceiptProcess = onReceiptProcess;
 
   start(): void {
+    this._is_started = true;
     this.mainLoop();
+  }
+
+  async stop(): Promise<void> {
+    this._is_started = false;
+
+    await new Promise(resolve => {
+      const interval = setInterval(() => {
+        if(!this._currently_processing) {
+          clearInterval(interval);
+          resolve(undefined);
+        }
+      }
+      , 100);
+    });
   }
 
   private async mainLoop(): Promise<void> {
     
+    this._currently_processing = true;
     await Promise.all([
       this.processAllRecords(),
       new Promise(resolve => setTimeout(resolve, this.loop_interval)),
     ]);
+    this._currently_processing = false;
 
-    this.mainLoop();
+    if(this._is_started) {
+      this.mainLoop();
+    }
 
   }
 }

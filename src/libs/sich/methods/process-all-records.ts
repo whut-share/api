@@ -11,7 +11,7 @@ export async function processAllRecords(this: Sich): Promise<void> {
       .then(() => processed++)
       .catch(async err => {
 
-        console.error('[SICH] Error while processing record:', err.message);
+        console.error('[SICH] Error while processing record:', err);
 
         const network = this.networks.find(n => n.key === record.network);
 

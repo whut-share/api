@@ -1,4 +1,4 @@
-import { FileManager } from '@/providers/file-manager';
+import { FileManager } from '@/libs/file-manager';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';

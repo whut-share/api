@@ -1,9 +1,16 @@
 import { IRange } from "@/interfaces";
 import { randomBytes } from "crypto";
 import { cloneDeep, merge } from "lodash";
-import { Types } from "mongoose";
+import { Connection, Types } from "mongoose";
 import { join } from "path";
 import * as FS from "fs";
+import { Test, TestingModule } from "@nestjs/testing";
+import { ModuleMetadata } from "@nestjs/common";
+import { AppMongooseModule } from "@/providers/app-mongoose.module";
+import { AppFileManagerModule } from "@/providers/app-file-manager.module";
+import { EventEmitterModule } from "@nestjs/event-emitter";
+import { getConnectionToken } from "@nestjs/mongoose";
+import { FileManager } from "@/libs/file-manager";
 
 type EntityWithId = { id: string };
 
@@ -33,6 +40,51 @@ export const typeToContractName = (type: string): string => {
   }
 
   return mapping[type];
+}
+
+export const generateDefaultTestingModule = async (metadata: ModuleMetadata = {}) => {
+
+  if(metadata.imports) {
+    metadata.imports = [
+      EventEmitterModule.forRoot(),
+      AppMongooseModule,
+      AppFileManagerModule,
+      ...metadata.imports,
+    ];
+  }
+
+  const app: TestingModule = await Test.createTestingModule(metadata).compile();
+
+  return app;
+}
+
+export const generateDefaultTestHooks = (opts: {
+  metadata: ModuleMetadata , 
+  beforeEachHandler: (app: TestingModule) => Promise<void>, 
+  afterEachHandler: () => Promise<void>
+}) => {
+
+  let app: TestingModule;
+
+  beforeEach(async () => {
+    app = await generateDefaultTestingModule(opts.metadata);
+
+    const conn = app.get<Connection>(getConnectionToken());
+    const fm = app.get<FileManager>(FileManager);
+    
+    await conn.dropDatabase();
+    await fm.purgeAll();
+    purgeLocalTestingContractRoutes();
+
+    await app.init();
+
+    await opts.beforeEachHandler(app);
+  });
+
+  afterEach(async () => {
+    await opts.afterEachHandler();
+    await app.close();
+  });
 }
 
 export const smartMergeById = <T1>(source: any[], target: any[]): T1[] => {
@@ -96,4 +148,16 @@ export function rangeToMongoQuery(range: IRange) {
   }
 
   return query;
+}
+
+
+export function purgeLocalTestingContractRoutes() {
+  const path = getContractsPath('routes');
+  const files = FS.readdirSync(path);
+
+  for (const file of files) {
+    if(file.includes('local-test')) {
+      FS.unlinkSync(join(path, file));
+    }
+  }
 }

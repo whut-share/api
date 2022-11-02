@@ -32,7 +32,7 @@ export class DassetsSessionSeedCmd extends CommandRunner {
     const session = await this.dassets_session_service.create(
       await this.user_model.findOne(),
       {
-        project_id: options.project,
+        project: options.project,
       },
     );
 

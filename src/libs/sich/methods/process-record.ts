@@ -37,7 +37,7 @@ export async function processRecord(
   const gas_limit = Number(signed_tx.gasLimit.toString());
   const gas_price = Number(fromWei(signed_tx.gasPrice));
 
-  if(record.fee_max_cap < (gas_limit * gas_price)) {
+  if(record.fee_max_cap && record.fee_max_cap < (gas_limit * gas_price)) {
     throw new Error('Fee max cap exceeded');
   }
 

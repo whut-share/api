@@ -12,6 +12,9 @@ import { ProjectsSeedCmd } from './cmd/projects-seed.cmd';
     ProjectsService,
     ProjectsSeedCmd,
   ],
+  exports: [
+    ProjectsService,
+  ],
   controllers: [],
 })
 export class ProjectsModule {}

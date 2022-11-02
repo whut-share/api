@@ -10,7 +10,7 @@ import * as Ethers from 'ethers';
 import { assemblyContractRoute, getContractsPath, getInternalContractData, typeToContractName } from '@/helpers';
 import { IDassetsSessionCreate } from '../interfaces/dassets-session-create.interface';
 import Stripe from 'stripe';
-import { Sich } from '@/providers/sich';
+import { Sich } from '@/libs/sich';
 import { DASSETS_CONVERTATION_SLIPPAGE } from '@/constants';
 import Axios from 'axios';
 import { IDassetsPriceEstimate } from '../interfaces/dassets-price-estimate.interface';

@@ -46,11 +46,14 @@ export class SichRecord implements ISichRecord {
     data: ISichRecordCreate
   ) {
 
-    data = data as any;
-
-    Object.assign(this, data);
-
     this._id = data.id;
+
+    delete data.id;
+
+    for (const key in data) {
+      this[key] = data[key];
+    }
+
     this.is_successful = false;
     this.is_killed = false;
     this.errors_count = 0;

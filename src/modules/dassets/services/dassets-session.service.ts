@@ -31,7 +31,7 @@ export class DassetsSessionService {
 
   async create(user: UserDocument, data: IDassetsSessionCreate) {
     return await this.dasset_flow_session_model.create({
-      project: data.project_id,
+      project: data.project,
       contract_type: 'erc1155',
     });
   }

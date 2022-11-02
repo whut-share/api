@@ -3,7 +3,7 @@ import { diskStorage } from 'multer';
 import { Body, Controller, Get, Inject, Param, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
-import { FileManager } from '../file-manager';
+import { FileManager } from '@/libs/file-manager';
 import { TempFile } from './temp-files.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';

@@ -41,7 +41,7 @@ export interface ISichStorageAdapter {
     contract: string, 
     method: string, 
     args: SichJobArg[],
-    rpc: string,
+    network: string,
     fee_max_cap?: number
   ): Promise<void>
 

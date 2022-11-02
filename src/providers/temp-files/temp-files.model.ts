@@ -2,7 +2,7 @@ import { getModelToken, MongooseModule, Prop, Schema, SchemaFactory } from '@nes
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
 import { Document, Mixed, Model, ObjectId, Types } from 'mongoose';
 import { ObjectIdScalar, AddressScalar } from '@/graphql/scalars';
-import { FileManager } from '@/providers/file-manager';
+import { FileManager } from '@/libs/file-manager';
 import { Inject, Module } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid'
 

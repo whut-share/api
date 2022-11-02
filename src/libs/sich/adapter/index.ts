@@ -120,8 +120,8 @@ export class SichMongoDBAdapter implements ISichStorageAdapter {
       network,
       fee_max_cap,
     });
-
-    await this.queue.insertOne(record)
+    
+    await this.queue.insertOne(record)    
   }
 
   async renewKilledRecord(

@@ -1,18 +1,34 @@
 import { getInternalContractData } from '@/helpers';
-import { Module } from '@nestjs/common';
+import { Injectable, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { getConnectionToken } from '@nestjs/mongoose';
 import { Contract, providers, Signer, utils, Wallet } from 'ethers';
 import { Connection } from 'mongoose';
 import { networks_list } from './networks/networks-list';
-import { Sich } from './sich';
-import { SichMongoDBAdapter } from './sich/adapter';
+import { Sich } from '../libs/sich';
+import { SichMongoDBAdapter } from '@/libs/sich';
+
+@Injectable()
+class SichProvider implements OnModuleDestroy, OnModuleInit {
+
+  constructor(
+    private readonly sich: Sich,
+  ) {}
+
+  async onModuleDestroy() {
+    await this.sich.stop();
+  }
+
+  onModuleInit() {
+    this.sich.start();
+  }
+}
 
 const mnemonic_instance = Wallet.fromMnemonic(process.env['MNEMONIC']);
 
 const provider = {
   provide: Sich,
   useFactory: (connection: Connection) => {
-
+    
     const sich = new Sich(new SichMongoDBAdapter(connection.db), {
       async contractsGetter(contract_name, network) {
         const provider = new providers.JsonRpcProvider(network.rpc);
@@ -51,6 +67,6 @@ const provider = {
 @Module({
   imports: [],
   exports: [ provider ],
-  providers: [ provider ],
+  providers: [ provider, SichProvider ],
 })
 export class AppSichModule {}

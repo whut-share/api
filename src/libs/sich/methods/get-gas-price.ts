@@ -3,7 +3,7 @@ import * as Ethers from "ethers";
 import { fromWei } from "../helpers";
 import { ISichNetwork } from "../interfaces";
 
-export async function getGasPrice(this: Sich, network: ISichNetwork): Promise<number> {
+export async function getGasPrice(this: Sich, network: ISichNetwork): Promise<string> {
 
   const provider = new Ethers.providers.JsonRpcProvider(network.rpc);
 
@@ -17,5 +17,5 @@ export async function getGasPrice(this: Sich, network: ISichNetwork): Promise<nu
     };
   }
 
-  return Number(fromWei(this.fee_data.price));
+  return fromWei(this.fee_data.price);
 }

@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 import * as Crypto from 'crypto';
 import * as Jwt from 'jsonwebtoken';
-import { FileManager } from '@/providers/file-manager';
+import { FileManager } from '@/libs/file-manager';
 import { ObjectIdScalar } from '@/graphql/scalars';
 import { Field, ObjectType } from '@nestjs/graphql';
 

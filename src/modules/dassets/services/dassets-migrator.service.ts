@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
@@ -21,16 +21,17 @@ interface ContractRoute {
 @Injectable()
 export class DassetsMigratorService {
 
+  private readonly logger = new Logger(DassetsMigratorService.name);
 
   constructor(
-    private syncer_service: SyncerService,
+
   ) {}
 
 
-  async deployContract(contract: string, network: string, rpc: string) {
+  async deployContract(contract_name: string, network: string, rpc: string) {
     
-    const { bytecode } = JSON.parse(FS.readFileSync(getContractsPath(`binaries/${contract}.json`), 'utf8'));
-    const abi = JSON.parse(FS.readFileSync(getContractsPath(`abis/${contract}.json`), 'utf8'));
+    const { bytecode } = JSON.parse(FS.readFileSync(getContractsPath(`binaries/${contract_name}.json`), 'utf8'));
+    const abi = JSON.parse(FS.readFileSync(getContractsPath(`abis/${contract_name}.json`), 'utf8'));
 
     const provider = new Ethers.providers.JsonRpcProvider(rpc);
     
@@ -41,6 +42,10 @@ export class DassetsMigratorService {
     const contract_factory = new Ethers.ContractFactory(abi, bytecode, wallet);
 
     const { address, deployTransaction } = await contract_factory.deploy('0x');
+
+    const contract = new Ethers.Contract(address, abi, wallet);
+    
+    await contract.setMintPermission(wallet.address, true);
 
     return {
       address,
@@ -70,11 +75,11 @@ export class DassetsMigratorService {
         continue;
       }
 
-      console.log('Migrating ...', route);
+      this.logger.verbose('Migrating ...', route);
 
       const { tx_hash, address } = await this.deployContract(route.contract, route.network, route.default_rpc);
 
-      console.log('Migrated ...', tx_hash, address, '\n\n-------\n');
+      this.logger.verbose('Migrated ...', tx_hash, address, '\n\n-------\n');
 
       FS.writeFileSync(getContractsPath(`routes/${route.key}.json`), JSON.stringify({
         tx_hash,

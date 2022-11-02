@@ -17,6 +17,7 @@ import { IDassetsPriceEstimate } from '../interfaces/dassets-price-estimate.inte
 import { OnEvent } from '@nestjs/event-emitter';
 import { IStripeEvent } from '@/interfaces/stripe-event.interface';
 import { DassetsMinterService } from './dassets-minter.service';
+import { Sich } from '@/libs/sich';
 
 @Injectable()
 export class DassetsStripeListenerService {
@@ -29,6 +30,8 @@ export class DassetsStripeListenerService {
     private dassets_minter_service: DassetsMinterService,
 
     private stripe: Stripe,
+
+    private sich: Sich,
   ) {}
 
 
@@ -44,9 +47,19 @@ export class DassetsStripeListenerService {
     const session = await this.dasset_flow_session_model.findOne({ _id: session_id });
 
     const contract_name = typeToContractName(session.contract_type);
-    const res = await this.dassets_minter_service.mint(contract_name, 'mint', session.project);
 
-    console.log(res);
+    await this.sich.callJob({
+      id: payload.evt_id,
+      contract_name,
+      method: 'mint',
+      args: [
+        session.address, 
+        Ethers.utils.formatBytes32String(session.project), 
+        1, 
+        '0x',
+      ],
+      network: session.network,
+    });
 
   }
 }

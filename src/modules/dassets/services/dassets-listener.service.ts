@@ -19,8 +19,6 @@ export class DassetsListenerService implements OnModuleInit {
 
 
   constructor(
-    private syncer_service: SyncerService,
-
     private chsy_provider: ChainSyncerProvider,
 
     @InjectModel(Project.name)
@@ -34,9 +32,11 @@ export class DassetsListenerService implements OnModuleInit {
 
   async onModuleInit() {
 
-    for (const network in this.chsy_provider.get()) {
+    const chsy_instances = this.chsy_provider.get();
 
-      this.chsy_provider.get()[network].on('!InteractERC1155.NftMinted', async (
+    for (const network in chsy_instances) {
+
+      chsy_instances[network].on('!InteractERC1155.NftMinted', async (
         to: string, 
         id: string, 
         project_id: string,
@@ -84,7 +84,7 @@ export class DassetsListenerService implements OnModuleInit {
       })
 
 
-      this.chsy_provider.get()[network].on('!InteractERC1155.TransferSingle', async (
+      chsy_instances[network].on('!InteractERC1155.TransferSingle', async (
         operator: string,
         from: string,
         to: string,
