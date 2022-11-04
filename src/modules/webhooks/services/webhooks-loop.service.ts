@@ -29,7 +29,7 @@ export class WebhooksLoopService implements OnModuleInit, OnModuleDestroy {
 
   async onProcess(webhook: Webhook) {
     const res = await Axios.post(webhook.url, {
-      idempotency_key: webhook.idempotency_key,
+      event_id: webhook.event_id,
       attempt: webhook.attempt,
       max_attempts: WEBHOOK_MAX_ATTEMPTS,
       data: webhook.data,

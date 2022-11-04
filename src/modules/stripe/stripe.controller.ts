@@ -34,7 +34,7 @@ export class StripeController {
     
     const event = this.stripe.webhooks.constructEvent(req.rawBody, sig, secret);
 
-    this.event_emitter.emit(
+    await this.event_emitter.emitAsync(
       'stripe.' + event.type,
       {
         data: event.data,

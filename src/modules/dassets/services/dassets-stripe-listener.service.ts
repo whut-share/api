@@ -35,7 +35,7 @@ export class DassetsStripeListenerService {
   ) {}
 
 
-  @OnEvent('stripe.payment_intent.succeeded')
+  @OnEvent('stripe.payment_intent.succeeded', { async: true })
   async handlePaymentIntentSuccseeded(payload: IStripeEvent<Stripe.PaymentIntent>) {
 
     const session_id = payload.data.metadata.dasset_flow_session_id;
@@ -48,11 +48,14 @@ export class DassetsStripeListenerService {
 
     const contract_name = typeToContractName(session.contract_type);
 
+    const request_id = Ethers.utils.formatBytes32String('dflw_' + session.id);
+
     await this.sich.callJob({
       id: payload.evt_id,
       contract_name,
       method: 'mint',
       args: [
+        request_id,
         session.address, 
         Ethers.utils.formatBytes32String(session.project), 
         1, 

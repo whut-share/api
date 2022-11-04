@@ -11,7 +11,6 @@ import { join } from 'path';
 import { assemblyContractRoute } from '@/helpers';
 import { WEBHOOK_MAX_ATTEMPTS } from '@/constants';
 import { IWebhooksCreate } from '../interfaces/webhooks-create.interface';
-import { randomUUID } from 'crypto';
 
 
 @Injectable()
@@ -24,7 +23,6 @@ export class WebhooksService {
 
   addWebhook(data: IWebhooksCreate) {
     const webhook = new this.webhook_model(data);
-    webhook.idempotency_key = randomUUID();
     return webhook.save();
   }
 }

@@ -1,7 +1,7 @@
 export class IWebhooksCreate {
   project: string;
   url: string;
-  idempotency_key?: string;
+  event_id: string;
   data: any;
   metadata?: any;
 }

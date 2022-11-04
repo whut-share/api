@@ -75,7 +75,7 @@ describe(DassetsStripeListenerService.name, () => {
 
   describe('handlePaymentIntentSuccseeded()', () => {
     
-    it('should set session as succeeded', async () => {
+    it('should call sich job', async () => {
 
       const user = await users_service.create({
         email: 'qwe@qwe.qwe',
@@ -112,6 +112,6 @@ describe(DassetsStripeListenerService.name, () => {
         event_emitter.once('dassets.erc1155.nft-minted', () => resolve(undefined));
       });
 
-    }, 100000);
+    }, 30000);
   });
 });

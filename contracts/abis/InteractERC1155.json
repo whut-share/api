@@ -39,6 +39,12 @@
     "anonymous": false,
     "inputs": [
       {
+        "indexed": false,
+        "internalType": "bytes32",
+        "name": "mint_request_id",
+        "type": "bytes32"
+      },
+      {
         "indexed": true,
         "internalType": "address",
         "name": "to",
@@ -311,6 +317,11 @@
   },
   {
     "inputs": [
+      {
+        "internalType": "bytes32",
+        "name": "mint_request_id_",
+        "type": "bytes32"
+      },
       {
         "internalType": "address",
         "name": "owner_",

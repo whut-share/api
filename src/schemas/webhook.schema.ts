@@ -43,7 +43,7 @@ export class Webhook extends BaseClass {
 
   @Prop({ required: true })
   @Field()
-  public idempotency_key: string;
+  public event_id: string;
 
   @Prop({ required: true, type: Object })
   @Field(type => GraphQLJSON)

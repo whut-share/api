@@ -2,6 +2,7 @@ import { AddressScalar } from '@/graphql/scalars';
 import { FileManager } from '@/libs/file-manager';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { utils } from 'ethers';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
@@ -53,6 +54,10 @@ export class DassetNft extends BaseClass {
   @Prop({ required: true })
   @Field()
   owner_synced_at: number;
+
+  static formatId(network: string, token_id: number): string {
+    return utils.keccak256(utils.toUtf8Bytes(`${network}_${token_id}`));
+  }
 
 }
 

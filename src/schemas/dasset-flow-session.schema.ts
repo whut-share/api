@@ -44,6 +44,10 @@ export class DassetFlowSession extends BaseClass {
 
   @Prop()
   @Field()
+  public mint_request_id?: string;
+
+  @Prop()
+  @Field()
   public network?: string;
 
   @Prop()
@@ -53,6 +57,10 @@ export class DassetFlowSession extends BaseClass {
   @Prop({ required: true })
   @Field()
   public contract_type: string;
+
+  @Prop({ default: true })
+  @Field()
+  public is_succeeded: boolean;
 
   @Field()
   public get url(): string {

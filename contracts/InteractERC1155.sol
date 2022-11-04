@@ -8,6 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract InteractERC1155 is ERC1155Burnable, Ownable {
 
   event NftMinted(
+    bytes32 mint_request_id,
     address indexed to, 
     uint256 indexed nft_id,
     bytes32 project_id
@@ -19,6 +20,7 @@ contract InteractERC1155 is ERC1155Burnable, Ownable {
   constructor(string memory uri_) ERC1155(uri_) {}
 
   function mint(
+    bytes32 mint_request_id_,
     address owner_, 
     bytes32 project_id_, 
     uint amount_, 
@@ -27,12 +29,12 @@ contract InteractERC1155 is ERC1155Burnable, Ownable {
     require(can_mint[msg.sender], "You are not allowed to mint");
 
     if(amount_ == 0) {
-        amount_ = 1;
+      amount_ = 1;
     }
 
     _mint(owner_, nft_index, amount_, data_);
 
-    emit NftMinted(owner_, nft_index, project_id_);
+    emit NftMinted(mint_request_id_, owner_, nft_index, project_id_);
 
     nft_index++;
   }
