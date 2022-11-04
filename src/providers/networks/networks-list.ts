@@ -19,8 +19,8 @@ export const networks_list = [
   },
 
   { // testnet
-    default_rpc: 'https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
-    archive_rpc: 'https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161',
+    default_rpc: 'https://nd-504-877-410.p2pify.com/a170ad9608d7d8fa8a4ea18d4af8b685',
+    archive_rpc: 'https://rpc.ankr.com/eth_goerli',
     key: 'goerli',
     type: 'evm',
     block_time: 10000,
