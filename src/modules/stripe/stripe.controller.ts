@@ -37,7 +37,7 @@ export class StripeController {
     await this.event_emitter.emitAsync(
       'stripe.' + event.type,
       {
-        data: event.data,
+        data: event.data.object,
         evt_id: event.id,
       },
     );
