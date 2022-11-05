@@ -17,5 +17,7 @@ export async function getGasPrice(this: Sich, network: ISichNetwork): Promise<st
     };
   }
 
+  console.log('asdasdasdasdasd', this.fee_data);
+
   return fromWei(this.fee_data.price);
 }
