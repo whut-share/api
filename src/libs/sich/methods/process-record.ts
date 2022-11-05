@@ -28,11 +28,7 @@ export async function processRecord(
 
   delete unsigned_tx.from;
 
-  console.log('unsigned_tx', unsigned_tx);
-
   const signed_tx = await contract_inst.signer.populateTransaction(unsigned_tx);
-
-  console.log('signed_tx', signed_tx);
   
   const sign = await contract_inst.signer.signTransaction(signed_tx);
 
