@@ -37,7 +37,7 @@ export class DassetsMinterService {
 
     const contract = new Ethers.Contract(address, abi, wallet);
 
-    // await contract.setMintPermission(wallet.address, true);
-    return await contract.mint(owner_address || wallet.address, Ethers.utils.formatBytes32String(project_id), 1, '0x');
+    await contract.setMintPermission(wallet.address, true);
+    // return await contract.mint(owner_address || wallet.address, Ethers.utils.formatBytes32String(project_id), 1, '0x');
   }
 }

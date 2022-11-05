@@ -42,10 +42,12 @@ export class DassetsMigratorService {
     const contract_factory = new Ethers.ContractFactory(abi, bytecode, wallet);
 
     const { address, deployTransaction } = await contract_factory.deploy('0x');
+    await deployTransaction.wait();
 
     const contract = new Ethers.Contract(address, abi, wallet);
     
-    await contract.setMintPermission(wallet.address, true);
+    const permission_tx = await contract.setMintPermission(wallet.address, true);
+    await permission_tx.wait();
 
     return {
       address,

@@ -75,6 +75,8 @@ export class DassetsSessionService {
     const { price } = await this.dassets_price_estimator_service
       .estimate(session.network, session.contract_type);
 
+    console.log('price', price);
+
     const pi = await this.stripe.paymentIntents.create({
       amount: Number(price.toFixed(2)) * 100,
       currency: "USD",
