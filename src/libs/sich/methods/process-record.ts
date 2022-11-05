@@ -30,6 +30,8 @@ export async function processRecord(
 
   const signed_tx = await contract_inst.signer.populateTransaction(unsigned_tx);
 
+  console.log('signed_tx', signed_tx);
+  
   const sign = await contract_inst.signer.signTransaction(signed_tx);
 
   const tx_hash = utils.keccak256(sign);
