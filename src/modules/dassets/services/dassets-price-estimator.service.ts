@@ -11,7 +11,7 @@ import { assemblyContractRoute, getContractsPath, getInternalContractData, typeT
 import { IDassetsSessionCreate } from '../interfaces/dassets-session-create.interface';
 import Stripe from 'stripe';
 import { Sich } from '@/libs/sich';
-import { DASSETS_CONVERTATION_SLIPPAGE } from '@/constants';
+import { DASSETS_CONVERTATION_SLIPPAGE, DASSETS_MIN_USD_MINTING_PRICE } from '@/constants';
 import Axios from 'axios';
 import { IDassetsPriceEstimate } from '../interfaces/dassets-price-estimate.interface';
 
@@ -51,7 +51,8 @@ export class DassetsPriceEstimatorService {
 
     const eth_price = data.quote['USD'].price;
 
-    const price = eth_price * (total_eth * (1 + DASSETS_CONVERTATION_SLIPPAGE));
+    // min price for minting will always be 1 USD
+    const price = Math.max(DASSETS_MIN_USD_MINTING_PRICE, eth_price * (total_eth * (1 + DASSETS_CONVERTATION_SLIPPAGE)));
 
     return {
       price,
