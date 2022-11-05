@@ -24,11 +24,15 @@ export async function processRecord(
   }
 
   const unsigned_tx = await contract_inst.populateTransaction[method](...args);
-  unsigned_tx.gasPrice = BigNumber.from(toWei(await this.getGasPrice(network)));
+  unsigned_tx.gasPrice = BigNumber.from(await this.getGasPrice(network).then(res => res.gas_price_wei));
 
   delete unsigned_tx.from;
 
+  console.log('unsigned_tx', unsigned_tx);
+
   const signed_tx = await contract_inst.signer.populateTransaction(unsigned_tx);
+
+  console.log('signed_tx', signed_tx);
   
   const sign = await contract_inst.signer.signTransaction(signed_tx);
 

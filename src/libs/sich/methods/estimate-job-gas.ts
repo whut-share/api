@@ -27,7 +27,8 @@ export async function estimateJobGas(
 
   const gas = (await contract.estimateGas[method](...args)).toNumber();
 
-  const gas_price = Number(await this.getGasPrice(network));
+  const gas_price = await this.getGasPrice(network)
+    .then(res => Number(res.gas_price));
 
   const total_eth = (gas * gas_price);
 
