@@ -83,7 +83,7 @@ export class DassetsSessionService {
       },
       metadata: {
         type: 'dasset-flow-session',
-        dasset_flow_session_id: session._id,
+        dasset_flow_session_id: session.id,
       },
     });
 

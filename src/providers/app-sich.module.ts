@@ -1,5 +1,5 @@
 import { getInternalContractData } from '@/helpers';
-import { Injectable, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, Module, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { getConnectionToken } from '@nestjs/mongoose';
 import { Contract, providers, Signer, utils, Wallet } from 'ethers';
 import { Connection } from 'mongoose';
@@ -9,6 +9,8 @@ import { SichMongoDBAdapter } from '@/libs/sich';
 
 @Injectable()
 class SichProvider implements OnModuleDestroy, OnModuleInit {
+
+  private logger = new Logger(SichProvider.name);
 
   constructor(
     private readonly sich: Sich,
@@ -20,6 +22,7 @@ class SichProvider implements OnModuleDestroy, OnModuleInit {
 
   onModuleInit() {
     this.sich.start();
+    this.logger.verbose('Sich started');
   }
 }
 

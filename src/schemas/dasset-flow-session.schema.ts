@@ -34,7 +34,7 @@ export class DassetFlowSession extends BaseClass {
   @Field()
   public project: string;
 
-  @Prop()
+  @Prop({ lowercase: true })
   @Field()
   public address?: string;
 
@@ -58,7 +58,7 @@ export class DassetFlowSession extends BaseClass {
   @Field()
   public contract_type: string;
 
-  @Prop({ default: true })
+  @Prop({ default: false })
   @Field()
   public is_succeeded: boolean;
 
