@@ -7,7 +7,7 @@ export async function getGasPrice(this: Sich, network: ISichNetwork) {
 
   const provider = new Ethers.providers.JsonRpcProvider(network.rpc);
 
-  const price = (await provider.getFeeData()).maxFeePerGas;
+  const price = await provider.getFeeData().then(res => res.gasPrice || res.maxFeePerGas);
 
   return {
     gas_price_wei: price,
