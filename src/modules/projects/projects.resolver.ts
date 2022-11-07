@@ -11,8 +11,8 @@ import { UserParam } from "@/decorators";
 import { VoidScalar } from "@/graphql/scalars/void.scalar";
 import { IAggregate } from "@/interfaces";
 import { ProjectsService } from "./services/projects.service";
-import { IProjectsCreate } from "./interfaces/projects-create.interface";
-import { IProjectsUpdate } from "./interfaces/projects-update.interface";
+import { IProjectCreate } from "./interfaces/project-create.interface";
+import { IProjectUpdate } from "./interfaces/project-update.interface";
 
 @Resolver(of => Project)
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -46,7 +46,7 @@ export class ProjectsResolver {
   @UseGuards(GqlAuthGuard)
   async projectCreate(
     @UserParam() user: UserDocument,
-    @Args('data') data: IProjectsCreate
+    @Args('data') data: IProjectCreate
   ): Promise<ProjectDocument> {
     return await this.projects_service.create(user, data);
   }
@@ -57,7 +57,7 @@ export class ProjectsResolver {
   async projectUpdate(
     @UserParam() user: UserDocument,
     @Args('id', { type: () => ObjectIdScalar }) id: string,
-    @Args('data') data: IProjectsUpdate
+    @Args('data') data: IProjectUpdate
   ): Promise<ProjectDocument> {
     return await this.projects_service.update(user, id, data);
   }

@@ -10,8 +10,8 @@ import * as Ethers from 'ethers';
 import { join } from 'path';
 import { merge } from 'lodash';
 import { assemblyContractRoute } from '@/helpers';
-import { IProjectsCreate } from '../interfaces/projects-create.interface';
-import { IProjectsUpdate } from '../interfaces/projects-update.interface';
+import { IProjectCreate } from '../interfaces/project-create.interface';
+import { IProjectUpdate } from '../interfaces/project-update.interface';
 
 
 @Injectable()
@@ -41,7 +41,7 @@ export class ProjectsService {
   }
 
 
-  async create(user: UserDocument, data: IProjectsCreate): Promise<ProjectDocument> {
+  async create(user: UserDocument, data: IProjectCreate): Promise<ProjectDocument> {
     const project = new this.project_model({
       ...data,
       user: user.id,
@@ -53,7 +53,7 @@ export class ProjectsService {
   async update(
     user: UserDocument, 
     id: string, 
-    data: IProjectsUpdate
+    data: IProjectUpdate
   ): Promise<ProjectDocument> {
     
     const project = await this.getOrFail(user, id);

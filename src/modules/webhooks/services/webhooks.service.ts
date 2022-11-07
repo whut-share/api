@@ -10,7 +10,7 @@ import * as Ethers from 'ethers';
 import { join } from 'path';
 import { assemblyContractRoute } from '@/helpers';
 import { WEBHOOK_MAX_ATTEMPTS } from '@/constants';
-import { IWebhooksCreate } from '../interfaces/webhooks-create.interface';
+import { IWebhookCreate } from '../interfaces/webhook-create.interface';
 
 
 @Injectable()
@@ -21,7 +21,7 @@ export class WebhooksService {
     private webhook_model: Model<WebhookDocument>,
   ) {}
 
-  addWebhook(data: IWebhooksCreate) {
+  addWebhook(data: IWebhookCreate) {
     const webhook = new this.webhook_model(data);
     return webhook.save();
   }

@@ -1,7 +1,7 @@
 import { Field, InputType, ObjectType } from "@nestjs/graphql";
 
 @InputType()
-export class IProjectsDassetsDataUpdate {
+export class IProjectDassetsSettingsUpdate {
 
   @Field(type => [String], { nullable: true })
   include_networks?: string[];
@@ -14,12 +14,12 @@ export class IProjectsDassetsDataUpdate {
 }
 
 @InputType()
-export class IProjectsUpdate {
+export class IProjectUpdate {
 
   @Field({ nullable: true })
   name?: string;
 
   @Field({ nullable: true })
-  dassets?: IProjectsDassetsDataUpdate;
+  dassets_settings?: IProjectDassetsSettingsUpdate;
   
 }

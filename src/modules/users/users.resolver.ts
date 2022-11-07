@@ -11,7 +11,7 @@ import { UserParam } from "@/decorators";
 import { VoidScalar } from "@/graphql/scalars/void.scalar";
 import { IAggregate } from "@/interfaces";
 import { UsersService } from "./services/users.service";
-import { IUsersSignUp } from "./interfaces/users-sign-up.interface";
+import { IUserSignUp } from "./interfaces/user-sign-up.interface";
 import { InvalidInputException } from "@/exceptions";
 
 @Resolver(of => User)
@@ -41,7 +41,7 @@ export class UsersResolver {
 
   @Mutation(returns => User)
   async userSignUp(
-    @Args('data') data: IUsersSignUp
+    @Args('data') data: IUserSignUp
   ): Promise<User> {
     return await this.users_service.create(data);
   }

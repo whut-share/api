@@ -75,38 +75,38 @@ type Query {
 }
 
 type Mutation {
-  userSignUp(data: IUsersSignUp!): User!
-  projectCreate(data: IProjectsCreate!): Project!
-  projectUpdate(id: ObjectId!, data: IProjectsUpdate!): Project!
-  dassetsCheckoutSessionCreate(data: IDassetsCheckoutsSessionCreate!): DassetsCheckoutSession!
-  dassetsCheckoutSessionUpdate(id: ObjectId!, data: IDassetsCheckoutsSessionUpdate!): DassetsCheckoutSession!
+  userSignUp(data: IUserSignUp!): User!
+  projectCreate(data: IProjectCreate!): Project!
+  projectUpdate(id: ObjectId!, data: IProjectUpdate!): Project!
+  dassetsCheckoutSessionCreate(data: IDassetsCheckoutSessionCreate!): DassetsCheckoutSession!
+  dassetsCheckoutSessionUpdate(id: ObjectId!, data: IDassetsCheckoutSessionUpdate!): DassetsCheckoutSession!
 }
 
-input IUsersSignUp {
+input IUserSignUp {
   email: String!
   password: String!
 }
 
-input IProjectsCreate {
+input IProjectCreate {
   name: String!
 }
 
-input IProjectsUpdate {
+input IProjectUpdate {
   name: String
-  dassets: IProjectsDassetsDataUpdate
+  dassets_settings: IProjectDassetsSettingsUpdate
 }
 
-input IProjectsDassetsDataUpdate {
+input IProjectDassetsSettingsUpdate {
   include_networks: [String!]
   token_base_url: String
   webhook_events_url: String
 }
 
-input IDassetsCheckoutsSessionCreate {
+input IDassetsCheckoutSessionCreate {
   project: String!
 }
 
-input IDassetsCheckoutsSessionUpdate {
+input IDassetsCheckoutSessionUpdate {
   address: String
   network: String
 }

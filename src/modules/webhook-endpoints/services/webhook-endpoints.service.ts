@@ -1,10 +1,10 @@
 import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Document, Model } from 'mongoose';
-import { IWebhookEndpointsCreate } from '../interfaces/webhook-endpoints-create.interface';
+import { IWebhookEndpointCreate } from '../interfaces/webhook-endpoint-create.interface';
 import { Project, ProjectDocument, UserDocument, WebhookEndpoint, WebhookEndpointDocument } from '@/schemas';
 import { InvalidInputException } from '@/exceptions';
-import { IWebhookEndpointsUpdate } from '../interfaces/webhook-endpoints-update.interface';
+import { IWebhookEndpointUpdate } from '../interfaces/webhook-endpoint-update.interface';
 
 @Injectable()
 export class WebhookEndpointsService {
@@ -38,7 +38,7 @@ export class WebhookEndpointsService {
     return we;
   }
 
-  async create(user: UserDocument, data: IWebhookEndpointsCreate) {
+  async create(user: UserDocument, data: IWebhookEndpointCreate) {
 
     await this.hasAccessOrFail(user, data.project);
 
@@ -50,7 +50,7 @@ export class WebhookEndpointsService {
   async update(
     user: UserDocument, 
     we: WebhookEndpointDocument, 
-    data: IWebhookEndpointsUpdate
+    data: IWebhookEndpointUpdate
   ) {
 
     await this.hasAccessOrFail(user, we.project);

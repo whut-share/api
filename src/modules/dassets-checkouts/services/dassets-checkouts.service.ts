@@ -6,8 +6,8 @@ import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, DassetsCheckout
 import Stripe from 'stripe';
 import { DassetsCheckoutsPriceEstimatorService } from './dassets-checkouts-price-estimator.service';
 import { merge } from 'lodash';
-import { IDassetsCheckoutsSessionUpdate } from '../interfaces/dassets-checkouts-session-update.interface';
-import { IDassetsCheckoutsSessionCreate } from '../interfaces/dassets-checkouts-session-create.interface';
+import { IDassetsCheckoutSessionUpdate } from '../interfaces/dassets-checkout-session-update.interface';
+import { IDassetsCheckoutSessionCreate } from '../interfaces/dassets-checkout-session-create.interface';
 
 @Injectable()
 export class DassetsCheckoutsService {
@@ -26,7 +26,7 @@ export class DassetsCheckoutsService {
   ) {}
 
 
-  async create(user: UserDocument, data: IDassetsCheckoutsSessionCreate) {
+  async create(user: UserDocument, data: IDassetsCheckoutSessionCreate) {
 
     const project = await this.project_model.findOne({ _id: data.project });
 
@@ -48,7 +48,7 @@ export class DassetsCheckoutsService {
   }
 
 
-  async update(session: DassetsCheckoutSessionDocument, data: IDassetsCheckoutsSessionUpdate) {
+  async update(session: DassetsCheckoutSessionDocument, data: IDassetsCheckoutSessionUpdate) {
 
     const original = session.toObject();
     

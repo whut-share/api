@@ -11,8 +11,8 @@ import { UserParam } from "@/decorators";
 import { VoidScalar } from "@/graphql/scalars/void.scalar";
 import { IAggregate } from "@/interfaces";
 import { DassetsCheckoutsService } from "./services/dassets-checkouts.service";
-import { IDassetsCheckoutsSessionCreate } from "./interfaces/dassets-checkouts-session-create.interface";
-import { IDassetsCheckoutsSessionUpdate } from "./interfaces/dassets-checkouts-session-update.interface";
+import { IDassetsCheckoutSessionCreate } from "./interfaces/dassets-checkout-session-create.interface";
+import { IDassetsCheckoutSessionUpdate } from "./interfaces/dassets-checkout-session-update.interface";
 
 @Resolver(of => DassetsCheckoutSession)
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -53,7 +53,7 @@ export class DassetsCheckoutsResolver {
   @UseGuards(GqlAuthGuard)
   async dassetsCheckoutSessionCreate(
     @UserParam() user: UserDocument,
-    @Args('data') data: IDassetsCheckoutsSessionCreate
+    @Args('data') data: IDassetsCheckoutSessionCreate
   ): Promise<DassetsCheckoutSessionDocument> {
     return await this.dassets_checkouts_service.create(user, data);
   }
@@ -62,7 +62,7 @@ export class DassetsCheckoutsResolver {
   @Mutation(returns => DassetsCheckoutSession)
   async dassetsCheckoutSessionUpdate(
     @Args('id', { type: () => ObjectIdScalar }) id: string,
-    @Args('data') data: IDassetsCheckoutsSessionUpdate
+    @Args('data') data: IDassetsCheckoutSessionUpdate
   ): Promise<DassetsCheckoutSessionDocument> {
     const dc_session = await this.dassets_checkouts_service.getOrFail(id);
     return await this.dassets_checkouts_service.update(dc_session, data);

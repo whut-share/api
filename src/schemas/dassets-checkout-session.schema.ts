@@ -97,7 +97,7 @@ export class DassetsCheckoutSession extends BaseClass {
   };
 
   @Field({ nullable: true })
-  public price_estimation: DassetsCheckoutSessionPriceEstimate;
+  public price_estimation?: DassetsCheckoutSessionPriceEstimate;
 
 }
 

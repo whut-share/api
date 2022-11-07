@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
 import { User, UserDocument } from '@/schemas';
-import { IUsersCreate } from '../interfaces/users-create.interface';
+import { IUserCreate } from '../interfaces/user-create.interface';
 
 @Injectable()
 export class UsersService {
@@ -20,7 +20,7 @@ export class UsersService {
     return await this.user_model.find();
   }
 
-  async create(data: IUsersCreate): Promise<UserDocument> {
+  async create(data: IUserCreate): Promise<UserDocument> {
 
     const user = new this.user_model({
       email: data.email,

@@ -11,8 +11,8 @@ import { UserParam } from "@/decorators";
 import { VoidScalar } from "@/graphql/scalars/void.scalar";
 import { IAggregate } from "@/interfaces";
 import { WebhookEndpointsService } from "./services/webhook-endpoints.service";
-import { IWebhookEndpointsCreate } from "./interfaces/webhook-endpoints-create.interface";
-import { IWebhookEndpointsUpdate } from "./interfaces/webhook-endpoints-update.interface";
+import { IWebhookEndpointCreate } from "./interfaces/webhook-endpoint-create.interface";
+import { IWebhookEndpointUpdate } from "./interfaces/webhook-endpoint-update.interface";
 
 @Resolver(of => WebhookEndpoint)
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -34,7 +34,7 @@ export class WebhookEndpointsResolver {
 
   @Query(returns => WebhookEndpoint)
   @UseGuards(GqlAuthGuard)
-  async project(
+  async webhook_endpoint(
     @UserParam() user: UserDocument,
     @Args('id', { type: () => ObjectIdScalar }) id: string,
   ): Promise<WebhookEndpointDocument> {
@@ -44,9 +44,9 @@ export class WebhookEndpointsResolver {
 
   @Mutation(returns => WebhookEndpoint)
   @UseGuards(GqlAuthGuard)
-  async webhook_endpointsCreate(
+  async webhookEndpointCreate(
     @UserParam() user: UserDocument,
-    @Args('data') data: IWebhookEndpointsCreate
+    @Args('data') data: IWebhookEndpointCreate
   ): Promise<WebhookEndpointDocument> {
     return await this.webhook_endpoints_service.create(user, data);
   }
@@ -54,10 +54,10 @@ export class WebhookEndpointsResolver {
 
   @Mutation(returns => WebhookEndpoint)
   @UseGuards(GqlAuthGuard)
-  async webhook_endpointsUpdate(
+  async webhookEndpointUpdate(
     @UserParam() user: UserDocument,
     @Args('id', { type: () => ObjectIdScalar }) id: string,
-    @Args('data') data: IWebhookEndpointsUpdate
+    @Args('data') data: IWebhookEndpointUpdate
   ): Promise<WebhookEndpointDocument> {
     const we = await this.webhook_endpoints_service.getOrFail(user, id);
     return await this.webhook_endpoints_service.update(user, we, data);
