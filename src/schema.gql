@@ -39,17 +39,47 @@ type Project {
   syncer: ProjectSyncerData!
 }
 
+type DassetsCheckoutSessionPriceEstimate {
+  price: Float!
+  total_eth: Float!
+  eth_price: Float!
+  gas_price: Float!
+  gas: Float!
+  slippage: Float!
+}
+
+type DassetsCheckoutSession {
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: String!
+  project: String!
+  address: String!
+  mint_tx: String!
+  mint_request_id: String!
+  minted_token_id: Float!
+  payment_id: String!
+  network: String!
+  contract_type: String!
+  is_succeeded: Boolean!
+  expire_at: DateTime!
+  url: String!
+  price_estimation(id: ObjectId!): DassetsCheckoutSessionPriceEstimate
+}
+
 type Query {
   me: User!
   users: [User!]!
   projects: [Project!]!
   project(id: ObjectId!): Project!
+  dassets_checkout_session(id: ObjectId!): DassetsCheckoutSession!
 }
 
 type Mutation {
-  usersSignUp(data: IUsersSignUp!): User!
-  projectsCreate(data: IProjectsCreate!): Project!
-  projectsUpdate(id: ObjectId!, data: IProjectsUpdate!): Project!
+  userSignUp(data: IUsersSignUp!): User!
+  projectCreate(data: IProjectsCreate!): Project!
+  projectUpdate(id: ObjectId!, data: IProjectsUpdate!): Project!
+  dassetsCheckoutSessionCreate(data: IDassetsCheckoutsSessionCreate!): DassetsCheckoutSession!
+  dassetsCheckoutSessionUpdate(id: ObjectId!, data: IDassetsCheckoutsSessionUpdate!): DassetsCheckoutSession!
 }
 
 input IUsersSignUp {
@@ -70,4 +100,13 @@ input IProjectsDassetsDataUpdate {
   include_networks: [String!]
   token_base_url: String
   webhook_events_url: String
+}
+
+input IDassetsCheckoutsSessionCreate {
+  project: String!
+}
+
+input IDassetsCheckoutsSessionUpdate {
+  address: String
+  network: String
 }

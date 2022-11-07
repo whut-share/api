@@ -44,7 +44,7 @@ export class ProjectsResolver {
 
   @Mutation(returns => Project)
   @UseGuards(GqlAuthGuard)
-  async projectsCreate(
+  async projectCreate(
     @UserParam() user: UserDocument,
     @Args('data') data: IProjectsCreate
   ): Promise<ProjectDocument> {
@@ -54,7 +54,7 @@ export class ProjectsResolver {
 
   @Mutation(returns => Project)
   @UseGuards(GqlAuthGuard)
-  async projectsUpdate(
+  async projectUpdate(
     @UserParam() user: UserDocument,
     @Args('id', { type: () => ObjectIdScalar }) id: string,
     @Args('data') data: IProjectsUpdate

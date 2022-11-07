@@ -5,7 +5,28 @@ import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
-export type DassetFlowSessionDocument = DassetFlowSession & Document;
+@ObjectType()
+export class DassetsCheckoutSessionPriceEstimate {
+  @Field()
+  price: number;
+
+  @Field()
+  total_eth: number;
+
+  @Field()
+  eth_price: number;
+
+  @Field()
+  gas_price: number;
+
+  @Field()
+  gas: number;
+
+  @Field()
+  slippage: number;
+}
+
+export type DassetsCheckoutSessionDocument = DassetsCheckoutSession & Document;
 
 @Schema({
   timestamps: {
@@ -21,7 +42,7 @@ export type DassetFlowSessionDocument = DassetFlowSession & Document;
   minimize: false
 })
 @ObjectType()
-export class DassetFlowSession extends BaseClass {
+export class DassetsCheckoutSession extends BaseClass {
 
   public _id: ObjectId;
 
@@ -48,11 +69,15 @@ export class DassetFlowSession extends BaseClass {
 
   @Prop()
   @Field()
-  public network?: string;
+  public minted_token_id?: number;
 
   @Prop()
   @Field()
-  public minted_token_id?: number;
+  public payment_id?: string;
+
+  @Prop()
+  @Field()
+  public network?: string;
 
   @Prop({ required: true })
   @Field()
@@ -62,22 +87,29 @@ export class DassetFlowSession extends BaseClass {
   @Field()
   public is_succeeded: boolean;
 
+  @Prop({ required: false })
+  @Field()
+  public expire_at: Date;
+
   @Field()
   public get url(): string {
-    return `${process.env['DASSET_FLOW_URL']}/${this.id}`
+    return `${process.env['DA_CHECKOUT_URL']}/${this.id}`
   };
+
+  @Field({ nullable: true })
+  public price_estimation: DassetsCheckoutSessionPriceEstimate;
 
 }
 
-export const DassetFlowSessionSchema = SchemaFactory.createForClass(DassetFlowSession);
+export const DassetsCheckoutSessionSchema = SchemaFactory.createForClass(DassetsCheckoutSession);
 
-export const DassetFlowSessionModelModule = MongooseModule.forFeatureAsync([
+export const DassetsCheckoutSessionModelModule = MongooseModule.forFeatureAsync([
   {
-    name: DassetFlowSession.name,
+    name: DassetsCheckoutSession.name,
     imports: [
 
     ],
-    useFactory: defaultUseFactory(DassetFlowSessionSchema),
+    useFactory: defaultUseFactory(DassetsCheckoutSessionSchema),
     inject: [
       FileManager, 
       // getModelToken(Character.name)

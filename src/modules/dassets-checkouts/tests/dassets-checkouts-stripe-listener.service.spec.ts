@@ -1,28 +1,23 @@
 import { generateDefaultTestHooks, generateDefaultTestingModule } from '@/helpers';
 import { StripeModule } from '@/modules/stripe/stripe.module';
-import { DassetFlowSessionModelModule, DassetNftModelModule, ProjectModelModule, UserModelModule, WebhookModelModule } from '@/schemas';
-import { Test, TestingModule } from '@nestjs/testing';
-import { DassetsMinterService } from '../services/dassets-minter.service';
-import { DassetsSessionService } from '../services/dassets-session.service';
-import { DassetsStripeListenerService } from '../services/dassets-stripe-listener.service';
+import { DassetsCheckoutSessionModelModule, DassetsNftModelModule, ProjectModelModule, UserModelModule, WebhookModelModule } from '@/schemas';
+import { DassetsCheckoutsStripeListenerService } from '../services/dassets-checkouts-stripe-listener.service';
 import { ProjectsService } from '@/modules/projects/services/projects.service';
 import { UsersService } from '@/modules/users/services/users.service';
 import Stripe from 'stripe';
 import { StripePaymentIntentMock } from '@/mocks';
 import { AppSichModule } from '@/providers/app-sich.module';
 import { ChainSyncerModule } from '@/providers/chain-syncer';
-import { DassetsMigratorService } from '../services/dassets-migrator.service';
 import { ProjectsModule } from '@/modules/projects/projects.module';
-import { DassetsPriceEstimatorService } from '../services/dassets-price-estimator.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { DassetsSyncerListenerService } from '../services/dassets-syncer-listener.service';
-import { DassetsEventsProcessorService } from '../services/dassets-events-processor.service';
 import { WebhooksModule } from '@/modules/webhooks/webhooks.module';
+import { DassetsMigratorService } from '@/modules/dassets/services/dassets-migrator.service';
+import { DassetsCheckoutsService } from '../services/dassets-checkouts.service';
 
-describe(DassetsStripeListenerService.name, () => {
+describe(DassetsCheckoutsStripeListenerService.name, () => {
 
-  let dassets_stripe_listener_service: DassetsStripeListenerService;
-  let dassets_session_service: DassetsSessionService;
+  let dassets_stripe_listener_service: DassetsCheckoutsStripeListenerService;
+  let dassets_session_service: DassetsCheckoutsService;
   let projects_service: ProjectsService;
   let users_service: UsersService;
   let event_emitter: EventEmitter2;
@@ -32,10 +27,10 @@ describe(DassetsStripeListenerService.name, () => {
   generateDefaultTestHooks({
     metadata: {
       imports: [
-        DassetFlowSessionModelModule,
+        DassetsCheckoutSessionModelModule,
         ProjectModelModule,
         UserModelModule,
-        DassetNftModelModule,
+        DassetsNftModelModule,
         WebhookModelModule,
         StripeModule,
         AppSichModule,
@@ -44,19 +39,12 @@ describe(DassetsStripeListenerService.name, () => {
         WebhooksModule,
       ],
       providers: [
-        DassetsMinterService, 
-        DassetsStripeListenerService,
-        DassetsPriceEstimatorService,
-        DassetsSessionService,
-        UsersService,
-        DassetsMigratorService,
-        DassetsSyncerListenerService,
-        DassetsEventsProcessorService,
+        
       ],
     },
     async beforeEachHandler(app) {
-      dassets_stripe_listener_service = app.get<DassetsStripeListenerService>(DassetsStripeListenerService);
-      dassets_session_service = app.get<DassetsSessionService>(DassetsSessionService);
+      dassets_stripe_listener_service = app.get<DassetsCheckoutsStripeListenerService>(DassetsCheckoutsStripeListenerService);
+      dassets_session_service = app.get<DassetsCheckoutsService>(DassetsCheckoutsService);
       projects_service = app.get<ProjectsService>(ProjectsService);
       users_service = app.get<UsersService>(UsersService);
       event_emitter = app.get(EventEmitter2);

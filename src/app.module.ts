@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { MongooseModule } from '@nestjs/mongoose';
 import { UsersModule } from './modules/users/users.module';
 import { AppMongooseModule } from './providers/app-mongoose.module';
 import { AppFileManagerModule } from './providers/app-file-manager.module';
@@ -15,6 +14,8 @@ import { AppGqlModule } from './providers/app-gql.module';
 import { AppSichModule } from './providers/app-sich.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { StripeModule } from './modules/stripe/stripe.module';
+import { WebhookEndpointsModule } from './modules/webhook-endpoints/webhook-endpoints.module';
+import { DassetsCheckoutsModule } from './modules/dassets-checkouts/dassets-checkouts.module';
 
 @Module({
   imports: [
@@ -33,6 +34,8 @@ import { StripeModule } from './modules/stripe/stripe.module';
     WebhooksModule,
     AuthModule,
     StripeModule,
+    WebhookEndpointsModule,
+    DassetsCheckoutsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

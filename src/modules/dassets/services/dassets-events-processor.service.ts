@@ -1,7 +1,7 @@
 // sync dassets wimport { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { DassetFlowSession, DassetFlowSessionDocument, DassetNft, Project, ScanTarget, User } from '@/schemas';
+import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, DassetsNft, Project, ScanTarget, User } from '@/schemas';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { BigNumber, utils } from 'ethers';
 import { ChainSyncerProvider } from '@/providers/chain-syncer';
@@ -19,11 +19,11 @@ export class DassetsEventsProcessorService {
     @InjectModel(Project.name)
     private project_model: Model<Project>,
 
-    @InjectModel(DassetNft.name)
-    private dasset_nft_model: Model<DassetNft>,
+    @InjectModel(DassetsNft.name)
+    private dasset_nft_model: Model<DassetsNft>,
 
-    @InjectModel(DassetFlowSession.name)
-    private dasset_flow_session_model: Model<DassetFlowSessionDocument>,
+    @InjectModel(DassetsCheckoutSession.name)
+    private da_checkout_session: Model<DassetsCheckoutSessionDocument>,
 
     private readonly webhooks_service: WebhooksService,
   ) {}
@@ -45,7 +45,7 @@ export class DassetsEventsProcessorService {
     });
 
     let nft = await this.dasset_nft_model.create({
-      _id: DassetNft.formatId(network, token_id),
+      _id: DassetsNft.formatId(network, token_id),
       project: project_id,
       owner: to,
       mint_tx: event_metadata.transaction_hash,
@@ -57,13 +57,9 @@ export class DassetsEventsProcessorService {
 
     if(!nft) {
       nft = await this.dasset_nft_model.findOne({
-        _id: DassetNft.formatId(network, token_id),
+        _id: DassetsNft.formatId(network, token_id),
       });
     }
-
-    const d_session = await this.dasset_flow_session_model.findOne({
-      _id: mint_request_id.replace('dflw_', ''),
-    });
 
     const event_body = {
       type: 'dassets',
@@ -83,10 +79,6 @@ export class DassetsEventsProcessorService {
       project: project.id,
       event_id: utils.keccak256(utils.toUtf8Bytes(`${network}_${event_metadata.global_index}`)),
     });
-
-    d_session.is_succeeded = true;
-    d_session.mint_tx = event_metadata.transaction_hash;
-    await d_session.save();
   }
 
   @OnEvent('dassets.erc1155.transfer-single', { async: true })
@@ -103,7 +95,7 @@ export class DassetsEventsProcessorService {
     } = payload;
 
     const nft = await this.dasset_nft_model.findOne({
-      _id: DassetNft.formatId(network, token_id),
+      _id: DassetsNft.formatId(network, token_id),
     });
 
     if(!nft) {

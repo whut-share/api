@@ -1,27 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { User, UserDocument } from '@/schemas';
+import { Project, ProjectDocument, User, UserDocument } from '@/schemas';
 import { Command, CommandRunner, Option } from 'nest-commander';
-import { DassetsMigratorService } from '../services/dassets-migrator.service';
-import { DassetsMinterService } from '../services/dassets-minter.service';
-import { DassetsSessionService } from '../services/dassets-session.service';
+import { DassetsCheckoutsService } from '../services/dassets-checkouts.service';
 
 interface BasicCommandOptions {
   project: string;
 }
 
 @Command({
-  name: 'dassets:session-seed', 
+  name: 'dassets-checkouts:seed', 
   description: '...',
 })
-export class DassetsSessionSeedCmd extends CommandRunner {
+export class DassetsCheckoutsSessionSeedCmd extends CommandRunner {
 
   constructor(
-    private dassets_session_service: DassetsSessionService,
+    private dassets_checkouts_service: DassetsCheckoutsService,
 
     @InjectModel(User.name)
     private user_model: Model<UserDocument>,
+
+    @InjectModel(Project.name)
+    private project_model: Model<ProjectDocument>,
   ) { super() }
 
   async run(
@@ -29,8 +30,11 @@ export class DassetsSessionSeedCmd extends CommandRunner {
     options?: BasicCommandOptions,
   ) {
 
-    const session = await this.dassets_session_service.create(
-      await this.user_model.findOne(),
+    const project = await this.project_model.findOne({ _id: options.project });
+    const user = await this.user_model.findOne({ _id: project.user });
+
+    const session = await this.dassets_checkouts_service.create(
+      user,
       {
         project: options.project,
       },

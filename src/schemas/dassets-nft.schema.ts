@@ -20,7 +20,7 @@ import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
   minimize: false
 })
 @ObjectType()
-export class DassetNft extends BaseClass {
+export class DassetsNft extends BaseClass {
 
   @Prop({ required: true })
   _id: string;
@@ -61,15 +61,15 @@ export class DassetNft extends BaseClass {
 
 }
 
-export const DassetNftSchema = SchemaFactory.createForClass(DassetNft);
+export const DassetsNftSchema = SchemaFactory.createForClass(DassetsNft);
 
-export const DassetNftModelModule = MongooseModule.forFeatureAsync([
+export const DassetsNftModelModule = MongooseModule.forFeatureAsync([
   {
-    name: DassetNft.name,
+    name: DassetsNft.name,
     imports: [
 
     ],
-    useFactory: defaultUseFactory(DassetNftSchema),
+    useFactory: defaultUseFactory(DassetsNftSchema),
     inject: [
       FileManager, 
       // getModelToken(Character.name)

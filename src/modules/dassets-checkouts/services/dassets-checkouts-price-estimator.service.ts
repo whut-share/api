@@ -1,23 +1,14 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { InvalidInputException } from '@/exceptions';
-import { DassetFlowSession, DassetFlowSessionDocument, ScanTarget, User, UserDocument } from '@/schemas';
-import { SyncerService } from '@/modules/syncer/services/syncer.service';
 import { networks_list } from '@/providers/networks/networks-list';
-import * as FS from 'fs'
-import * as Ethers from 'ethers';
-import { assemblyContractRoute, getContractsPath, getInternalContractData, typeToContractName } from '@/helpers';
-import { IDassetsSessionCreate } from '../interfaces/dassets-session-create.interface';
-import Stripe from 'stripe';
 import { Sich } from '@/libs/sich';
 import { DASSETS_CONVERTATION_SLIPPAGE, DASSETS_MIN_USD_MINTING_PRICE } from '@/constants';
 import Axios from 'axios';
-import { IDassetsPriceEstimate } from '../interfaces/dassets-price-estimate.interface';
+import { typeToContractName } from '@/helpers';
+import { DassetsCheckoutSessionPriceEstimate } from '@/schemas';
 
 
 @Injectable()
-export class DassetsPriceEstimatorService {
+export class DassetsCheckoutsPriceEstimatorService {
 
 
   constructor(
@@ -25,7 +16,7 @@ export class DassetsPriceEstimatorService {
   ) {}
 
 
-  async estimate(network_key: string, type: string): Promise<IDassetsPriceEstimate> {
+  async estimate(network_key: string, type: string): Promise<DassetsCheckoutSessionPriceEstimate> {
 
     const contract_name = typeToContractName(type);
 

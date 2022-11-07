@@ -40,7 +40,7 @@ export class UsersResolver {
 
 
   @Mutation(returns => User)
-  async usersSignUp(
+  async userSignUp(
     @Args('data') data: IUsersSignUp
   ): Promise<User> {
     return await this.users_service.create(data);

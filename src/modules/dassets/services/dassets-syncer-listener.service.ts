@@ -1,7 +1,7 @@
 // sync dassets wimport { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { DassetNft, Project, ScanTarget, User } from '@/schemas';
+import { DassetsNft, Project, ScanTarget, User } from '@/schemas';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { BigNumber, utils } from 'ethers';
 import { ChainSyncerProvider } from '@/providers/chain-syncer';
