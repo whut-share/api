@@ -44,6 +44,11 @@ export class DassetsCheckoutsResolver {
   async price_estimation(
     @Parent() dc_session: DassetsCheckoutSessionDocument,
   ): Promise<DassetsCheckoutSessionPriceEstimate> {
+
+    if(!dc_session.network) {
+      return null;
+    }
+
     return await this.dassets_checkouts_service.estimatePrice(dc_session);
   }
 
