@@ -42,9 +42,8 @@ export class DassetsCheckoutsResolver {
 
   @ResolveField(returns => DassetsCheckoutSessionPriceEstimate)
   async price_estimation(
-    @Args('id', { type: () => ObjectIdScalar }) id: string,
+    @Parent() dc_session: DassetsCheckoutSessionDocument,
   ): Promise<DassetsCheckoutSessionPriceEstimate> {
-    const dc_session = await this.dassets_checkouts_service.getOrFail(id);
     return await this.dassets_checkouts_service.estimatePrice(dc_session);
   }
 

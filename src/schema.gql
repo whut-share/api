@@ -74,7 +74,7 @@ type DassetsCheckoutSession {
   is_minted: Boolean!
   is_payed: Boolean!
   is_expired: Boolean!
-  price_estimation(id: ObjectId!): DassetsCheckoutSessionPriceEstimate
+  price_estimation: DassetsCheckoutSessionPriceEstimate
 }
 
 type WebhookEndpoint {
