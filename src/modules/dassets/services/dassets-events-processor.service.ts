@@ -22,9 +22,6 @@ export class DassetsEventsProcessorService {
     @InjectModel(DassetsNft.name)
     private dasset_nft_model: Model<DassetsNft>,
 
-    @InjectModel(DassetsCheckoutSession.name)
-    private da_checkout_session: Model<DassetsCheckoutSessionDocument>,
-
     private readonly webhooks_service: WebhooksService,
   ) {}
 
@@ -74,7 +71,7 @@ export class DassetsEventsProcessorService {
     };
 
     await this.webhooks_service.addWebhook({
-      url: project.dassets.webhook_events_url,
+      url: project.dassets_settings.webhook_events_url,
       data: event_body,
       project: project.id,
       event_id: utils.keccak256(utils.toUtf8Bytes(`${network}_${event_metadata.global_index}`)),
@@ -131,7 +128,7 @@ export class DassetsEventsProcessorService {
     };
 
     await this.webhooks_service.addWebhook({
-      url: project.dassets.webhook_events_url,
+      url: project.dassets_settings.webhook_events_url,
       data: event_body,
       event_id: utils.keccak256(utils.toUtf8Bytes(`${network}_${event_metadata.global_index}`)),
       project: project.id,

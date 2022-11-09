@@ -13,10 +13,12 @@ export type ArchiveWebhookDocument = ArchiveWebhook & Document;
     updatedAt: 'updated_at'
   },
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })
@@ -25,7 +27,7 @@ export class ArchiveWebhook extends Webhook {
 
 }
 
-export const ArchiveWebhookSchema = SchemaFactory.createForClass(ArchiveWebhook);
+export const ArchiveWebhookSchema = fixSchema(SchemaFactory.createForClass(ArchiveWebhook), ArchiveWebhook);
 
 export const ArchiveWebhookModelModule = MongooseModule.forFeatureAsync([
   {

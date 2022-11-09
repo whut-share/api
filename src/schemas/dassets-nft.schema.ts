@@ -12,10 +12,12 @@ import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
     updatedAt: 'updated_at'
   },
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })
@@ -23,37 +25,41 @@ import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 export class DassetsNft extends BaseClass {
 
   @Prop({ required: true })
-  _id: string;
+  public _id: string;
 
-  id: string;
+  public id: string;
 
   @Prop({ required: true })
   @Field()
-  project: string;
+  public project: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, lowercase: true })
   @Field(type => AddressScalar)
-  owner: string;
+  public owner: string;
 
   @Prop({ required: true })
   @Field()
-  mint_tx: string;
+  public mint_tx: string;
 
   @Prop({ required: true })
   @Field()
-  network: string;
+  public mint_block: number;
 
   @Prop({ required: true })
   @Field()
-  token_id: number;
-
-  @Prop()
-  @Field({ nullable: true })
-  client_token_id?: string;
+  public network: string;
 
   @Prop({ required: true })
   @Field()
-  owner_synced_at: number;
+  public token_id: number;
+
+  @Prop({ required: true })
+  @Field()
+  public asset_id: string;
+
+  @Prop({ required: true })
+  @Field()
+  public owner_synced_at: number;
 
   static formatId(network: string, token_id: number): string {
     return utils.keccak256(utils.toUtf8Bytes(`${network}_${token_id}`));
@@ -61,7 +67,7 @@ export class DassetsNft extends BaseClass {
 
 }
 
-export const DassetsNftSchema = SchemaFactory.createForClass(DassetsNft);
+export const DassetsNftSchema = fixSchema(SchemaFactory.createForClass(DassetsNft), DassetsNft);
 
 export const DassetsNftModelModule = MongooseModule.forFeatureAsync([
   {

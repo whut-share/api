@@ -45,7 +45,7 @@ export class DassetsCheckoutsEventsProcessorService {
 
     d_session.is_succeeded = true;
     d_session.mint_tx = event_metadata.transaction_hash;
-    d_session.minted_token_id = token_id;
+    d_session.mint_token_id = token_id;
     await d_session.save();
   }
 }

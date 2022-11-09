@@ -37,6 +37,11 @@ export class DassetsCheckoutsSessionSeedCmd extends CommandRunner {
       user,
       {
         project: options.project,
+        asset_info: {
+          id: '1',
+          name: 'test',
+          image_url: 'https://dassets.io',
+        },
       },
     );
 

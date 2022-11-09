@@ -1,6 +1,6 @@
 {
-  "tx_hash": "0xeccd0fde4948379a733ad71d84fe99f0da5fa843e4c70e2446372be3f9e584bb",
-  "address": "0x104edEd974d642070D43c49a2354D1dFFA942B6C",
+  "tx_hash": "0x5bc600b0e6218d536753fb41f30785491f27a20ed84922741b41b7bc2843112b",
+  "address": "0xa8eC512a5a1Db1eCE0410AE870B77FAf14102614",
   "network": "local",
   "contract": "InteractERC1155"
 }

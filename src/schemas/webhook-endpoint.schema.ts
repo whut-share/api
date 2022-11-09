@@ -13,10 +13,12 @@ export type WebhookEndpointDocument = WebhookEndpoint & Document;
     updatedAt: 'updated_at'
   },
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })
@@ -25,6 +27,7 @@ export class WebhookEndpoint extends BaseClass {
 
   public _id: ObjectId;
 
+  @Field()
   public get id(): string {
     return this._id.toString();
   }
@@ -46,7 +49,7 @@ export class WebhookEndpoint extends BaseClass {
 
 }
 
-export const WebhookEndpointSchema = SchemaFactory.createForClass(WebhookEndpoint);
+export const WebhookEndpointSchema = fixSchema(SchemaFactory.createForClass(WebhookEndpoint), WebhookEndpoint);
 
 export const WebhookEndpointModelModule = MongooseModule.forFeatureAsync([
   {

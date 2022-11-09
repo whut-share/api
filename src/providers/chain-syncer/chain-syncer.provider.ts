@@ -101,6 +101,7 @@ export class ChainSyncerProvider implements OnModuleDestroy {
     if(process.env['ENABLE_CHSY'] === 'true' && process.env['IS_BACKGROUND'] === 'true') {
       for (const key in this.chsy) {
         this.logger.verbose(`Starting ChainSyncer for ${key} ...`);
+
         await this.chsy[key].start();
       }
     }

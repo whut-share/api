@@ -8,6 +8,9 @@ import { User, UserModelModule, UserSchema } from '@/schemas';
   imports: [
     UserModelModule,
   ],
+  exports: [
+    UsersService,
+  ],
   providers: [UsersService],
   controllers: [UsersController],
 })

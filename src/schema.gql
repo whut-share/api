@@ -17,12 +17,12 @@ scalar DateTime
 """A simple ObjectId parser (eg. "62d13a8b029b95001b881441")"""
 scalar ObjectId
 
-type ProjectSyncerData {
+type ProjectSyncerSettings {
   include_networks: [String!]!
   contracts_base_url: String
 }
 
-type ProjectDassetsData {
+type ProjectDassetsSettings {
   include_networks: [String!]!
   token_base_url: String
   webhook_events_url: String
@@ -35,8 +35,15 @@ type Project {
   user: String!
   name: String!
   pic: String
-  dassets: ProjectDassetsData!
-  syncer: ProjectSyncerData!
+  dassets_settings: ProjectDassetsSettings!
+  syncer_settings: ProjectSyncerSettings!
+}
+
+type DassetsNftAssetInfo {
+  id: String!
+  name: String!
+  description: String
+  image_url: String
 }
 
 type DassetsCheckoutSessionPriceEstimate {
@@ -53,17 +60,30 @@ type DassetsCheckoutSession {
   updated_at: DateTime!
   id: String!
   project: String!
-  address: String!
-  mint_tx: String!
-  mint_request_id: String!
-  minted_token_id: Float!
-  payment_id: String!
-  network: String!
+  address: String
+  mint_tx: String
+  mint_token_id: Float
+  mint_request_id: String
+  payment_id: String
+  network: String
   contract_type: String!
   is_succeeded: Boolean!
   expire_at: DateTime!
+  asset_info: DassetsNftAssetInfo!
   url: String!
+  is_minted: Boolean!
+  is_payed: Boolean!
+  is_expired: Boolean!
   price_estimation(id: ObjectId!): DassetsCheckoutSessionPriceEstimate
+}
+
+type WebhookEndpoint {
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: String!
+  project: String!
+  url: String!
+  key: String!
 }
 
 type Query {
@@ -71,6 +91,8 @@ type Query {
   users: [User!]!
   projects: [Project!]!
   project(id: ObjectId!): Project!
+  webhook_endpoints: [WebhookEndpoint!]!
+  webhook_endpoint(id: ObjectId!): WebhookEndpoint!
   dassets_checkout_session(id: ObjectId!): DassetsCheckoutSession!
 }
 
@@ -78,6 +100,8 @@ type Mutation {
   userSignUp(data: IUserSignUp!): User!
   projectCreate(data: IProjectCreate!): Project!
   projectUpdate(id: ObjectId!, data: IProjectUpdate!): Project!
+  webhookEndpointCreate(data: IWebhookEndpointCreate!): WebhookEndpoint!
+  webhookEndpointUpdate(id: ObjectId!, data: IWebhookEndpointUpdate!): WebhookEndpoint!
   dassetsCheckoutSessionCreate(data: IDassetsCheckoutSessionCreate!): DassetsCheckoutSession!
   dassetsCheckoutSessionUpdate(id: ObjectId!, data: IDassetsCheckoutSessionUpdate!): DassetsCheckoutSession!
 }
@@ -102,8 +126,27 @@ input IProjectDassetsSettingsUpdate {
   webhook_events_url: String
 }
 
+input IWebhookEndpointCreate {
+  project: ObjectId!
+  url: String
+  key: String
+}
+
+input IWebhookEndpointUpdate {
+  url: String
+  key: String
+}
+
 input IDassetsCheckoutSessionCreate {
   project: String!
+  asset_info: IDassetsCheckoutSessionCreateAssetInfo!
+}
+
+input IDassetsCheckoutSessionCreateAssetInfo {
+  id: String!
+  name: String!
+  description: String
+  image_url: String
 }
 
 input IDassetsCheckoutSessionUpdate {

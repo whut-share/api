@@ -15,10 +15,12 @@ export type UserDocument = User & Document;
     updatedAt: 'updated_at'
   },
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })

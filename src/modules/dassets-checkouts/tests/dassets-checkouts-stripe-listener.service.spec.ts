@@ -13,6 +13,10 @@ import { EventEmitter2 } from '@nestjs/event-emitter';
 import { WebhooksModule } from '@/modules/webhooks/webhooks.module';
 import { DassetsMigratorService } from '@/modules/dassets/services/dassets-migrator.service';
 import { DassetsCheckoutsService } from '../services/dassets-checkouts.service';
+import { DassetsCheckoutsPriceEstimatorService } from '../services/dassets-checkouts-price-estimator.service';
+import { UsersModule } from '@/modules/users/users.module';
+import { DassetsSyncerListenerService } from '@/modules/dassets/services/dassets-syncer-listener.service';
+import { DassetsCheckoutsEventsProcessorService } from '../services/dassets-checkouts-events-processor.service';
 
 describe(DassetsCheckoutsStripeListenerService.name, () => {
 
@@ -37,9 +41,15 @@ describe(DassetsCheckoutsStripeListenerService.name, () => {
         ChainSyncerModule,
         ProjectsModule,
         WebhooksModule,
+        UsersModule,
       ],
       providers: [
-        
+        DassetsCheckoutsStripeListenerService,
+        DassetsCheckoutsService,
+        DassetsMigratorService,
+        DassetsCheckoutsPriceEstimatorService,
+        DassetsSyncerListenerService,
+        DassetsCheckoutsEventsProcessorService,
       ],
     },
     async beforeEachHandler(app) {
@@ -74,12 +84,17 @@ describe(DassetsCheckoutsStripeListenerService.name, () => {
         name: 'test',
       });
 
-      project.dassets.webhook_events_url = 'http://localhost:8000';
+      project.dassets_settings.webhook_events_url = 'http://localhost:8000';
       await project.save();
 
       const d_session = await dassets_session_service.create(user, {
         project: project.id,
-      });
+        asset_info: {
+          id: '1',
+          name: 'test',
+          image_url: 'https://dassets.io',
+        },
+      });      
 
       d_session.address = address;
       d_session.network = 'local-test';
@@ -89,15 +104,15 @@ describe(DassetsCheckoutsStripeListenerService.name, () => {
         data: {
           ...StripePaymentIntentMock,
           metadata: {
-            dasset_flow_session_id: d_session.id,
-            type: 'dasset-flow-session',
+            session_id: d_session.id,
+            type: 'dasset-checkout',
           },
         } as Stripe.PaymentIntent,
         evt_id: '123'
       });
 
       await new Promise((resolve, reject) => {
-        event_emitter.once('dassets.erc1155.nft-minted', () => resolve(undefined));
+        event_emitter.once('dassets.erc1155.nft-minted', () => resolve(0));
       });
 
     }, 30000);

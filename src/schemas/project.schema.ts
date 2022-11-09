@@ -8,15 +8,17 @@ export type ProjectDocument = Project & Document;
 
 @Schema({
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })
 @ObjectType()
-export class ProjectSyncerData {
+export class ProjectSyncerSettings {
 
   @Prop({ default: [] })
   @Field(type => [String])
@@ -27,19 +29,21 @@ export class ProjectSyncerData {
   public contracts_base_url: string;
 }
 
-export const ProjectSyncerDataSchema = fixSchema(SchemaFactory.createForClass(ProjectSyncerData), ProjectSyncerData);
+export const ProjectSyncerSettingsSchema = fixSchema(SchemaFactory.createForClass(ProjectSyncerSettings), ProjectSyncerSettings);
 
 @Schema({
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })
 @ObjectType()
-export class ProjectDassetsData {
+export class ProjectDassetsSettings {
 
   @Prop({ default: [] })
   @Field(type => [String])
@@ -54,7 +58,7 @@ export class ProjectDassetsData {
   public webhook_events_url: string;
 }
 
-export const ProjectDassetsDataSchema = fixSchema(SchemaFactory.createForClass(ProjectDassetsData), ProjectDassetsData);
+export const ProjectDassetsSettingsSchema = fixSchema(SchemaFactory.createForClass(ProjectDassetsSettings), ProjectDassetsSettings);
 
 @Schema({
   timestamps: {
@@ -62,10 +66,12 @@ export const ProjectDassetsDataSchema = fixSchema(SchemaFactory.createForClass(P
     updatedAt: 'updated_at'
   },
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false,
   id: false,
@@ -92,13 +98,13 @@ export class Project extends BaseClass {
   @Field({ nullable: true })
   public pic?: string;
 
-  @Prop({ type: ProjectDassetsDataSchema, default: () => new ProjectDassetsData() })
+  @Prop({ type: ProjectDassetsSettingsSchema, default: () => new ProjectDassetsSettings() })
   @Field()
-  public dassets?: ProjectDassetsData;
+  public dassets_settings?: ProjectDassetsSettings;
 
-  @Prop({ type: ProjectSyncerData, default: () => new ProjectSyncerData() })
+  @Prop({ type: ProjectSyncerSettings, default: () => new ProjectSyncerSettings() })
   @Field()
-  public syncer?: ProjectSyncerData;
+  public syncer_settings?: ProjectSyncerSettings;
 
   // public get fullName() {
   //   return `${this.firstName} ${this.lastName}`;

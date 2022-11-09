@@ -5,6 +5,42 @@ import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
+
+@Schema({
+  toObject: {
+    virtuals: true,
+    getters: true,
+  },
+  toJSON: {
+    virtuals: true,
+    getters: true,
+  },
+  minimize: false
+})
+@ObjectType()
+export class DassetsNftAssetInfo {
+
+  @Prop({ required: true })
+  @Field()
+  public id: string;
+
+  @Prop({ required: true })
+  @Field()
+  public name: string;
+
+  @Prop()
+  @Field({ nullable: true })
+  public description?: string;
+
+  @Prop()
+  @Field({ nullable: true })
+  public image_url?: string;
+
+}
+
+export const DassetsNftAssetInfoSchema = SchemaFactory.createForClass(DassetsNftAssetInfo);
+
+
 @ObjectType()
 export class DassetsCheckoutSessionPriceEstimate {
   @Field()
@@ -34,10 +70,12 @@ export type DassetsCheckoutSessionDocument = DassetsCheckoutSession & Document;
     updatedAt: 'updated_at'
   },
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })
@@ -56,27 +94,27 @@ export class DassetsCheckoutSession extends BaseClass {
   public project: string;
 
   @Prop({ lowercase: true })
-  @Field()
+  @Field({ nullable: true })
   public address?: string;
 
   @Prop()
-  @Field()
+  @Field({ nullable: true })
   public mint_tx?: string;
 
   @Prop()
-  @Field()
+  @Field({ nullable: true })
+  public mint_token_id?: number;
+
+  @Prop()
+  @Field({ nullable: true })
   public mint_request_id?: string;
 
   @Prop()
-  @Field()
-  public minted_token_id?: number;
-
-  @Prop()
-  @Field()
+  @Field({ nullable: true })
   public payment_id?: string;
 
   @Prop()
-  @Field()
+  @Field({ nullable: true })
   public network?: string;
 
   @Prop({ required: true })
@@ -91,9 +129,28 @@ export class DassetsCheckoutSession extends BaseClass {
   @Field()
   public expire_at: Date;
 
+  @Prop({ required: true, type: DassetsNftAssetInfoSchema })
+  @Field(type => DassetsNftAssetInfo)
+  public asset_info: DassetsNftAssetInfo;
+
   @Field()
   public get url(): string {
     return `${process.env['DA_CHECKOUT_URL']}/${this.id}`
+  };
+
+  @Field()
+  public get is_minted(): boolean {
+    return this.mint_tx !== undefined;
+  };
+
+  @Field()
+  public get is_payed(): boolean {
+    return this.payment_id !== undefined;
+  };
+
+  @Field()
+  public get is_expired(): boolean {
+    return this.expire_at < new Date();
   };
 
   @Field({ nullable: true })
@@ -101,7 +158,7 @@ export class DassetsCheckoutSession extends BaseClass {
 
 }
 
-export const DassetsCheckoutSessionSchema = SchemaFactory.createForClass(DassetsCheckoutSession);
+export const DassetsCheckoutSessionSchema = fixSchema(SchemaFactory.createForClass(DassetsCheckoutSession), DassetsCheckoutSession);
 
 export const DassetsCheckoutSessionModelModule = MongooseModule.forFeatureAsync([
   {

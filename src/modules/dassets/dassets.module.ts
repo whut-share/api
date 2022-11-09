@@ -23,7 +23,6 @@ import { DassetsEventsProcessorService } from './services/dassets-events-process
     ChainSyncerModule,
     WebhookModelModule,
     UserModelModule,
-    DassetsCheckoutSessionModelModule,
     StripeModule,
     AppSichModule,
   ],

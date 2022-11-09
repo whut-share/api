@@ -25,9 +25,9 @@ export class DassetsCheckoutsStripeListenerService {
   @OnEvent('stripe.payment_intent.succeeded', { async: true })
   async handlePaymentIntentSuccseeded(payload: IStripeEvent<Stripe.PaymentIntent>) {
     
-    const session_id = payload.data.metadata.dassets_checkout_id;
+    const session_id = payload.data.metadata.session_id;
     
-    if(payload.data.metadata.type !== 'dasset-flow-session' || !session_id) {
+    if(payload.data.metadata.type !== 'dasset-checkout' || !session_id) {
       return;
     }
 
@@ -50,7 +50,7 @@ export class DassetsCheckoutsStripeListenerService {
       ],
       network: session.network,
     });
-
+    
     session.payment_id = payload.data.id;
     await session.save();
 

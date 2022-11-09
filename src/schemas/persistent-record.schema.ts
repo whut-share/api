@@ -13,10 +13,12 @@ export type PersistentRecordDocument = PersistentRecord & Document;
     updatedAt: 'updated_at'
   },
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })
@@ -32,7 +34,7 @@ export class PersistentRecord {
 
 }
 
-export const PersistentRecordSchema = SchemaFactory.createForClass(PersistentRecord);
+export const PersistentRecordSchema = fixSchema(SchemaFactory.createForClass(PersistentRecord), PersistentRecord);
 
 export const PersistentRecordModelModule = MongooseModule.forFeatureAsync([
   {

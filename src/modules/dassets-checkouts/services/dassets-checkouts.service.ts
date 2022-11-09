@@ -38,6 +38,7 @@ export class DassetsCheckoutsService {
       project: data.project,
       contract_type: 'erc1155',
       expire_at: new Date(Date.now() + (3600 * 24 * 1000)),
+      asset_info: data.asset_info,
     });
   }
 
@@ -87,12 +88,12 @@ export class DassetsCheckoutsService {
         enabled: true,
       },
       metadata: {
-        type: 'dasset-flow-session',
-        dassets_checkout_id: session.id,
+        type: 'dasset-checkout',
+        session_id: session.id,
       },
     });
 
 
-    return pi.client_secret;
+    return { client_secret: pi.client_secret };
   }
 }

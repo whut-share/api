@@ -13,10 +13,12 @@ export type WebhookDocument = Webhook & Document;
     updatedAt: 'updated_at'
   },
   toObject: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   toJSON: {
-    virtuals: true
+    virtuals: true,
+    getters: true,
   },
   minimize: false
 })
@@ -57,7 +59,7 @@ export class Webhook extends BaseClass {
 
 }
 
-export const WebhookSchema = SchemaFactory.createForClass(Webhook);
+export const WebhookSchema = fixSchema(SchemaFactory.createForClass(Webhook), Webhook);
 
 export const WebhookModelModule = MongooseModule.forFeatureAsync([
   {
