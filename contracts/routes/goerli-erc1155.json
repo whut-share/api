@@ -1,6 +1,6 @@
 {
-  "tx_hash": "0x5c14b8d8bf2b8ec507632f7f4260bbdf195645337cb2b7f620aa8b3728fbb869",
-  "address": "0x326e2B904b930f515B3A58BBD01a07F70Fc003c7",
+  "tx_hash": "0x9761e5b646bf335818fa3c31b436a50184ef6eab7667313dc8c74fc5b3795d54",
+  "address": "0x959D9f14375F33c816C4F3859530B164B795F267",
   "network": "goerli",
   "contract": "InteractERC1155"
 }
