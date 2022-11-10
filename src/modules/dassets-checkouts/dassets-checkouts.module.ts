@@ -42,6 +42,6 @@ import { DassetsCheckoutsController } from './dassets-checkouts.controller';
     DassetsCheckoutsStripeListenerService,
     DassetsCheckoutsResolver,
   ],
-  controllers: [DassetsCheckoutsController],
+  // controllers: [DassetsCheckoutsController],
 })
 export class DassetsCheckoutsModule {}

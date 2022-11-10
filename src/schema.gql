@@ -65,6 +65,7 @@ type DassetsCheckoutSession {
   mint_token_id: Float
   mint_request_id: String
   payment_id: String
+  payment_expires_at: DateTime
   network: String
   contract_type: String!
   is_succeeded: Boolean!
@@ -105,6 +106,7 @@ type Mutation {
   webhookEndpointUpdate(id: ObjectId!, data: IWebhookEndpointUpdate!): WebhookEndpoint!
   dassetsCheckoutSessionCreate(data: IDassetsCheckoutSessionCreate!): DassetsCheckoutSession!
   dassetsCheckoutSessionUpdate(id: ObjectId!, data: IDassetsCheckoutSessionUpdate!): DassetsCheckoutSession!
+  dassetsCheckoutSessionAttachStripePaymentIntent(id: ObjectId!): DassetsCheckoutSession!
 }
 
 input IUserSignUp {
