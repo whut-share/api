@@ -23,7 +23,7 @@ export class Sich {
 
   protected fee_data = {
     price: '',
-    expire_at: new Date(0),
+    expires_at: new Date(0),
   }
 
   constructor(adapter: ISichStorageAdapter, opts: ISichOpts) {

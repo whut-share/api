@@ -8,6 +8,7 @@ import { DassetsCheckoutsPriceEstimatorService } from './dassets-checkouts-price
 import { merge } from 'lodash';
 import { IDassetsCheckoutSessionUpdate } from '../interfaces/dassets-checkout-session-update.interface';
 import { IDassetsCheckoutSessionCreate } from '../interfaces/dassets-checkout-session-create.interface';
+import { Cron } from '@nestjs/schedule';
 
 @Injectable()
 export class DassetsCheckoutsService {
@@ -26,6 +27,22 @@ export class DassetsCheckoutsService {
   ) {}
 
 
+  @Cron('* * * * * *')
+  async resetExpiredPayments() {
+    
+    await this.dassets_checkout_session_model.updateMany({
+      payment_expires_at: {
+        $lte: new Date(),
+      },
+    }, {
+      $set: {
+        payment_expires_at: null,
+        payment_id: null,
+      }
+    });
+  }
+
+
   async create(user: UserDocument, data: IDassetsCheckoutSessionCreate) {
 
     const project = await this.project_model.findOne({ _id: data.project });
@@ -37,7 +54,7 @@ export class DassetsCheckoutsService {
     return await this.dassets_checkout_session_model.create({
       project: data.project,
       contract_type: 'erc1155',
-      expire_at: new Date(Date.now() + (3600 * 24 * 1000)),
+      expires_at: new Date(Date.now() + (3600 * 24 * 1000)),
       asset_info: data.asset_info,
     });
   }
@@ -76,8 +93,7 @@ export class DassetsCheckoutsService {
   }
 
 
-  async createStripePaymentIntent(session: DassetsCheckoutSessionDocument) {
-
+  async attachStripePaymentIntent(session: DassetsCheckoutSessionDocument): Promise<DassetsCheckoutSessionDocument> {
     const { price } = await this.dassets_price_estimator_service
       .estimate(session.network, session.contract_type);
 
@@ -93,7 +109,11 @@ export class DassetsCheckoutsService {
       },
     });
 
+    session.stripe_pi_client_secret = pi.client_secret;
+    session.payment_id = pi.id;
+    session.payment_expires_at = new Date(Date.now() + (60 * 5 * 1000));
+    await session.save();
 
-    return { client_secret: pi.client_secret };
+    return session;
   }
 }

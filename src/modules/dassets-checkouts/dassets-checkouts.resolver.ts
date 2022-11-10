@@ -71,4 +71,13 @@ export class DassetsCheckoutsResolver {
     const dc_session = await this.dassets_checkouts_service.getOrFail(id);
     return await this.dassets_checkouts_service.update(dc_session, data);
   }
+
+
+  @Mutation(returns => DassetsCheckoutSession)
+  async dassetsCheckoutSessionAttachStripePaymentIntent(
+    @Args('id', { type: () => ObjectIdScalar }) id: string
+  ): Promise<DassetsCheckoutSessionDocument> {
+    const dc_session = await this.dassets_checkouts_service.getOrFail(id);
+    return await this.dassets_checkouts_service.attachStripePaymentIntent(dc_session);
+  }
 }

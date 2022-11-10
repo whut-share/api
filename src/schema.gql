@@ -68,13 +68,14 @@ type DassetsCheckoutSession {
   network: String
   contract_type: String!
   is_succeeded: Boolean!
-  expire_at: DateTime!
+  expires_at: DateTime!
   asset_info: DassetsNftAssetInfo!
   url: String!
   is_minted: Boolean!
   is_payed: Boolean!
   is_expired: Boolean!
   price_estimation: DassetsCheckoutSessionPriceEstimate
+  stripe_pi_client_secret: String
 }
 
 type WebhookEndpoint {

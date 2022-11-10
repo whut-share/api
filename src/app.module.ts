@@ -16,10 +16,12 @@ import { EventEmitterModule } from '@nestjs/event-emitter';
 import { StripeModule } from './modules/stripe/stripe.module';
 import { WebhookEndpointsModule } from './modules/webhook-endpoints/webhook-endpoints.module';
 import { DassetsCheckoutsModule } from './modules/dassets-checkouts/dassets-checkouts.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
 
+    ScheduleModule.forRoot(),
     EventEmitterModule.forRoot(),
     AppGqlModule,
     AppMongooseModule,
