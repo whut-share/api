@@ -31,16 +31,22 @@ export class DassetsCheckoutsPriceEstimatorService {
     const { total_eth, gas, gas_price } = await this.sich.estimateJobGas(contract_name, 'mint', args, network_key);
     const network = networks_list.find(n => n.key === network_key);
     
-    const data = await Axios.get('https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest', {
-      headers: {
-        'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY
-      },
-      params: {
-        symbol: network.native_curr_symbol,
-      }
-    }).then(res => res.data.data['ETH'][0]);
+    let eth_price: number = 1;
+    
+    if(network.native_curr_symbol === 'GoETH') {
+      eth_price = 100000;
+    } else {
+      const data = await Axios.get('https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest', {
+        headers: {
+          'X-CMC_PRO_API_KEY': process.env.CMC_API_KEY
+        },
+        params: {
+          symbol: network.native_curr_symbol,
+        }
+      }).then(res => res.data.data['ETH'][0]);
 
-    const eth_price = data.quote['USD'].price;
+      eth_price = data.quote['USD'].price;
+    }
 
     // min price for minting will always be 1 USD
     const price = Math.max(DASSETS_MIN_USD_MINTING_PRICE, eth_price * (total_eth * (1 + DASSETS_CONVERTATION_SLIPPAGE)));
