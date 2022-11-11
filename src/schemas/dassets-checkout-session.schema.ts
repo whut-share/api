@@ -137,6 +137,10 @@ export class DassetsCheckoutSession extends BaseClass {
   @Field(type => DassetsNftAssetInfo)
   public asset_info: DassetsNftAssetInfo;
 
+  @Prop({ default: false })
+  @Field()
+  public is_payed: boolean;
+
   @Field()
   public get url(): string {
     return `${process.env['DA_CHECKOUT_URL']}/${this.id}`
@@ -146,9 +150,6 @@ export class DassetsCheckoutSession extends BaseClass {
   public get is_minted(): boolean {
     return this.mint_tx !== undefined;
   };
-
-  @Field()
-  public is_payed: boolean;
 
   @Field()
   public get is_expired(): boolean {

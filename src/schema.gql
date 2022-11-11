@@ -71,9 +71,9 @@ type DassetsCheckoutSession {
   is_succeeded: Boolean!
   expires_at: DateTime!
   asset_info: DassetsNftAssetInfo!
+  is_payed: Boolean!
   url: String!
   is_minted: Boolean!
-  is_payed: Boolean!
   is_expired: Boolean!
   price_estimation: DassetsCheckoutSessionPriceEstimate
   stripe_pi_client_secret: String
