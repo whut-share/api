@@ -2,7 +2,7 @@ import { Inject, Injectable, Logger, LoggerService, OnModuleInit } from '@nestjs
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
-import { PersistentRecord, PersistentRecordDocument, Project, ProjectDocument, ScanTarget, User, UserDocument } from '@/schemas';
+import { PersistentRecord, PersistentRecordDocument, Project, TProjectDocument, User, TUserDocument } from '@/schemas';
 import * as FS from 'fs'
 import * as Ethers from 'ethers';
 import { join } from 'path';

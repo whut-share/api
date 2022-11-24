@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DassetsCheckoutSessionModelModule, DassetsNftModelModule, ProjectModelModule, ScanTargetModelModule, User, UserModelModule, UserSchema, WebhookModelModule } from '@/schemas';
+import { DassetsCheckoutSessionModelModule, DassetsNftModelModule, ProjectModelModule, SyncerInstanceModelModule, User, UserModelModule, UserSchema, WebhookModelModule } from '@/schemas';
 import { DassetsMigrateCmd } from './cmd/dassets-migrate.cmd';
 import { DassetsMigratorService } from './services/dassets-migrator.service';
-import { SyncerService } from '../syncer/services/syncer.service';
 import { DassetsSyncerListenerService } from './services/dassets-syncer-listener.service';
 import { DassetsMintCmd } from './cmd/dassets-mint.cmd';
 import { DassetsMinterService } from './services/dassets-minter.service';
@@ -14,10 +13,10 @@ import { StripeModule } from '../stripe/stripe.module';
 import { AppSichModule } from '@/providers/app-sich.module';
 import { AuthService } from '../auth/services/auth.service';
 import { DassetsEventsProcessorService } from './services/dassets-events-processor.service';
+import { EventEmitterModule } from '../event-emitter/event-emitter.module';
 
 @Module({
   imports: [
-    ScanTargetModelModule,
     ProjectModelModule,
     DassetsNftModelModule,
     ChainSyncerModule,
@@ -25,12 +24,13 @@ import { DassetsEventsProcessorService } from './services/dassets-events-process
     UserModelModule,
     StripeModule,
     AppSichModule,
+    SyncerInstanceModelModule,
+    EventEmitterModule,
   ],
   providers: [
     AuthService,
     DassetsMigrateCmd,
     DassetsMigratorService,
-    SyncerService,
     DassetsMintCmd,
     DassetsMinterService,
     WebhooksService,

@@ -1,5 +1,5 @@
 export * from './user.schema';
-export * from './scan-target.schema';
+export * from './event-emitter-instance.schema';
 export * from './project.schema';
 export * from './dassets-nft.schema';
 export * from './webhook.schema';
@@ -7,3 +7,6 @@ export * from './archive-webhook.schema';
 export * from './persistent-record.schema';
 export * from './dassets-checkout-session.schema';
 export * from './webhook-endpoint.schema';
+export * from './syncer-instance.schema'
+export * from './queued-syncer-event.schema'
+export * from './syncer-event.schema'

@@ -7,7 +7,7 @@ import { FileManager } from '@/libs/file-manager';
 import { ObjectIdScalar } from '@/graphql/scalars';
 import { Field, ObjectType } from '@nestjs/graphql';
 
-export type UserDocument = User & Document;
+export type TUserDocument = User & Document;
 
 @Schema({
   timestamps: {

@@ -1,12 +1,11 @@
-import { ObjectIdScalar } from "@/graphql/scalars";
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType()
-export class IWebhookEndpointUpdate {
+export class ISyncerEventsFilter {
+  
+  @Field({ nullable: true })
+  event_emitter_instance?: string;
 
   @Field({ nullable: true })
-  url: string;
-
-  @Field({ nullable: true })
-  key: string;
+  is_processed?: boolean;
 }

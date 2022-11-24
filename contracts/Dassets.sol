@@ -5,7 +5,7 @@ pragma solidity 0.8.4;
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract InteractERC1155 is ERC1155Burnable, Ownable {
+contract Dassets is ERC1155Burnable, Ownable {
 
   event NftMinted(
     bytes32 mint_request_id,

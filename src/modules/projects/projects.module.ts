@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DassetsNftModelModule, ProjectModelModule, ScanTargetModelModule, User, UserSchema } from '@/schemas';
+import { DassetsNftModelModule, ProjectModelModule, User, UserSchema } from '@/schemas';
 import { ProjectsService } from './services/projects.service';
 import { ProjectsSeedCmd } from './cmd/projects-seed.cmd';
 

@@ -25,7 +25,7 @@ export const randomElement = <T>(array: T[]): T => {
 export const assemblyContractRoute = (contract: string, network: string) => {
 
   const mapping = {
-    'InteractERC1155': 'erc1155',
+    'Dassets': 'erc1155',
     'InteractERC721': 'erc721',
   }
 
@@ -35,7 +35,7 @@ export const assemblyContractRoute = (contract: string, network: string) => {
 export const typeToContractName = (type: string): string => {
 
   const mapping = {
-    'erc1155': 'InteractERC1155',
+    'erc1155': 'Dassets',
     'erc721': 'InteractERC721',
   }
 
@@ -56,6 +56,10 @@ export const generateDefaultTestingModule = async (metadata: ModuleMetadata = {}
   const app: TestingModule = await Test.createTestingModule(metadata).compile();
 
   return app;
+}
+
+export function getEventsFromAbi(abi: any[]): any[] {
+  return abi.filter(e => e.type === "event").map(n => n.name);
 }
 
 export const generateDefaultTestHooks = (opts: {

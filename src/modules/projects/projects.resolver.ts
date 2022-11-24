@@ -2,7 +2,7 @@ import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nes
 import * as Dataloader from 'dataloader';
 import { Loader } from 'nestjs-dataloader';
 
-import { Project, ProjectDocument, User, UserDocument } from "@/schemas";
+import { Project, TProjectDocument, User, TUserDocument } from "@/schemas";
 import { ObjectIdScalar } from "@/graphql/scalars";
 import { IPagination, ISort } from "@/interfaces";
 import { UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
@@ -26,8 +26,8 @@ export class ProjectsResolver {
   @Query(returns => [Project])
   @UseGuards(GqlAuthGuard)
   async projects(
-    @UserParam() user: UserDocument,
-  ): Promise<ProjectDocument[]> {
+    @UserParam() user: TUserDocument,
+  ): Promise<TProjectDocument[]> {
     return await this.projects_service.select(user);
   }
 
@@ -35,9 +35,9 @@ export class ProjectsResolver {
   @Query(returns => Project)
   @UseGuards(GqlAuthGuard)
   async project(
-    @UserParam() user: UserDocument,
+    @UserParam() user: TUserDocument,
     @Args('id', { type: () => ObjectIdScalar }) id: string,
-  ): Promise<ProjectDocument> {
+  ): Promise<TProjectDocument> {
     return await this.projects_service.getOrFail(user, id);
   }
 
@@ -45,9 +45,9 @@ export class ProjectsResolver {
   @Mutation(returns => Project)
   @UseGuards(GqlAuthGuard)
   async projectCreate(
-    @UserParam() user: UserDocument,
+    @UserParam() user: TUserDocument,
     @Args('data') data: IProjectCreate
-  ): Promise<ProjectDocument> {
+  ): Promise<TProjectDocument> {
     return await this.projects_service.create(user, data);
   }
 
@@ -55,10 +55,10 @@ export class ProjectsResolver {
   @Mutation(returns => Project)
   @UseGuards(GqlAuthGuard)
   async projectUpdate(
-    @UserParam() user: UserDocument,
+    @UserParam() user: TUserDocument,
     @Args('id', { type: () => ObjectIdScalar }) id: string,
     @Args('data') data: IProjectUpdate
-  ): Promise<ProjectDocument> {
+  ): Promise<TProjectDocument> {
     return await this.projects_service.update(user, id, data);
   }
 }

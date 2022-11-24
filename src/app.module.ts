@@ -14,7 +14,6 @@ import { AppGqlModule } from './providers/app-gql.module';
 import { AppSichModule } from './providers/app-sich.module';
 import { EventEmitterModule } from '@nestjs/event-emitter';
 import { StripeModule } from './modules/stripe/stripe.module';
-import { WebhookEndpointsModule } from './modules/webhook-endpoints/webhook-endpoints.module';
 import { DassetsCheckoutsModule } from './modules/dassets-checkouts/dassets-checkouts.module';
 import { ScheduleModule } from '@nestjs/schedule';
 
@@ -36,7 +35,6 @@ import { ScheduleModule } from '@nestjs/schedule';
     WebhooksModule,
     AuthModule,
     StripeModule,
-    WebhookEndpointsModule,
     DassetsCheckoutsModule,
   ],
   controllers: [AppController],

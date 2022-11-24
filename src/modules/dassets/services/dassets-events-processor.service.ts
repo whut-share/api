@@ -1,14 +1,15 @@
 // sync dassets wimport { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, DassetsNft, Project, ScanTarget, User } from '@/schemas';
+import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, DassetsNft, Project, QueuedSyncerEvent, SyncerInstance, TProjectDocument, TQueuedSyncerEventDocument, TSyncerInstanceDocument, User } from '@/schemas';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { BigNumber, utils } from 'ethers';
 import { ChainSyncerProvider } from '@/providers/chain-syncer';
 import { WebhooksService } from '@/modules/webhooks/services/webhooks.service';
 import { EventEmitter2, OnEvent } from '@nestjs/event-emitter';
-import { IDassetsErc1155NftMintedEvent } from '../interfaces/dassets-erc1155-nft-minted-event.interface';
-import { IDassetsErc1155TransferSingleEvent } from '../interfaces/dassets-erc1155-transfer-single-event.interface';
+import { IDassetsNftMintedEvent } from '../interfaces/dassets-erc1155-nft-minted-event.interface';
+import { IDassetsTransferSingleEvent } from '../interfaces/dassets-erc1155-transfer-single-event.interface';
+import { EventEmitterEventsService } from '@/modules/event-emitter/services/event-emitter-events.service';
 
 @Injectable()
 export class DassetsEventsProcessorService {
@@ -17,16 +18,19 @@ export class DassetsEventsProcessorService {
   constructor(
 
     @InjectModel(Project.name)
-    private project_model: Model<Project>,
+    private project_model: Model<TProjectDocument>,
 
     @InjectModel(DassetsNft.name)
     private dasset_nft_model: Model<DassetsNft>,
 
-    private readonly webhooks_service: WebhooksService,
+    @InjectModel(SyncerInstance.name)
+    private syncer_instance_model: Model<TSyncerInstanceDocument>,
+
+    private readonly event_emitter_events_service: EventEmitterEventsService,
   ) {}
 
-  @OnEvent('dassets.erc1155.nft-minted', { async: true })
-  async handleErc1155NftMinted(payload: IDassetsErc1155NftMintedEvent) {
+  @OnEvent('dassets.nft-minted', { async: true })
+  async handleErc1155NftMinted(payload: IDassetsNftMintedEvent) {
 
     const {
       mint_request_id,
@@ -41,8 +45,10 @@ export class DassetsEventsProcessorService {
       _id: project_id,
     });
 
+    const nft_id = DassetsNft.formatId(network, token_id);
+
     let nft = await this.dasset_nft_model.create({
-      _id: DassetsNft.formatId(network, token_id),
+      _id: nft_id,
       project: project_id,
       owner: to,
       mint_tx: event_metadata.transaction_hash,
@@ -50,7 +56,7 @@ export class DassetsEventsProcessorService {
       token_id: token_id,
       owner_synced_at: event_metadata.global_index,
       mint_request_id: mint_request_id,
-    }).catch(err => err.code === 11000 ? null : err);
+    }).catch(err => err.code === 11000 ? this.dasset_nft_model.findOne({ _id: nft_id }) : err);
 
     if(!nft) {
       nft = await this.dasset_nft_model.findOne({
@@ -58,28 +64,26 @@ export class DassetsEventsProcessorService {
       });
     }
 
-    const event_body = {
-      type: 'dassets',
-      name: 'NftMinted',
-      nft: nft.toObject(),
-      data: {
-        to,
-        project_id,
-        token_id,
-      },
+    const event_id = utils.keccak256(utils.toUtf8Bytes(`${network}_${event_metadata.global_index}`));
+
+    const event = {
+      id: event_id,
+      name: 'Dassets.NftMinted',
+      payload: nft.toObject(),
       metadata: event_metadata,
     };
 
-    await this.webhooks_service.addWebhook({
-      url: project.dassets_settings.webhook_events_url,
-      data: event_body,
+    const syncer_instance = await this.syncer_instance_model.findOne({
       project: project.id,
-      event_id: utils.keccak256(utils.toUtf8Bytes(`${network}_${event_metadata.global_index}`)),
+      preset: 'dassets',
     });
+
+    await this.event_emitter_events_service.distribute(syncer_instance, event);
+
   }
 
-  @OnEvent('dassets.erc1155.transfer-single', { async: true })
-  async handleErc1155TransferSingle(payload: IDassetsErc1155TransferSingleEvent) {
+  @OnEvent('dassets.transfer-single', { async: true })
+  async handleErc1155TransferSingle(payload: IDassetsTransferSingleEvent) {
 
     const {
       network,
@@ -91,8 +95,10 @@ export class DassetsEventsProcessorService {
       value,
     } = payload;
 
+    const nft_id = DassetsNft.formatId(network, token_id);
+
     const nft = await this.dasset_nft_model.findOne({
-      _id: DassetsNft.formatId(network, token_id),
+      _id: nft_id,
     });
 
     if(!nft) {
@@ -113,25 +119,20 @@ export class DassetsEventsProcessorService {
       _id: nft.project,
     });
 
-    const event_body = {
-      type: 'dassets',
-      name: 'TransferSingle',
-      nft: nft.toObject(),
-      body: {
-        operator,
-        from,
-        to,
-        token_id,
-        value,
-      },
+    const event_id = utils.keccak256(utils.toUtf8Bytes(`${network}_${event_metadata.global_index}`));
+
+    const event = {
+      id: event_id,
+      name: 'Dassets.Transfer',
+      payload: nft.toObject(),
       metadata: event_metadata,
     };
 
-    await this.webhooks_service.addWebhook({
-      url: project.dassets_settings.webhook_events_url,
-      data: event_body,
-      event_id: utils.keccak256(utils.toUtf8Bytes(`${network}_${event_metadata.global_index}`)),
+    const syncer_instance = await this.syncer_instance_model.findOne({
       project: project.id,
+      preset: 'dassets',
     });
+
+    await this.event_emitter_events_service.distribute(syncer_instance, event);
   }
 }

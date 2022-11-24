@@ -4,7 +4,7 @@ import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
-export type ProjectDocument = Project & Document;
+export type TProjectDocument = Project & Document;
 
 @Schema({
   toObject: {

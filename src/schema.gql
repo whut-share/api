@@ -39,6 +39,24 @@ type Project {
   syncer_settings: ProjectSyncerSettings!
 }
 
+type SyncerEvent {
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: String!
+  internal_id: String!
+  name: String!
+  payload: JSON
+  args: JSON
+  event_emitter_instance: String!
+  metadata: JSON!
+  is_processed: Boolean!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
 type DassetsNftAssetInfo {
   id: String!
   name: String!
@@ -79,13 +97,15 @@ type DassetsCheckoutSession {
   stripe_pi_client_secret: String
 }
 
-type WebhookEndpoint {
+type SyncerInstanceContract {
   created_at: DateTime!
   updated_at: DateTime!
-  id: String!
-  project: String!
-  url: String!
-  key: String!
+  network: String!
+  address: String!
+  deploy_tx: String!
+  contract_name: String!
+  events: [String!]!
+  abi: JSON!
 }
 
 type Query {
@@ -93,8 +113,6 @@ type Query {
   users: [User!]!
   projects: [Project!]!
   project(id: ObjectId!): Project!
-  webhook_endpoints: [WebhookEndpoint!]!
-  webhook_endpoint(id: ObjectId!): WebhookEndpoint!
   dassets_checkout_session(id: ObjectId!): DassetsCheckoutSession!
 }
 
@@ -102,8 +120,6 @@ type Mutation {
   userSignUp(data: IUserSignUp!): User!
   projectCreate(data: IProjectCreate!): Project!
   projectUpdate(id: ObjectId!, data: IProjectUpdate!): Project!
-  webhookEndpointCreate(data: IWebhookEndpointCreate!): WebhookEndpoint!
-  webhookEndpointUpdate(id: ObjectId!, data: IWebhookEndpointUpdate!): WebhookEndpoint!
   dassetsCheckoutSessionCreate(data: IDassetsCheckoutSessionCreate!): DassetsCheckoutSession!
   dassetsCheckoutSessionUpdate(id: ObjectId!, data: IDassetsCheckoutSessionUpdate!): DassetsCheckoutSession!
   dassetsCheckoutSessionAttachStripePaymentIntent(id: ObjectId!): DassetsCheckoutSession!
@@ -127,17 +143,6 @@ input IProjectDassetsSettingsUpdate {
   include_networks: [String!]
   token_base_url: String
   webhook_events_url: String
-}
-
-input IWebhookEndpointCreate {
-  project: ObjectId!
-  url: String
-  key: String
-}
-
-input IWebhookEndpointUpdate {
-  url: String
-  key: String
 }
 
 input IDassetsCheckoutSessionCreate {

@@ -1,6 +1,6 @@
 import { getModelToken, MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Field, ID, Int, ObjectType } from '@nestjs/graphql';
-import { Document, Mixed, Model, ObjectId, Types } from 'mongoose';
+import { Document, Mixed, Model, ObjectId, SchemaTypes, Types } from 'mongoose';
 import { ObjectIdScalar, AddressScalar } from '@/graphql/scalars';
 import { FileManager } from '@/libs/file-manager';
 import { Inject, Module } from '@nestjs/common';
@@ -34,7 +34,7 @@ export class TempFile extends BaseClass {
   @Prop()
   public user: string;
 
-  @Prop({ default: {}, type: Object })
+  @Prop({ default: {}, type: SchemaTypes.Mixed })
   public metadata?: any;
 
   public get url() {

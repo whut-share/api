@@ -1,14 +1,15 @@
 // sync dassets wimport { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { DassetsNft, Project, ScanTarget, User } from '@/schemas';
+import { DassetsNft, Project, User } from '@/schemas';
 import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import { BigNumber, utils } from 'ethers';
 import { ChainSyncerProvider } from '@/providers/chain-syncer';
 import { WebhooksService } from '@/modules/webhooks/services/webhooks.service';
 import { EventEmitter2 } from '@nestjs/event-emitter';
-import { IDassetsErc1155NftMintedEvent } from '../interfaces/dassets-erc1155-nft-minted-event.interface';
-import { IDassetsErc1155TransferSingleEvent } from '../interfaces/dassets-erc1155-transfer-single-event.interface';
+import { IDassetsNftMintedEvent } from '../interfaces/dassets-erc1155-nft-minted-event.interface';
+import { IDassetsTransferSingleEvent } from '../interfaces/dassets-erc1155-transfer-single-event.interface';
+import { IChainSyncerEventMetadata } from 'chain-syncer';
 
 @Injectable()
 export class DassetsSyncerListenerService implements OnModuleInit {
@@ -22,16 +23,16 @@ export class DassetsSyncerListenerService implements OnModuleInit {
 
   async onModuleInit() {
 
-    const chsy_instances = this.chsy_provider.get();
+    const chsy_instances = this.chsy_provider.selectAllInstances();
 
     for (const network in chsy_instances) {
 
-      chsy_instances[network].on('!InteractERC1155.NftMinted', async (
+      chsy_instances[network].on('!Dassets.NftMinted', async (
         mint_request_id: string,
         to: string, 
         id: string, 
         project_id: string,
-        event_metadata,
+        event_metadata: IChainSyncerEventMetadata,
       ) => {
 
         to = to.toLowerCase();
@@ -40,7 +41,7 @@ export class DassetsSyncerListenerService implements OnModuleInit {
         mint_request_id = utils.parseBytes32String(mint_request_id);
 
         await this.event_emitter.emitAsync(
-          'dassets.erc1155.nft-minted',
+          'dassets.nft-minted',
           {
             mint_request_id,
             to,
@@ -48,12 +49,12 @@ export class DassetsSyncerListenerService implements OnModuleInit {
             project_id,
             event_metadata,
             network,
-          } as IDassetsErc1155NftMintedEvent,
+          } as IDassetsNftMintedEvent,
         );
       })
 
 
-      chsy_instances[network].on('!InteractERC1155.TransferSingle', async (
+      chsy_instances[network].on('!Dassets.TransferSingle', async (
         operator: string,
         from: string,
         to: string,
@@ -68,7 +69,7 @@ export class DassetsSyncerListenerService implements OnModuleInit {
         const token_id = Number(id);
 
         await this.event_emitter.emitAsync(
-          'dassets.erc1155.transfer-single',
+          'dassets.transfer-single',
           {
             operator,
             from,
@@ -77,7 +78,7 @@ export class DassetsSyncerListenerService implements OnModuleInit {
             value,
             event_metadata,
             network,
-          } as IDassetsErc1155TransferSingleEvent,
+          } as IDassetsTransferSingleEvent,
         );
       })
     }

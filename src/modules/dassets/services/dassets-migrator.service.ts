@@ -2,8 +2,7 @@ import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
-import { ScanTarget, User } from '@/schemas';
-import { SyncerService } from '@/modules/syncer/services/syncer.service';
+import { User } from '@/schemas';
 import { networks_list } from '@/providers/networks/networks-list';
 import * as FS from 'fs'
 import * as Ethers from 'ethers';
@@ -64,7 +63,7 @@ export class DassetsMigratorService {
     const routes: ContractRoute[] = networks.reduce<ContractRoute[]>((acc, n) => {
       return [ ...acc, {
         key: `${n.key}-erc1155`,
-        contract: 'InteractERC1155',
+        contract: 'Dassets',
         network: n.key,
         default_rpc: n.default_rpc,
         archive_rpc: n.archive_rpc,

@@ -2,11 +2,8 @@ import { Injectable, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Document, Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
-import { ArchiveWebhook, ArchiveWebhookDocument, ScanTarget, User, Webhook, WebhookDocument } from '@/schemas';
-import { SyncerService } from '@/modules/syncer/services/syncer.service';
+import { ArchiveWebhook, ArchiveTWebhookDocument, User, Webhook, TWebhookDocument } from '@/schemas';
 import { networks_list } from '@/providers/networks/networks-list';
-import * as FS from 'fs'
-import * as Ethers from 'ethers';
 import Axios from 'axios';
 import { join } from 'path';
 import { assemblyContractRoute } from '@/helpers';
@@ -21,20 +18,14 @@ export class WebhooksLoopService implements OnModuleInit, OnModuleDestroy {
 
   constructor(
     @InjectModel(Webhook.name)
-    private webhook_model: Model<WebhookDocument>,
+    private webhook_model: Model<TWebhookDocument>,
 
     @InjectModel(ArchiveWebhook.name)
-    private archive_webhook_model: Model<ArchiveWebhookDocument>,
+    private archive_webhook_model: Model<ArchiveTWebhookDocument>,
   ) {}
 
-  async onProcess(webhook: Webhook) {
-    const res = await Axios.post(webhook.url, {
-      event_id: webhook.event_id,
-      attempt: webhook.attempt,
-      max_attempts: WEBHOOK_MAX_ATTEMPTS,
-      data: webhook.data,
-      created_at: webhook.created_at,
-    }, {
+  async onProcess(webhook: TWebhookDocument) {
+    const res = await Axios.post(webhook.url, webhook.toObject(), {
       timeout: WEBHOOK_TIMEOUT,
     }).catch(err => err.response);
 

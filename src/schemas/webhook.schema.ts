@@ -1,11 +1,12 @@
 import { FileManager } from '@/libs/file-manager';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Mixed, ObjectId, Types } from 'mongoose';
+import { Document, Mixed, ObjectId, SchemaTypes, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 import GraphQLJSON from 'graphql-type-json';
+import { SyncerEvent, SyncerEventSchema } from './syncer-event.schema';
 
-export type WebhookDocument = Webhook & Document;
+export type TWebhookDocument = Webhook & Document;
 
 @Schema({
   timestamps: {
@@ -28,12 +29,12 @@ export class Webhook extends BaseClass {
   public _id: ObjectId;
 
   public get id(): string {
-    return this._id.toString();
+    return String(this._id);
   }
 
   @Prop({ required: true })
   @Field()
-  public project: string;
+  public event_emitter_instance: string;
 
   @Prop({ default: 0 })
   @Field()
@@ -43,18 +44,14 @@ export class Webhook extends BaseClass {
   @Field()
   public url: string;
 
-  @Prop({ required: true })
-  @Field()
-  public event_id: string;
+  @Prop({ required: true, type: SyncerEventSchema })
+  @Field(type => SyncerEvent)
+  public event: SyncerEvent;
 
-  @Prop({ required: true, type: Object })
-  @Field(type => GraphQLJSON)
-  public data: any;
-
-  @Prop({ type: Object })
+  @Prop({ type: SchemaTypes.Mixed })
   public response_body?: any;
 
-  @Prop({ default: {}, type: Object })
+  @Prop({ default: {}, type: SchemaTypes.Mixed })
   public metadata?: any;
 
 }

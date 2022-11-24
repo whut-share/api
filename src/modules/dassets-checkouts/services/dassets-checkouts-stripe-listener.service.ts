@@ -2,7 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
-import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, ScanTarget, User, UserDocument } from '@/schemas';
+import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, User, TUserDocument } from '@/schemas';
 import * as Ethers from 'ethers';
 import { assemblyContractRoute, getContractsPath, getInternalContractData, typeToContractName } from '@/helpers';
 import Stripe from 'stripe';

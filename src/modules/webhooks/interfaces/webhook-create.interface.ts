@@ -1,7 +1,8 @@
+import { SyncerEvent } from "@/schemas";
+
 export class IWebhookCreate {
-  project: string;
   url: string;
-  event_id: string;
-  data: any;
+  event: SyncerEvent;
+  event_emitter_instance: string;
   metadata?: any;
 }

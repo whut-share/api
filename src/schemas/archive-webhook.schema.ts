@@ -5,7 +5,7 @@ import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 import { Webhook } from './webhook.schema';
 
-export type ArchiveWebhookDocument = ArchiveWebhook & Document;
+export type ArchiveTWebhookDocument = ArchiveWebhook & Document;
 
 @Schema({
   timestamps: {

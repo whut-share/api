@@ -2,6 +2,7 @@ import { ObjectIdScalar } from "@/graphql/scalars";
 import { ApolloDriver, ApolloDriverConfig } from "@nestjs/apollo";
 import { GraphQLModule } from "@nestjs/graphql";
 import { join } from "path";
+import GraphQLJSON from 'graphql-type-json';
 
 export const AppGqlModule = GraphQLModule.forRoot<ApolloDriverConfig>({
   driver: ApolloDriver,
@@ -26,6 +27,6 @@ export const AppGqlModule = GraphQLModule.forRoot<ApolloDriverConfig>({
     ObjectId: ObjectIdScalar,
     // Void: VoidScalar,
     // Address: AddressScalar,
-    // JSON: GraphQLJSON,
+    JSON: GraphQLJSON,
   },
 });

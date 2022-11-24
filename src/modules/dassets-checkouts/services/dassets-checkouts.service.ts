@@ -2,7 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
-import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, DassetsCheckoutSessionPriceEstimate, Project, ProjectDocument, ScanTarget, User, UserDocument } from '@/schemas';
+import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, DassetsCheckoutSessionPriceEstimate, Project, TProjectDocument, User, TUserDocument } from '@/schemas';
 import Stripe from 'stripe';
 import { DassetsCheckoutsPriceEstimatorService } from './dassets-checkouts-price-estimator.service';
 import { merge } from 'lodash';
@@ -19,7 +19,7 @@ export class DassetsCheckoutsService {
     private dassets_checkout_session_model: Model<DassetsCheckoutSessionDocument>,
 
     @InjectModel(Project.name) 
-    private project_model: Model<ProjectDocument>,
+    private project_model: Model<TProjectDocument>,
 
     private dassets_price_estimator_service: DassetsCheckoutsPriceEstimatorService,
 
@@ -43,7 +43,7 @@ export class DassetsCheckoutsService {
   }
 
 
-  async create(user: UserDocument, data: IDassetsCheckoutSessionCreate) {
+  async create(user: TUserDocument, data: IDassetsCheckoutSessionCreate) {
 
     const project = await this.project_model.findOne({ _id: data.project });
 

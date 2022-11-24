@@ -2,8 +2,7 @@ import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
-import { Project, ProjectDocument, ScanTarget, User, UserDocument } from '@/schemas';
-import { SyncerService } from '@/modules/syncer/services/syncer.service';
+import { Project, TProjectDocument, User, TUserDocument } from '@/schemas';
 import { networks_list } from '@/providers/networks/networks-list';
 import * as FS from 'fs'
 import * as Ethers from 'ethers';
@@ -20,16 +19,16 @@ export class ProjectsService {
 
   constructor(
     @InjectModel(Project.name) 
-    private readonly project_model: Model<ProjectDocument>,
+    private readonly project_model: Model<TProjectDocument>,
   ) {}
 
 
-  async select(user: UserDocument): Promise<ProjectDocument[]> {
+  async select(user: TUserDocument): Promise<TProjectDocument[]> {
     return await this.project_model.find({ user: user.id });
   }
 
 
-  async getOrFail(user: UserDocument, id: string): Promise<ProjectDocument> {
+  async getOrFail(user: TUserDocument, id: string): Promise<TProjectDocument> {
 
     const project = await this.project_model.findOne({ _id: id, user: user.id });
 
@@ -41,7 +40,7 @@ export class ProjectsService {
   }
 
 
-  async create(user: UserDocument, data: IProjectCreate): Promise<ProjectDocument> {
+  async create(user: TUserDocument, data: IProjectCreate): Promise<TProjectDocument> {
     const project = new this.project_model({
       ...data,
       user: user.id,
@@ -51,10 +50,10 @@ export class ProjectsService {
 
 
   async update(
-    user: UserDocument, 
+    user: TUserDocument, 
     id: string, 
     data: IProjectUpdate
-  ): Promise<ProjectDocument> {
+  ): Promise<TProjectDocument> {
     
     const project = await this.getOrFail(user, id);
 

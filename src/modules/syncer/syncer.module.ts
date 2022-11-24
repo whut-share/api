@@ -1,20 +1,27 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { ScanTargetModelModule, User, UserSchema } from '@/schemas';
-import { SyncerService } from './services/syncer.service';
-import { SyncerInitService } from './services/syncer-init.service';
+import { EventEmitterInstanceModelModule, ProjectModelModule, SyncerInstanceModelModule, User, UserSchema } from '@/schemas';
 import { ChainSyncerModule } from '@/providers/chain-syncer';
+import { SyncerInstancesService } from './services/syncer-instances.service';
+import { EventEmitterModule } from '../event-emitter/event-emitter.module';
+import { SyncerHelpersService } from './services/syncer-helpers.service';
 
 @Module({
   imports: [
-    ScanTargetModelModule,
+    EventEmitterInstanceModelModule,
+    ProjectModelModule,
+    SyncerInstanceModelModule,
+    EventEmitterInstanceModelModule,
     ChainSyncerModule,
+    EventEmitterModule,
   ],
   providers: [
-    SyncerService,
-    SyncerInitService,
+    SyncerInstancesService,
+    SyncerHelpersService,
+  ],
+  exports: [
+    SyncerInstancesService,
   ],
   controllers: [],
-  
 })
 export class SyncerModule {}

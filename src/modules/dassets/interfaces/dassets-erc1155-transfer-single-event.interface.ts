@@ -1,11 +1,11 @@
-import { ISyncerEventMetadata } from "@/interfaces"
+import { IChainSyncerEventMetadata } from "chain-syncer";
 
-export interface IDassetsErc1155TransferSingleEvent {
+export interface IDassetsTransferSingleEvent {
   network: string;
   operator: string;
   from: string;
   to: string;
   token_id: number;
   value: string;
-  event_metadata: ISyncerEventMetadata;
+  event_metadata: IChainSyncerEventMetadata;
 }

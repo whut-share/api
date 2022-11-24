@@ -2,7 +2,7 @@ import { Args, Int, Mutation, Parent, Query, ResolveField, Resolver } from "@nes
 import * as Dataloader from 'dataloader';
 import { Loader } from 'nestjs-dataloader';
 
-import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, DassetsCheckoutSessionPriceEstimate, User, UserDocument } from "@/schemas";
+import { DassetsCheckoutSession, DassetsCheckoutSessionDocument, DassetsCheckoutSessionPriceEstimate, User, TUserDocument } from "@/schemas";
 import { ObjectIdScalar } from "@/graphql/scalars";
 import { IPagination, ISort } from "@/interfaces";
 import { UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
@@ -26,7 +26,7 @@ export class DassetsCheckoutsResolver {
   // @Query(returns => [DassetsCheckoutSession])
   // @UseGuards(GqlAuthGuard)
   // async dassets_checkouts(
-  //   @UserParam() user: UserDocument,
+  //   @UserParam() user: TUserDocument,
   // ): Promise<DassetsCheckoutSessionDocument[]> {
   //   return await this.dassets_checkouts_service.select(user);
   // }
@@ -56,7 +56,7 @@ export class DassetsCheckoutsResolver {
   @Mutation(returns => DassetsCheckoutSession)
   @UseGuards(GqlAuthGuard)
   async dassetsCheckoutSessionCreate(
-    @UserParam() user: UserDocument,
+    @UserParam() user: TUserDocument,
     @Args('data') data: IDassetsCheckoutSessionCreate
   ): Promise<DassetsCheckoutSessionDocument> {
     return await this.dassets_checkouts_service.create(user, data);

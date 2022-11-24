@@ -112,7 +112,7 @@ describe(DassetsCheckoutsStripeListenerService.name, () => {
       });
 
       await new Promise((resolve, reject) => {
-        event_emitter.once('dassets.erc1155.nft-minted', () => resolve(0));
+        event_emitter.once('dassets.nft-minted', () => resolve(0));
       });
 
     }, 30000);

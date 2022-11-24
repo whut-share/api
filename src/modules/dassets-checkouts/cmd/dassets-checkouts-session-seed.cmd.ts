@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Connection, Model } from 'mongoose';
-import { Project, ProjectDocument, User, UserDocument } from '@/schemas';
+import { Project, TProjectDocument, User, TUserDocument } from '@/schemas';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import { DassetsCheckoutsService } from '../services/dassets-checkouts.service';
 
@@ -19,10 +19,10 @@ export class DassetsCheckoutsSessionSeedCmd extends CommandRunner {
     private dassets_checkouts_service: DassetsCheckoutsService,
 
     @InjectModel(User.name)
-    private user_model: Model<UserDocument>,
+    private user_model: Model<TUserDocument>,
 
     @InjectModel(Project.name)
-    private project_model: Model<ProjectDocument>,
+    private project_model: Model<TProjectDocument>,
   ) { super() }
 
   async run(

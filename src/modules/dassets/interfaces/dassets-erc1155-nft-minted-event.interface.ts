@@ -1,10 +1,10 @@
-import { ISyncerEventMetadata } from "@/interfaces"
+import { IChainSyncerEventMetadata } from "chain-syncer";
 
-export interface IDassetsErc1155NftMintedEvent {
+export interface IDassetsNftMintedEvent {
   mint_request_id: string;
   network: string;
   to: string;
   token_id: number;
   project_id: string;
-  event_metadata: ISyncerEventMetadata;
+  event_metadata: IChainSyncerEventMetadata;
 }
