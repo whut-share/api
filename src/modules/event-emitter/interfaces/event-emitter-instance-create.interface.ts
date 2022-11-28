@@ -11,8 +11,5 @@ export class IEventEmitterInstanceCreate {
   webhook_endpoint?: string;
 
   @Field(type => ObjectIdScalar)
-  project: string;
-
-  @Field(type => ObjectIdScalar)
   syncer_instance: string;
 }

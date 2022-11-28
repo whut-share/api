@@ -84,7 +84,7 @@ export class EventEmitterInstancesService {
           $in: syncer_instance_ids,
         }
       })
-    }
+    }    
 
     return await this.event_emitter_instance_model.find(query);
   }

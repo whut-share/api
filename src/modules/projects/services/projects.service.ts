@@ -11,6 +11,7 @@ import { merge } from 'lodash';
 import { assemblyContractRoute } from '@/helpers';
 import { IProjectCreate } from '../interfaces/project-create.interface';
 import { IProjectUpdate } from '../interfaces/project-update.interface';
+import { SyncerInstancesService } from '@/modules/syncer/services/syncer-instances.service';
 
 
 @Injectable()
@@ -20,6 +21,8 @@ export class ProjectsService {
   constructor(
     @InjectModel(Project.name) 
     private readonly project_model: Model<TProjectDocument>,
+
+    private readonly syncer_instances_service: SyncerInstancesService,
   ) {}
 
 
@@ -40,12 +43,22 @@ export class ProjectsService {
   }
 
 
-  async create(user: TUserDocument, data: IProjectCreate): Promise<TProjectDocument> {
+  async create(
+    user: TUserDocument, 
+    data: IProjectCreate
+  ): Promise<TProjectDocument> {
     const project = new this.project_model({
       ...data,
       user: user.id,
     });
-    return await project.save();
+    await project.save();
+
+    await this.syncer_instances_service.create(user, {
+      project: project.id,
+      preset: 'dassets',
+    });
+
+    return project;
   }
 
 

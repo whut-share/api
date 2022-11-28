@@ -16,9 +16,9 @@ import { SyncerHelpersService } from "./services/syncer-helpers.service";
 import { ISyncerInstanceCreate } from "./interfaces/syncer-instance-create.interface";
 import { ISyncerInstanceUpdate } from "./interfaces/syncer-instance-update.interface";
 
-@Resolver(of => Project)
+@Resolver(of => SyncerInstance)
 @UsePipes(new ValidationPipe({ transform: true }))
-export class ProjectsResolver {
+export class SyncerInstancesResolver {
 
   constructor(
     private readonly syncer_instances_service: SyncerInstancesService,

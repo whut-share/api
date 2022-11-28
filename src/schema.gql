@@ -17,6 +17,40 @@ scalar DateTime
 """A simple ObjectId parser (eg. "62d13a8b029b95001b881441")"""
 scalar ObjectId
 
+type EventEmitterInstance {
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: String!
+  is_webhook_emitter: Boolean!
+  webhook_endpoint: String
+  syncer_instance: String!
+}
+
+type SyncerInstanceContract {
+  created_at: DateTime!
+  updated_at: DateTime!
+  network: String!
+  address: String!
+  deploy_tx: String!
+  contract_name: String!
+  events: [String!]!
+  abi: JSON!
+}
+
+"""
+The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
+"""
+scalar JSON
+
+type SyncerInstance {
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: ObjectId!
+  contracts: [SyncerInstanceContract!]!
+  project: ObjectId!
+  preset: String!
+}
+
 type ProjectSyncerSettings {
   include_networks: [String!]!
   contracts_base_url: String
@@ -37,6 +71,7 @@ type Project {
   pic: String
   dassets_settings: ProjectDassetsSettings!
   syncer_settings: ProjectSyncerSettings!
+  dassets_syncer_instance: SyncerInstance!
 }
 
 type SyncerEvent {
@@ -51,11 +86,6 @@ type SyncerEvent {
   metadata: JSON!
   is_processed: Boolean!
 }
-
-"""
-The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
-"""
-scalar JSON
 
 type DassetsNftAssetInfo {
   id: String!
@@ -97,27 +127,40 @@ type DassetsCheckoutSession {
   stripe_pi_client_secret: String
 }
 
-type SyncerInstanceContract {
-  created_at: DateTime!
-  updated_at: DateTime!
-  network: String!
-  address: String!
-  deploy_tx: String!
-  contract_name: String!
-  events: [String!]!
-  abi: JSON!
-}
-
 type Query {
   me: User!
   users: [User!]!
+  syncer_events(filter: ISyncerEventsFilter!): [SyncerEvent!]!
+  event_emitter_instances(filter: IEventEmitterInstancesFilter!): [EventEmitterInstance!]!
+  event_emitter_instance(id: ObjectId!): [EventEmitterInstance!]!
+  syncer_instances(filter: ISyncerInstancesFilter!): [SyncerInstance!]!
+  syncer_instance(id: ObjectId!): SyncerInstance!
   projects: [Project!]!
   project(id: ObjectId!): Project!
   dassets_checkout_session(id: ObjectId!): DassetsCheckoutSession!
 }
 
+input ISyncerEventsFilter {
+  event_emitter_instance: String
+  is_processed: Boolean
+}
+
+input IEventEmitterInstancesFilter {
+  syncer_instance: String
+}
+
+input ISyncerInstancesFilter {
+  project: ObjectId!
+}
+
 type Mutation {
   userSignUp(data: IUserSignUp!): User!
+  syncerEventsProcess(ids: ObjectId!): Void!
+  eventEmitterInstanceUpdate(id: ObjectId!, data: IEventEmitterInstanceUpdate!): EventEmitterInstance!
+  eventEmitterInstanceCreate(data: IEventEmitterInstanceCreate!): EventEmitterInstance!
+  syncerInstanceCreate(data: ISyncerInstanceCreate!): SyncerInstance!
+  syncerInstanceUpdate(id: ObjectId!, data: ISyncerInstanceUpdate!): SyncerInstance!
+  syncerInstanceDelete(id: ObjectId!): Void!
   projectCreate(data: IProjectCreate!): Project!
   projectUpdate(id: ObjectId!, data: IProjectUpdate!): Project!
   dassetsCheckoutSessionCreate(data: IDassetsCheckoutSessionCreate!): DassetsCheckoutSession!
@@ -128,6 +171,48 @@ type Mutation {
 input IUserSignUp {
   email: String!
   password: String!
+}
+
+"""Void type"""
+scalar Void
+
+input IEventEmitterInstanceUpdate {
+  is_webhook_emitter: Boolean
+  webhook_endpoint: String
+}
+
+input IEventEmitterInstanceCreate {
+  is_webhook_emitter: Boolean!
+  webhook_endpoint: String
+  syncer_instance: ObjectId!
+}
+
+input ISyncerInstanceCreate {
+  project: ObjectId!
+  preset: String
+  contracts: [ISyncerInstanceCreateContracts!]
+}
+
+input ISyncerInstanceCreateContracts {
+  address: String
+  deploy_tx: String
+  contract_name: String!
+  events: [String!]!
+  abi: JSON!
+}
+
+input ISyncerInstanceUpdate {
+  project: ObjectId
+  preset: String
+  contracts: [ISyncerInstanceUpdateContracts!]
+}
+
+input ISyncerInstanceUpdateContracts {
+  address: String
+  deploy_tx: String
+  contract_name: String
+  events: [String!]
+  abi: JSON
 }
 
 input IProjectCreate {

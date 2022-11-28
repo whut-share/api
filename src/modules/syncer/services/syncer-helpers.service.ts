@@ -35,7 +35,7 @@ export class SyncerHelpersService {
 
     const project_ids = await this.project_model.find({
       user: user.id,
-    }).select('_id');
+    }).select('_id').then(docs => docs.map(n => n.id));
 
     const user_syncer_instance_ids = await this.syncer_instance_model.find({
       project: {

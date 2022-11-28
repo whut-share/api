@@ -1,3 +1,6 @@
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { DataLoaderInterceptor } from 'nestjs-dataloader'
+
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { EventEmitterInstanceModelModule, ProjectModelModule, QueuedSyncerEventModelModule, SyncerEventModelModule, SyncerInstanceModelModule, User, UserSchema } from '@/schemas';
@@ -9,6 +12,9 @@ import { SyncerInstancesService } from '../syncer/services/syncer-instances.serv
 import { SyncerHelpersService } from '../syncer/services/syncer-helpers.service';
 import { WebhooksModule } from '../webhooks/webhooks.module';
 import { EventEmitterHelpersService } from './services/event-emitter-helpers.service';
+import { SyncerEventsResolver } from './syncer-events.resolver';
+import { EventEmitterInstancesResolver } from './event-emitter-instances.resolver';
+import { AuthModule } from '../auth/auth.module';
 
 @Module({
   imports: [
@@ -18,13 +24,23 @@ import { EventEmitterHelpersService } from './services/event-emitter-helpers.ser
     QueuedSyncerEventModelModule,
     ProjectModelModule,
 
+    AuthModule,
     WebhooksModule,
   ],
   providers: [
+
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataLoaderInterceptor,
+    },
+
     EventEmitterEventsService,
     EventEmitterInstancesService,
     EventEmitterHelpersService,
     SyncerHelpersService,
+
+    SyncerEventsResolver,
+    EventEmitterInstancesResolver,
   ],
   exports: [
     EventEmitterEventsService,

@@ -12,39 +12,8 @@ import { EventEmitterInstancesService } from "./services/event-emitter-instances
 import { ISyncerEventsFilter } from "./interfaces/syncer-events-filter.interface";
 import { IEventEmitterInstancesFilter } from "./interfaces/event-emitter-instances-filter.interface";
 import { EventEmitterHelpersService } from "./services/event-emitter-helpers.service";
-
-@Resolver(of => SyncerEvent)
-@UsePipes(new ValidationPipe({ transform: true }))
-export class SyncerEventsResolver {
-
-  constructor(
-    private readonly event_emitter_events_service: EventEmitterEventsService,
-    private readonly event_emitter_helpers_service: EventEmitterHelpersService,
-  ) {}
-
-
-  @Query(returns => [SyncerEvent])
-  @UseGuards(GqlAuthGuard)
-  async syncer_events(
-    @UserParam() user: TUserDocument,
-    @Args('filter') filter: ISyncerEventsFilter
-  ): Promise<SyncerEvent[]> {
-    return await this.event_emitter_events_service.select(user, filter);
-  }
-
-
-  @Mutation(returns => VoidScalar)
-  @UseGuards(GqlAuthGuard)
-  async syncerEventsProcess(
-    @UserParam() user: TUserDocument,
-    @Args('ids', { type: () => ObjectIdScalar }) ids: string[]
-  ): Promise<boolean> {
-    await this.event_emitter_events_service.processMany(user, ids);
-    return true;
-  }
-}
-
-
+import { IEventEmitterInstanceUpdate } from "./interfaces/event-emitter-instance-update.interface";
+import { IEventEmitterInstanceCreate } from "./interfaces/event-emitter-instance-create.interface";
 
 @Resolver(of => EventEmitterInstance)
 @UsePipes(new ValidationPipe({ transform: true }))
@@ -78,5 +47,27 @@ export class EventEmitterInstancesResolver {
     await this.event_emitter_helpers_service.hasAccessOrFail(eei, user);
 
     return eei;
+  }
+
+
+  @Mutation(returns => EventEmitterInstance)
+  @UseGuards(GqlAuthGuard)
+  async eventEmitterInstanceUpdate(
+    @UserParam() user: TUserDocument,
+    @Args('id', { type: () => ObjectIdScalar }) id: string,
+    @Args('data') data: IEventEmitterInstanceUpdate,
+  ): Promise<EventEmitterInstance> {
+    const eei = await this.event_emitter_instances_service.getOrFail(user, id);
+    return await this.event_emitter_instances_service.update(user, eei, data);
+  }
+
+
+  @Mutation(returns => EventEmitterInstance)
+  @UseGuards(GqlAuthGuard)
+  async eventEmitterInstanceCreate(
+    @UserParam() user: TUserDocument,
+    @Args('data') data: IEventEmitterInstanceCreate,
+  ): Promise<EventEmitterInstance> {
+    return await this.event_emitter_instances_service.create(user, data);
   }
 }

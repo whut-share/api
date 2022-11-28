@@ -20,7 +20,6 @@ import { ProjectsResolver } from '@/modules/projects/projects.resolver';
     /* Schemas */
     UserModelModule,
     TempFileModelModule,
-    ProjectModelModule,
     
   ],
   providers: [
@@ -33,11 +32,9 @@ import { ProjectsResolver } from '@/modules/projects/projects.resolver';
     /* Services */
     UsersService,
     AuthService,
-    ProjectsService,
 
     /* Resolvers */
     UsersResolver,
-    ProjectsResolver,
 
     /* DataLoaders */
   ],

@@ -25,11 +25,11 @@ export type TEventEmitterInstanceDocument = EventEmitterInstance & Document;
 @ObjectType()
 export class EventEmitterInstance extends BaseClass {
 
-  @Prop({ required: true })
-  public _id: string;
+  public _id: ObjectId;
 
+  @Field()
   public get id(): string {
-    return this._id;
+    return String(this._id);
   };
 
   @Prop({ required: true })
@@ -39,10 +39,6 @@ export class EventEmitterInstance extends BaseClass {
   @Prop()
   @Field({ nullable: true })
   public webhook_endpoint?: string;
-
-  @Prop({ required: true })
-  @Field()
-  public project: string;
 
   @Prop({ required: true })
   @Field()

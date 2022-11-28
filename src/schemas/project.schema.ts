@@ -3,6 +3,7 @@ import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
+import { SyncerInstance } from './syncer-instance.schema';
 
 export type TProjectDocument = Project & Document;
 
@@ -109,6 +110,9 @@ export class Project extends BaseClass {
   // public get fullName() {
   //   return `${this.firstName} ${this.lastName}`;
   // }
+
+  @Field(type => SyncerInstance)
+  public dassets_syncer_instance: SyncerInstance;
 }
 
 export const ProjectSchema = fixSchema(SchemaFactory.createForClass(Project), Project);

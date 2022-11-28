@@ -12,16 +12,17 @@ import { ResolversModule } from './graphql/resolvers.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AppGqlModule } from './providers/app-gql.module';
 import { AppSichModule } from './providers/app-sich.module';
-import { EventEmitterModule } from '@nestjs/event-emitter';
+import { EventEmitterModule as EventEmitter2Module } from '@nestjs/event-emitter';
 import { StripeModule } from './modules/stripe/stripe.module';
 import { DassetsCheckoutsModule } from './modules/dassets-checkouts/dassets-checkouts.module';
 import { ScheduleModule } from '@nestjs/schedule';
+import { EventEmitterModule } from './modules/event-emitter/event-emitter.module';
 
 @Module({
   imports: [
 
     ScheduleModule.forRoot(),
-    EventEmitterModule.forRoot(),
+    EventEmitter2Module.forRoot(),
     AppGqlModule,
     AppMongooseModule,
     AppFileManagerModule,
@@ -31,6 +32,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     UsersModule,
     DassetsModule,
     SyncerModule,
+    EventEmitterModule,
     ProjectsModule,
     WebhooksModule,
     AuthModule,

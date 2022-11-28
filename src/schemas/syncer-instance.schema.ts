@@ -77,7 +77,7 @@ export class SyncerInstance extends BaseClass {
   @Field(type => ObjectIdScalar)
   public id?: string;
 
-  @Prop({ type: SyncerInstanceContractSchema, default: [] })
+  @Prop({ type: [SyncerInstanceContractSchema], default: [] })
   @Field(type => [SyncerInstanceContract])
   public contracts: SyncerInstanceContract[];
 

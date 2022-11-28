@@ -9,6 +9,7 @@ import { User, UserModelModule, UserSchema } from '@/schemas';
     UserModelModule,
   ],
   providers: [AuthService],
+  exports: [AuthService],
   controllers: [AuthController],
 })
 export class AuthModule {}
