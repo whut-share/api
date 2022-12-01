@@ -6,7 +6,7 @@ export * from './webhook.schema';
 export * from './archive-webhook.schema';
 export * from './persistent-record.schema';
 export * from './dassets-checkout-session.schema';
-export * from './webhook-endpoint.schema';
 export * from './syncer-instance.schema'
 export * from './queued-syncer-event.schema'
 export * from './syncer-event.schema'
+export * from './project-group.schema'

@@ -22,6 +22,10 @@ export class UsersService {
 
   async create(data: IUserCreate): Promise<TUserDocument> {
 
+    if(await this.user_model.exists({ email: data.email })) {
+      throw new InvalidInputException('EMAIL_BUSY', 'Email already busy');
+    }
+
     const user = new this.user_model({
       email: data.email,
     });

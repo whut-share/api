@@ -127,6 +127,16 @@ type DassetsCheckoutSession {
   stripe_pi_client_secret: String
 }
 
+type ProjectGroup {
+  created_at: DateTime!
+  updated_at: DateTime!
+  id: String!
+  user: String!
+  name: String!
+  pic: String
+  projects: [String!]!
+}
+
 type Query {
   me: User!
   users: [User!]!
@@ -137,6 +147,8 @@ type Query {
   syncer_instance(id: ObjectId!): SyncerInstance!
   projects: [Project!]!
   project(id: ObjectId!): Project!
+  project_groups: [ProjectGroup!]!
+  project_group(id: ObjectId!): ProjectGroup!
   dassets_checkout_session(id: ObjectId!): DassetsCheckoutSession!
 }
 
@@ -163,6 +175,9 @@ type Mutation {
   syncerInstanceDelete(id: ObjectId!): Void!
   projectCreate(data: IProjectCreate!): Project!
   projectUpdate(id: ObjectId!, data: IProjectUpdate!): Project!
+  projectGroupCreate(data: IProjectGroupCreate!): ProjectGroup!
+  projectGroupUpdate(id: ObjectId!, data: IProjectGroupUpdate!): ProjectGroup!
+  projectGroupDelete(id: ObjectId!): Void!
   dassetsCheckoutSessionCreate(data: IDassetsCheckoutSessionCreate!): DassetsCheckoutSession!
   dassetsCheckoutSessionUpdate(id: ObjectId!, data: IDassetsCheckoutSessionUpdate!): DassetsCheckoutSession!
   dassetsCheckoutSessionAttachStripePaymentIntent(id: ObjectId!): DassetsCheckoutSession!
@@ -228,6 +243,18 @@ input IProjectDassetsSettingsUpdate {
   include_networks: [String!]
   token_base_url: String
   webhook_events_url: String
+}
+
+input IProjectGroupCreate {
+  name: String!
+  pic: String
+  projects: [ObjectId!]
+}
+
+input IProjectGroupUpdate {
+  name: String
+  pic: String
+  projects: [ObjectId!]
 }
 
 input IDassetsCheckoutSessionCreate {
