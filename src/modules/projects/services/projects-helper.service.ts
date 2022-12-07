@@ -14,7 +14,7 @@ export class ProjectsHelperService {
   ) {}
 
 
-  async hasAccessOrFail(
+  async hasAccessToProjectGroupOrFail(
     user: TUserDocument, 
     project_group: TProjectGroupDocument,
   ): Promise<void> {

@@ -17,6 +17,7 @@ import { StripeModule } from './modules/stripe/stripe.module';
 import { DassetsCheckoutsModule } from './modules/dassets-checkouts/dassets-checkouts.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from './modules/event-emitter/event-emitter.module';
+import { KeyBunchesModule } from './modules/key-bunches/key-bunches.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { EventEmitterModule } from './modules/event-emitter/event-emitter.module
     AuthModule,
     StripeModule,
     DassetsCheckoutsModule,
+    KeyBunchesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -39,12 +39,13 @@ export class EventEmitterHelpersService {
         is_failed = true;
       }
     } else {
+      
       if(!syncer_instance_ids.includes(eei.syncer_instance)) {
         is_failed = true;
       }
     }
 
-    if(!is_failed) {
+    if(is_failed) {
       throw new InvalidInputException('ACCESS_DENIED', 'Access denied');
     }
   }

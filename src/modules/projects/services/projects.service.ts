@@ -12,6 +12,7 @@ import { assemblyContractRoute } from '@/helpers';
 import { IProjectCreate } from '../interfaces/project-create.interface';
 import { IProjectUpdate } from '../interfaces/project-update.interface';
 import { SyncerInstancesService } from '@/modules/syncer/services/syncer-instances.service';
+import { KeyBunchesService } from '@/modules/key-bunches/services/key-bunches.service';
 
 
 @Injectable()
@@ -23,6 +24,8 @@ export class ProjectsService {
     private readonly project_model: Model<TProjectDocument>,
 
     private readonly syncer_instances_service: SyncerInstancesService,
+
+    private readonly key_bunches_service: KeyBunchesService,
   ) {}
 
 
@@ -57,6 +60,11 @@ export class ProjectsService {
       project: project.id,
       preset: 'dassets',
     });
+
+    await this.key_bunches_service.create(user, {
+      project: project.id,
+      name: `${project.name.toLowerCase().replace(/ /g, '-')}_key-bunch`,
+    })
 
     return project;
   }

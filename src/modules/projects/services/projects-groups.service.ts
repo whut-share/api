@@ -63,7 +63,7 @@ export class ProjectGroupsService {
     data: IProjectGroupUpdate
   ): Promise<TProjectGroupDocument> {
 
-    await this.projects_helper_service.hasAccessOrFail(user, project_group);
+    await this.projects_helper_service.hasAccessToProjectGroupOrFail(user, project_group);
 
     merge(project_group, data);
     
@@ -76,7 +76,7 @@ export class ProjectGroupsService {
     project_group: TProjectGroupDocument,
   ): Promise<void> {
 
-    await this.projects_helper_service.hasAccessOrFail(user, project_group);
+    await this.projects_helper_service.hasAccessToProjectGroupOrFail(user, project_group);
     
     await project_group.remove();
   }

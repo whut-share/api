@@ -57,9 +57,13 @@ export class EventEmitterInstancesService {
       throw new InvalidInputException('INVALID_INPUT', 'Webhook endpoint is required');
     }
 
-    return await this.event_emitter_instance_model.create({
+    const eei = new this.event_emitter_instance_model({
       ...data,
-    })
+    });
+
+    eei.generateName();
+
+    return await eei.save();
   }
 
   async select(

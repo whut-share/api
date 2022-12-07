@@ -12,6 +12,7 @@ import { AuthModule } from '../auth/auth.module';
 import { ProjectGroupsService } from './services/projects-groups.service';
 import { ProjectsHelperService } from './services/projects-helper.service';
 import { ProjectGroupsResolver } from './project-groups.resolver';
+import { KeyBunchesModule } from '../key-bunches/key-bunches.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ProjectGroupsResolver } from './project-groups.resolver';
     ProjectGroupModelModule,
     SyncerModule,
     AuthModule,
+    KeyBunchesModule,
   ],
   providers: [
 

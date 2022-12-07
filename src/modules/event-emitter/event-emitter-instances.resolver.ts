@@ -35,7 +35,7 @@ export class EventEmitterInstancesResolver {
   }
 
 
-  @Query(returns => [EventEmitterInstance])
+  @Query(returns => EventEmitterInstance)
   @UseGuards(GqlAuthGuard)
   async event_emitter_instance(
     @UserParam() user: TUserDocument,
