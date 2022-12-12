@@ -4,8 +4,10 @@ import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, SchemaTypes, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema, NestedBaseClass } from './helpers';
 import GraphQLJSON from 'graphql-type-json';
-import { ObjectIdScalar } from '@/graphql/scalars';
+import { AddressScalar, ObjectIdScalar } from '@/graphql/scalars';
 import { networks_list } from '@/providers/networks/networks-list';
+import { Keccak256Scalar } from '@/graphql/scalars/keccak256.scalar';
+import { NetworkScalar } from '@/graphql/scalars/network.scalar';
 
 @Schema({
   timestamps: {
@@ -28,15 +30,15 @@ export class SyncerInstanceContract extends NestedBaseClass {
   public id?: string;
 
   @Prop({ required: true, enum: networks_list.map(e => e.key) })
-  @Field()
+  @Field(type => NetworkScalar)
   public network: string;
 
   @Prop({ required: true, lowercase: true })
-  @Field()
+  @Field(type => AddressScalar)
   public address: string;
 
   @Prop({ required: true, lowercase: true })
-  @Field()
+  @Field(type => Keccak256Scalar)
   public deploy_tx: string;
 
   @Prop({ required: true })

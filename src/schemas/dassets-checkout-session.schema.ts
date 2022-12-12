@@ -1,4 +1,6 @@
 import { AddressScalar } from '@/graphql/scalars';
+import { Keccak256Scalar } from '@/graphql/scalars/keccak256.scalar';
+import { NetworkScalar } from '@/graphql/scalars/network.scalar';
 import { FileManager } from '@/libs/file-manager';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -94,11 +96,11 @@ export class DassetsCheckoutSession extends BaseClass {
   public project: string;
 
   @Prop({ lowercase: true })
-  @Field({ nullable: true })
+  @Field(type => AddressScalar, { nullable: true })
   public address?: string;
 
   @Prop()
-  @Field({ nullable: true })
+  @Field(type => Keccak256Scalar, { nullable: true })
   public mint_tx?: string;
 
   @Prop()
@@ -118,7 +120,7 @@ export class DassetsCheckoutSession extends BaseClass {
   public payment_expires_at?: Date;
 
   @Prop()
-  @Field({ nullable: true })
+  @Field(type => NetworkScalar, { nullable: true })
   public network?: string;
 
   @Prop({ required: true })

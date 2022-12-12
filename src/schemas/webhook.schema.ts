@@ -1,10 +1,11 @@
 import { FileManager } from '@/libs/file-manager';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, SchemaTypes, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 import GraphQLJSON from 'graphql-type-json';
 import { SyncerEvent, SyncerEventSchema } from './syncer-event.schema';
+import { ObjectIdScalar } from '@/graphql/scalars';
 
 export type TWebhookDocument = Webhook & Document;
 
@@ -33,11 +34,11 @@ export class Webhook extends BaseClass {
   }
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => ObjectIdScalar)
   public event_emitter_instance: string;
 
   @Prop({ default: 0 })
-  @Field()
+  @Field(type => Int)
   public attempt: number;
 
   @Prop({ required: true })

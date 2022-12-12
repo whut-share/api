@@ -1,3 +1,4 @@
+import { ObjectIdScalar } from '@/graphql/scalars';
 import { FileManager } from '@/libs/file-manager';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -34,7 +35,7 @@ export class ProjectGroup extends BaseClass {
   };
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => ObjectIdScalar)
   public user: string;
 
   @Prop({ required: true })
@@ -47,7 +48,7 @@ export class ProjectGroup extends BaseClass {
 
 
   @Prop({ default: [], type: [String] })
-  @Field(type => [String])
+  @Field(type => [ObjectIdScalar])
   public projects: string[];
 }
 

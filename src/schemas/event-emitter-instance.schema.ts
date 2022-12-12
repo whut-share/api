@@ -5,6 +5,7 @@ import { Document, Mixed, ObjectId, SchemaTypes, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema, NestedBaseClass } from './helpers';
 import * as MnemonicWords from 'mnemonic-words';
 import * as Crypto from 'crypto';
+import { ObjectIdScalar } from '@/graphql/scalars';
 
 export type TEventEmitterInstanceDocument = EventEmitterInstance & Document;
 
@@ -47,7 +48,7 @@ export class EventEmitterInstance extends BaseClass {
   public webhook_endpoint?: string;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => ObjectIdScalar)
   public syncer_instance: string;
 
   @Prop({ default: false })

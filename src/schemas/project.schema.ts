@@ -1,3 +1,4 @@
+import { NetworkScalar } from '@/graphql/scalars/network.scalar';
 import { FileManager } from '@/libs/file-manager';
 import { Field, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
@@ -22,7 +23,7 @@ export type TProjectDocument = Project & Document;
 export class ProjectSyncerSettings {
 
   @Prop({ default: [] })
-  @Field(type => [String])
+  @Field(type => [NetworkScalar])
   public include_networks: string[];
 
   @Prop()

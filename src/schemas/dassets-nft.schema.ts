@@ -1,6 +1,8 @@
-import { AddressScalar } from '@/graphql/scalars';
+import { AddressScalar, ObjectIdScalar } from '@/graphql/scalars';
+import { Keccak256Scalar } from '@/graphql/scalars/keccak256.scalar';
+import { NetworkScalar } from '@/graphql/scalars/network.scalar';
 import { FileManager } from '@/libs/file-manager';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { utils } from 'ethers';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
@@ -32,7 +34,7 @@ export class DassetsNft extends BaseClass {
   public id: string;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => ObjectIdScalar)
   public project: string;
 
   @Prop({ required: true, lowercase: true })
@@ -40,19 +42,19 @@ export class DassetsNft extends BaseClass {
   public owner: string;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => Keccak256Scalar)
   public mint_tx: string;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => Int)
   public mint_block: number;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => NetworkScalar)
   public network: string;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => Int)
   public token_id: number;
 
   @Prop({ required: true })
@@ -60,7 +62,7 @@ export class DassetsNft extends BaseClass {
   public asset_id: string;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => Int)
   public owner_synced_at: number;
 
   static formatId(network: string, token_id: number): string {

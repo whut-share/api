@@ -14,7 +14,7 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-"""A simple ObjectId parser (eg. "62d13a8b029b95001b881441")"""
+"""A simple ObjectId scalar. (example: "62d13a8b029b95001b881441")"""
 scalar ObjectId
 
 type EventEmitterInstance {
@@ -24,20 +24,35 @@ type EventEmitterInstance {
   name: String!
   is_webhook_emitter: Boolean!
   webhook_endpoint: String
-  syncer_instance: String!
+  syncer_instance: ObjectId!
   is_stopped: Boolean!
 }
 
 type SyncerInstanceContract {
   created_at: DateTime!
   updated_at: DateTime!
-  network: String!
-  address: String!
-  deploy_tx: String!
+  network: Network!
+  address: Address!
+  deploy_tx: Keccak256!
   contract_name: String!
   events: [String!]!
   abi: JSON!
 }
+
+"""
+A network scalar. See https://developers.interactwith.com/docs/getting-started/supported-chains for the full list of supported networks. (example: "eth")
+"""
+scalar Network
+
+"""
+A simple Address parser (eg. "0x509016ec41c0F4b3072cA7c000034845163ECA0E")
+"""
+scalar Address
+
+"""
+A keccak256 scalar. (example: "0xbbdf3616512df59a06f9c800ac8da843b3a0926340249b3910b18d7d64992124")
+"""
+scalar Keccak256
 
 """
 The `JSON` scalar type represents JSON values as specified by [ECMA-404](http://www.ecma-international.org/publications/files/ECMA-ST/ECMA-404.pdf).
@@ -54,7 +69,7 @@ type SyncerInstance {
 }
 
 type ProjectSyncerSettings {
-  include_networks: [String!]!
+  include_networks: [Network!]!
   contracts_base_url: String
 }
 
@@ -79,20 +94,15 @@ type Project {
 type DassetsNft {
   created_at: DateTime!
   updated_at: DateTime!
-  project: String!
+  project: ObjectId!
   owner: Address!
-  mint_tx: String!
-  mint_block: Float!
-  network: String!
-  token_id: Float!
+  mint_tx: Keccak256!
+  mint_block: Int!
+  network: Network!
+  token_id: Int!
   asset_id: String!
-  owner_synced_at: Float!
+  owner_synced_at: Int!
 }
-
-"""
-A simple Address parser (eg. "0x509016ec41c0F4b3072cA7c000034845163ECA0E")
-"""
-scalar Address
 
 type SyncerEvent {
   created_at: DateTime!
@@ -102,7 +112,7 @@ type SyncerEvent {
   name: String!
   payload: JSON
   args: JSON
-  event_emitter_instance: String!
+  event_emitter_instance: ObjectId!
   metadata: JSON!
   is_processed: Boolean!
 }
@@ -128,13 +138,13 @@ type DassetsCheckoutSession {
   updated_at: DateTime!
   id: String!
   project: String!
-  address: String
-  mint_tx: String
+  address: Address
+  mint_tx: Keccak256
   mint_token_id: Float
   mint_request_id: String
   payment_id: String
   payment_expires_at: DateTime
-  network: String
+  network: Network
   contract_type: String!
   is_succeeded: Boolean!
   expires_at: DateTime!
@@ -151,10 +161,10 @@ type ProjectGroup {
   created_at: DateTime!
   updated_at: DateTime!
   id: String!
-  user: String!
+  user: ObjectId!
   name: String!
   pic: String
-  projects: [String!]!
+  projects: [ObjectId!]!
 }
 
 type KeyBunch {
@@ -229,7 +239,7 @@ input IUserSignUp {
   password: String!
 }
 
-"""Void type"""
+"""Void type (example: true)"""
 scalar Void
 
 input IEventEmitterInstanceUpdate {

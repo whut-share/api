@@ -4,6 +4,7 @@ import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Mixed, ObjectId, SchemaTypes, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema, NestedBaseClass } from './helpers';
 import GraphQLJSON from 'graphql-type-json';
+import { ObjectIdScalar } from '@/graphql/scalars';
 
 export type TSyncerEventDocument = SyncerEvent & Document;
 
@@ -50,7 +51,7 @@ export class SyncerEvent extends BaseClass {
   public args?: any;
 
   @Prop({ required: true })
-  @Field()
+  @Field(type => ObjectIdScalar)
   public event_emitter_instance: string;
 
   @Prop({ default: {}, type: SchemaTypes.Mixed })
