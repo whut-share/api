@@ -1,3 +1,4 @@
+import { ObjectIdScalar } from "@/graphql/scalars";
 import { Field, InputType } from "@nestjs/graphql";
 
 @InputType()
@@ -19,7 +20,7 @@ class IDassetsCheckoutSessionCreateAssetInfo {
 @InputType()
 export class IDassetsCheckoutSessionCreate {
 
-  @Field()
+  @Field(type => ObjectIdScalar)
   project: string;
 
   @Field()

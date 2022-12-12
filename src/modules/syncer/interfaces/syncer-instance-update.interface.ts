@@ -1,4 +1,4 @@
-import { ObjectIdScalar } from "@/graphql/scalars";
+import { AddressScalar, Keccak256Scalar, ObjectIdScalar } from "@/graphql/scalars";
 import { TSyncerPreset } from "@/types";
 import { Field, InputType, ObjectType } from "@nestjs/graphql";
 import GraphQLJSON from "graphql-type-json";
@@ -6,10 +6,10 @@ import GraphQLJSON from "graphql-type-json";
 @InputType()
 export class ISyncerInstanceUpdateContracts {
 
-  @Field({ nullable: true })
+  @Field(type => AddressScalar, { nullable: true })
   address?: string;
 
-  @Field({ nullable: true })
+  @Field(type => Keccak256Scalar, { nullable: true })
   deploy_tx?: string;
 
   @Field({ nullable: true })

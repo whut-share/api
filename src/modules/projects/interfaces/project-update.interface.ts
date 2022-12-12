@@ -1,9 +1,10 @@
+import { NetworkScalar } from "@/graphql/scalars";
 import { Field, InputType, ObjectType } from "@nestjs/graphql";
 
 @InputType()
 export class IProjectDassetsSettingsUpdate {
 
-  @Field(type => [String], { nullable: true })
+  @Field(type => [NetworkScalar], { nullable: true })
   include_networks?: string[];
 
   @Field({ nullable: true })

@@ -199,16 +199,16 @@ type Query {
 }
 
 input IDassetsNftsFilter {
-  network: String
+  network: Network
 }
 
 input ISyncerEventsFilter {
-  event_emitter_instance: String
+  event_emitter_instance: ObjectId
   is_processed: Boolean
 }
 
 input IEventEmitterInstancesFilter {
-  syncer_instance: String
+  syncer_instance: ObjectId
 }
 
 input ISyncerInstancesFilter {
@@ -260,8 +260,8 @@ input ISyncerInstanceCreate {
 }
 
 input ISyncerInstanceCreateContracts {
-  address: String
-  deploy_tx: String
+  address: Address
+  deploy_tx: Keccak256
   contract_name: String!
   events: [String!]!
   abi: JSON!
@@ -274,8 +274,8 @@ input ISyncerInstanceUpdate {
 }
 
 input ISyncerInstanceUpdateContracts {
-  address: String
-  deploy_tx: String
+  address: Address
+  deploy_tx: Keccak256
   contract_name: String
   events: [String!]
   abi: JSON
@@ -291,7 +291,7 @@ input IProjectUpdate {
 }
 
 input IProjectDassetsSettingsUpdate {
-  include_networks: [String!]
+  include_networks: [Network!]
   token_base_url: String
   webhook_events_url: String
 }
@@ -314,7 +314,7 @@ input IKeyBunchCreate {
 }
 
 input IDassetsCheckoutSessionCreate {
-  project: String!
+  project: ObjectId!
   asset_info: IDassetsCheckoutSessionCreateAssetInfo!
 }
 
@@ -326,6 +326,6 @@ input IDassetsCheckoutSessionCreateAssetInfo {
 }
 
 input IDassetsCheckoutSessionUpdate {
-  address: String
-  network: String
+  address: Address
+  network: Network
 }
