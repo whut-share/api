@@ -1,3 +1,6 @@
+import { APP_INTERCEPTOR } from '@nestjs/core';
+import { DataLoaderInterceptor } from 'nestjs-dataloader'
+
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DassetsCheckoutSessionModelModule, DassetsNftModelModule, ProjectModelModule, SyncerInstanceModelModule, User, UserModelModule, UserSchema, WebhookModelModule } from '@/schemas';
@@ -14,6 +17,8 @@ import { AppSichModule } from '@/providers/app-sich.module';
 import { AuthService } from '../auth/services/auth.service';
 import { DassetsEventsProcessorService } from './services/dassets-events-processor.service';
 import { EventEmitterModule } from '../event-emitter/event-emitter.module';
+import { DassetsNftsService } from './services/dassets-nfts.service';
+import { DassetsNftsResolver } from './dassets-nft.resolver';
 
 @Module({
   imports: [
@@ -28,6 +33,12 @@ import { EventEmitterModule } from '../event-emitter/event-emitter.module';
     EventEmitterModule,
   ],
   providers: [
+
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: DataLoaderInterceptor,
+    },
+
     AuthService,
     DassetsMigrateCmd,
     DassetsMigratorService,
@@ -36,6 +47,8 @@ import { EventEmitterModule } from '../event-emitter/event-emitter.module';
     WebhooksService,
     DassetsSyncerListenerService,
     DassetsEventsProcessorService,
+    DassetsNftsService,
+    DassetsNftsResolver,
   ],
   controllers: [DassetsController],
 })

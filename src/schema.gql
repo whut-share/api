@@ -76,6 +76,24 @@ type Project {
   dassets_syncer_instance: SyncerInstance!
 }
 
+type DassetsNft {
+  created_at: DateTime!
+  updated_at: DateTime!
+  project: String!
+  owner: Address!
+  mint_tx: String!
+  mint_block: Float!
+  network: String!
+  token_id: Float!
+  asset_id: String!
+  owner_synced_at: Float!
+}
+
+"""
+A simple Address parser (eg. "0x509016ec41c0F4b3072cA7c000034845163ECA0E")
+"""
+scalar Address
+
 type SyncerEvent {
   created_at: DateTime!
   updated_at: DateTime!
@@ -154,6 +172,8 @@ type KeyBunch {
 type Query {
   me: User!
   users: [User!]!
+  dassets_checkouts(filter: IDassetsNftsFilter): [DassetsNft!]!
+  dassets_nft(id: ObjectId!): DassetsNft!
   syncer_events(filter: ISyncerEventsFilter!): [SyncerEvent!]!
   event_emitter_instances(filter: IEventEmitterInstancesFilter!): [EventEmitterInstance!]!
   event_emitter_instance(id: ObjectId!): EventEmitterInstance!
@@ -166,6 +186,10 @@ type Query {
   key_bunches: [KeyBunch!]!
   key_bunch(id: ObjectId!): KeyBunch!
   dassets_checkout_session(id: ObjectId!): DassetsCheckoutSession!
+}
+
+input IDassetsNftsFilter {
+  network: String
 }
 
 input ISyncerEventsFilter {

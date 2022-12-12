@@ -6,6 +6,8 @@ import { utils } from 'ethers';
 import { Document, Mixed, ObjectId, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema } from './helpers';
 
+export type TDassetsNftDocument = DassetsNft & Document;
+
 @Schema({
   timestamps: {
     createdAt: 'created_at',

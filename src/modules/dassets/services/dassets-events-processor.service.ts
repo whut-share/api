@@ -123,7 +123,7 @@ export class DassetsEventsProcessorService {
 
     const event = {
       id: event_id,
-      name: 'Dassets.Transfer',
+      name: 'Dassets.NftTransferred',
       payload: nft.toObject(),
       metadata: event_metadata,
     };
