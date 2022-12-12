@@ -172,7 +172,7 @@ type KeyBunch {
 type Query {
   me: User!
   users: [User!]!
-  dassets_checkouts(filter: IDassetsNftsFilter): [DassetsNft!]!
+  dassets_nfts(filter: IDassetsNftsFilter): [DassetsNft!]!
   dassets_nft(id: ObjectId!): DassetsNft!
   syncer_events(filter: ISyncerEventsFilter!): [SyncerEvent!]!
   event_emitter_instances(filter: IEventEmitterInstancesFilter!): [EventEmitterInstance!]!

@@ -24,7 +24,7 @@ export class DassetsNftsResolver {
 
   @Query(returns => [DassetsNft])
   @UseGuards(GqlAuthGuard)
-  async dassets_checkouts(
+  async dassets_nfts(
     @UserParam() user: TUserDocument,
     @Args('filter', { nullable: true }) filter: IDassetsNftsFilter,
   ): Promise<DassetsNft[]> {
