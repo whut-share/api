@@ -45,7 +45,7 @@ A network scalar. See https://developers.interactwith.com/docs/getting-started/s
 scalar Network
 
 """
-A simple Address parser (eg. "0x509016ec41c0F4b3072cA7c000034845163ECA0E")
+A simple Address parser (example: "0x509016ec41c0F4b3072cA7c000034845163ECA0E")
 """
 scalar Address
 
