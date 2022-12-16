@@ -40,7 +40,7 @@ type SyncerInstanceContract {
 }
 
 """
-A network scalar. See https://developers.interactwith.com/docs/getting-started/supported-chains for the full list of supported networks. (example: "eth")
+A network scalar. See https://docs.interactwith.com/docs/getting-started/supported-chains for the full list of supported networks. (example: "eth")
 """
 scalar Network
 
