@@ -1,5 +1,5 @@
 import { Injectable, Logger, OnModuleDestroy, OnModuleInit } from '@nestjs/common';
-import { networks_list } from '@/providers/networks/networks-list';
+import { chain_networks_list } from '@/providers/chain-networks';
 import * as FS from 'fs'
 import * as Ethers from 'ethers';
 import { join } from 'path';
@@ -41,7 +41,7 @@ export class ChainSyncerProvider implements OnModuleDestroy {
     const networks_whitelist = process.env['NETWORKS_WHITELIST']?.split(',') || [];
 
     let instances: Record<string, ChainSyncer> = {}
-    for (const n of networks_list) {
+    for (const n of chain_networks_list) {
 
       if(!networks_whitelist.includes(n.key)) {
         continue;

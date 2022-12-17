@@ -5,7 +5,7 @@ import { Document, Mixed, ObjectId, SchemaTypes, Types } from 'mongoose';
 import { BaseClass, defaultUseFactory, fixSchema, NestedBaseClass } from './helpers';
 import GraphQLJSON from 'graphql-type-json';
 import { AddressScalar, ObjectIdScalar } from '@/graphql/scalars';
-import { networks_list } from '@/providers/networks/networks-list';
+import { chain_networks_list } from '@/providers/chain-networks';
 import { Keccak256Scalar } from '@/graphql/scalars/keccak256.scalar';
 import { NetworkScalar } from '@/graphql/scalars/network.scalar';
 
@@ -29,7 +29,7 @@ export class SyncerInstanceContract extends NestedBaseClass {
 
   public id?: string;
 
-  @Prop({ required: true, enum: networks_list.map(e => e.key) })
+  @Prop({ required: true, enum: chain_networks_list.map(e => e.key) })
   @Field(type => NetworkScalar)
   public network: string;
 

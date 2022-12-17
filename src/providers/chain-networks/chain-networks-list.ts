@@ -1,4 +1,4 @@
-export const networks_list = [
+export const chain_networks_list = [
 
   {
     default_rpc: 'http://blockchain:8545',

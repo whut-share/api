@@ -1,10 +1,6 @@
 {
-  "name": "api",
-  "version": "0.0.1",
-  "description": "",
-  "author": "@bytesbay Miroslaw Shpak",
   "private": true,
-  "license": "MIT",
+  "license": "GPL",
   "scripts": {
     "cli": "node dist/cli",
     "prebuild": "rimraf dist",

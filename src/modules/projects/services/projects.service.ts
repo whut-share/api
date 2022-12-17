@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
 import { Project, TProjectDocument, User, TUserDocument } from '@/schemas';
-import { networks_list } from '@/providers/networks/networks-list';
+import { chain_networks_list } from '@/providers/chain-networks';
 import * as FS from 'fs'
 import * as Ethers from 'ethers';
 import { join } from 'path';

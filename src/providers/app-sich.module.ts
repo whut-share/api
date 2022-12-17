@@ -3,7 +3,7 @@ import { Injectable, Logger, Module, OnModuleDestroy, OnModuleInit } from '@nest
 import { getConnectionToken } from '@nestjs/mongoose';
 import { Contract, providers, Signer, utils, Wallet } from 'ethers';
 import { Connection } from 'mongoose';
-import { networks_list } from './networks/networks-list';
+import { chain_networks_list } from './chain-networks/chain-networks-list';
 import { Sich } from '../libs/sich';
 import { SichMongoDBAdapter } from '@/libs/sich';
 
@@ -48,7 +48,7 @@ const provider = {
 
     const networks_whitelist = process.env['NETWORKS_WHITELIST']?.split(',') || [];
 
-    for (const n of networks_list) {
+    for (const n of chain_networks_list) {
 
       if(!networks_whitelist.includes(n.key)) {
         continue;

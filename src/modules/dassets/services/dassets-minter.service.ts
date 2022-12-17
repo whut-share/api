@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
 import { User } from '@/schemas';
-import { networks_list } from '@/providers/networks/networks-list';
+import { chain_networks_list } from '@/providers/chain-networks';
 import * as FS from 'fs'
 import * as Ethers from 'ethers';
 import { assemblyContractRoute, getContractsPath, getInternalContractData } from '@/helpers';
@@ -26,7 +26,7 @@ export class DassetsMinterService {
   ) {
     
     const { address, abi } = getInternalContractData(contract_name, network);
-    const rpc = networks_list.find(n => n.key === network).archive_rpc;
+    const rpc = chain_networks_list.find(n => n.key === network).archive_rpc;
 
     const provider = new Ethers.providers.JsonRpcProvider(rpc);
     

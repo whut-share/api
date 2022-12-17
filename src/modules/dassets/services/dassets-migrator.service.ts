@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
 import { User } from '@/schemas';
-import { networks_list } from '@/providers/networks/networks-list';
+import { chain_networks_list } from '@/providers/chain-networks';
 import * as FS from 'fs'
 import * as Ethers from 'ethers';
 import { join } from 'path';
@@ -59,7 +59,7 @@ export class DassetsMigratorService {
   async migrate(force = false) {
     
     const networks_whitelist = process.env['NETWORKS_WHITELIST']?.split(',') || [];
-    const networks = networks_list.filter(n => networks_whitelist.includes(n.key));
+    const networks = chain_networks_list.filter(n => networks_whitelist.includes(n.key));
     const routes: ContractRoute[] = networks.reduce<ContractRoute[]>((acc, n) => {
       return [ ...acc, {
         key: `${n.key}-erc1155`,

@@ -18,6 +18,7 @@ import { DassetsCheckoutsModule } from './modules/dassets-checkouts/dassets-chec
 import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from './modules/event-emitter/event-emitter.module';
 import { KeyBunchesModule } from './modules/key-bunches/key-bunches.module';
+import { ChainNetworksModule } from './providers/chain-networks';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { KeyBunchesModule } from './modules/key-bunches/key-bunches.module';
     AppMongooseModule,
     AppFileManagerModule,
     AppSichModule,
+    ChainNetworksModule,
     ResolversModule,
 
     UsersModule,

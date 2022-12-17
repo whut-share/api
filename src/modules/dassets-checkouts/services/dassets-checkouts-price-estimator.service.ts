@@ -1,5 +1,5 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { networks_list } from '@/providers/networks/networks-list';
+import { chain_networks_list } from '@/providers/chain-networks';
 import { Sich } from '@/libs/sich';
 import { DASSETS_CONVERTATION_SLIPPAGE, DASSETS_MIN_USD_MINTING_PRICE } from '@/constants';
 import Axios from 'axios';
@@ -29,7 +29,7 @@ export class DassetsCheckoutsPriceEstimatorService {
     ];
 
     const { total_eth, gas, gas_price } = await this.sich.estimateJobGas(contract_name, 'mint', args, network_key);
-    const network = networks_list.find(n => n.key === network_key);
+    const network = chain_networks_list.find(n => n.key === network_key);
     
     let eth_price: number = 1;
     

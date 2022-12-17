@@ -28,6 +28,16 @@ type EventEmitterInstance {
   is_stopped: Boolean!
 }
 
+type ChainNetwork {
+  default_rpc: String!
+  archive_rpc: String!
+  key: String!
+  type: String!
+  block_time: Float!
+  native_curr_symbol: String!
+  icon_url: String
+}
+
 type SyncerInstanceContract {
   created_at: DateTime!
   updated_at: DateTime!
@@ -180,6 +190,7 @@ type KeyBunch {
 }
 
 type Query {
+  chain_networks: [ChainNetwork!]!
   me: User!
   users: [User!]!
   dassets_nfts(filter: IDassetsNftsFilter): [DassetsNft!]!
