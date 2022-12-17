@@ -18,7 +18,7 @@ function validate(uuid: unknown): string {
 
 export const ObjectIdScalar = new GraphQLScalarType({
   name: 'ObjectId',
-  description: 'A simple ObjectId scalar. (example: "62d13a8b029b95001b881441")',
+  description: 'A simple ObjectId scalar. (type: string) (example: "62d13a8b029b95001b881441")',
   serialize: (value) => validate(value),
   parseValue: (value) => validate(value),
   parseLiteral: (ast) => ast.kind === Kind.STRING ? validate(ast.value) : null,
