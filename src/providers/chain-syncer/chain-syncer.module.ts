@@ -7,8 +7,12 @@ import { ethers as Ethers } from 'ethers';
 import * as FS from 'fs'
 import { join } from 'path';
 import { ChainSyncerProvider } from './chain-syncer.provider';
+import { ChainNetworksModule } from '../chain-networks';
 
 @Module({
+  imports: [
+    ChainNetworksModule,
+  ],
   providers: [
     ChainSyncerProvider,
   ],

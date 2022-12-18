@@ -59,12 +59,12 @@ export class DassetsMigratorService {
   async migrate(force = false) {
     
     const networks_whitelist = process.env['NETWORKS_WHITELIST']?.split(',') || [];
-    const networks = chain_networks_list.filter(n => networks_whitelist.includes(n.key));
+    const networks = chain_networks_list.filter(n => networks_whitelist.includes(n.id));
     const routes: ContractRoute[] = networks.reduce<ContractRoute[]>((acc, n) => {
       return [ ...acc, {
-        key: `${n.key}-erc1155`,
+        key: `${n.id}-erc1155`,
         contract: 'Dassets',
-        network: n.key,
+        network: n.id,
         default_rpc: n.default_rpc,
         archive_rpc: n.archive_rpc,
       } ];

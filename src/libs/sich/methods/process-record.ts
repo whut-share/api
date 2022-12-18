@@ -9,7 +9,7 @@ export async function processRecord(
 ): Promise<void> {
 
   const { contract, method, args } = record;
-  const network = this.networks.find(n => n.key === record.network);
+  const network = this.networks.find(n => n.id === record.network);
 
   if(!network) {
     throw new Error('Network not registered');

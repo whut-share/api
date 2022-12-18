@@ -39,7 +39,7 @@ const provider = {
           mnemonic_instance.privateKey, 
           provider
         );
-        const { address, abi } = getInternalContractData(contract_name, network.key);
+        const { address, abi } = getInternalContractData(contract_name, network.id);
         const contract = new Contract(address, abi, signer);
 
         return contract;
@@ -50,7 +50,7 @@ const provider = {
 
     for (const n of chain_networks_list) {
 
-      if(!networks_whitelist.includes(n.key)) {
+      if(!networks_whitelist.includes(n.id)) {
         continue;
       }
 

@@ -1,11 +1,15 @@
 import { Module } from '@nestjs/common';
+import { ChainNetworksProvider } from './chain-networks.provider';
 import { ChainNetworksResolver } from './chain-networks.resolver';
 
 @Module({
   imports: [],
-  exports: [],
+  exports: [
+    ChainNetworksProvider,
+  ],
   providers: [
-    ChainNetworksResolver
+    ChainNetworksProvider,
+    ChainNetworksResolver,
   ],
 })
 export class ChainNetworksModule {}

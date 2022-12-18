@@ -17,7 +17,7 @@ export async function estimateJobGas(
   network_key: string
 ): Promise<GasEstimation> {
   
-  const network = this.networks.find(n => n.key === network_key);
+  const network = this.networks.find(n => n.id === network_key);
 
   if(!network) {
     throw new Error('Network not registered');

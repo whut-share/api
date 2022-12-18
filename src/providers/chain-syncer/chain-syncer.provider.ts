@@ -10,6 +10,7 @@ import { Connection } from 'mongoose';
 import { getConnectionToken, InjectConnection } from '@nestjs/mongoose';
 import { assemblyContractRoute, getContractsPath } from '@/helpers';
 import { IContractRoute } from '@/interfaces';
+import { ChainNetworksProvider } from '../chain-networks/chain-networks.provider';
 
 @Injectable()
 export class ChainSyncerProvider implements OnModuleDestroy {
@@ -19,6 +20,8 @@ export class ChainSyncerProvider implements OnModuleDestroy {
   constructor(
     @InjectConnection() 
     private connection: Connection,
+
+    private readonly chain_networks_provider: ChainNetworksProvider,
   ) {}
 
 
@@ -38,14 +41,10 @@ export class ChainSyncerProvider implements OnModuleDestroy {
 
   init() {
     
-    const networks_whitelist = process.env['NETWORKS_WHITELIST']?.split(',') || [];
+    const chain_networks_list = this.chain_networks_provider.selectAll();
 
     let instances: Record<string, ChainSyncer> = {}
     for (const n of chain_networks_list) {
-
-      if(!networks_whitelist.includes(n.key)) {
-        continue;
-      }
 
       const rpcs = {
         default: new Ethers.providers.JsonRpcProvider(n.default_rpc),
@@ -53,7 +52,7 @@ export class ChainSyncerProvider implements OnModuleDestroy {
       };
 
       const adapter: IChainSyncerAdapter = new MongoDBAdapter(this.connection.db, {
-        prefix: `chsy_${n.key}_`
+        prefix: `chsy_${n.id}_`
       });
 
       const opts: IChainSyncerOptions = {
@@ -77,7 +76,7 @@ export class ChainSyncerProvider implements OnModuleDestroy {
 
           if(is_inner_usage) {
             const abi = JSON.parse(FS.readFileSync(getContractsPath(`abis/${contract}.json`), 'utf8'));
-            const route: IContractRoute = JSON.parse(FS.readFileSync(getContractsPath(`routes/${assemblyContractRoute(contract, n.key)}.json`), 'utf8'));
+            const route: IContractRoute = JSON.parse(FS.readFileSync(getContractsPath(`routes/${assemblyContractRoute(contract, n.id)}.json`), 'utf8'));
             inst = new Ethers.Contract(route.address, abi, provider);
             deploy_transaction_hash = route.tx_hash;
           } else {
@@ -93,7 +92,7 @@ export class ChainSyncerProvider implements OnModuleDestroy {
 
       const chsy = new ChainSyncer(adapter, opts);
 
-      instances[n.key] = chsy;
+      instances[n.id] = chsy;
     }
 
     this.chsy = instances;

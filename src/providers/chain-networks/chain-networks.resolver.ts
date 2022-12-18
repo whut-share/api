@@ -8,17 +8,18 @@ import { IPagination, ISort } from "@/interfaces";
 import { HttpException, UseGuards, UsePipes, ValidationPipe } from "@nestjs/common";
 import { ChainNetwork } from "./chain-network-object-type";
 import { chain_networks_list } from "./chain-networks-list";
+import { ChainNetworksProvider } from "./chain-networks.provider";
 
 @Resolver(of => ChainNetwork)
 @UsePipes(new ValidationPipe({ transform: true }))
 export class ChainNetworksResolver {
 
   constructor(
-    
+    private readonly chain_networks_provider: ChainNetworksProvider,
   ) {}
 
   @Query(returns => [ChainNetwork])
   async chain_networks(): Promise<ChainNetwork[]> {
-    return chain_networks_list;
+    return this.chain_networks_provider.selectAll();
   }
 }

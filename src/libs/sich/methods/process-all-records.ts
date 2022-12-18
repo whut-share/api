@@ -13,7 +13,7 @@ export async function processAllRecords(this: Sich): Promise<void> {
 
         console.error('[SICH] Error while processing record:', err);
 
-        const network = this.networks.find(n => n.key === record.network);
+        const network = this.networks.find(n => n.id === record.network);
 
         const hidden_till = new Date(Date.now() + (record.errors_count * (network.block_time * 5)));
 

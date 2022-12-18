@@ -5,9 +5,9 @@ export type SichContractGetter = (contract_name: string, network: ISichNetwork) 
 export type SichJobArg = (number | string | boolean)
 
 export interface ISichNetwork {
-  rpc: string,
-  key: string,
-  block_time: number,
+  id: string
+  rpc: string
+  block_time: number
 };
 
 export interface ISichOpts {

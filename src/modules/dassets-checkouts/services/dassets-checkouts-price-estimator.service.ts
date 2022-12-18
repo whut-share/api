@@ -29,7 +29,7 @@ export class DassetsCheckoutsPriceEstimatorService {
     ];
 
     const { total_eth, gas, gas_price } = await this.sich.estimateJobGas(contract_name, 'mint', args, network_key);
-    const network = chain_networks_list.find(n => n.key === network_key);
+    const network = chain_networks_list.find(n => n.id === network_key);
     
     let eth_price: number = 1;
     

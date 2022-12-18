@@ -4,13 +4,13 @@ import { Field, ObjectType } from "@nestjs/graphql";
 export class ChainNetwork {
 
   @Field()
+  id: string;
+
+  @Field()
   default_rpc: string;
 
   @Field()
   archive_rpc: string;
-
-  @Field()
-  key: string;
 
   @Field()
   type: string;

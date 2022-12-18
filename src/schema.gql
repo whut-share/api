@@ -31,9 +31,9 @@ type EventEmitterInstance {
 }
 
 type ChainNetwork {
+  id: String!
   default_rpc: String!
   archive_rpc: String!
-  key: String!
   type: String!
   block_time: Float!
   native_curr_symbol: String!

@@ -26,7 +26,7 @@ export class DassetsMinterService {
   ) {
     
     const { address, abi } = getInternalContractData(contract_name, network);
-    const rpc = chain_networks_list.find(n => n.key === network).archive_rpc;
+    const rpc = chain_networks_list.find(n => n.id === network).archive_rpc;
 
     const provider = new Ethers.providers.JsonRpcProvider(rpc);
     

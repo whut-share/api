@@ -29,7 +29,7 @@ export class SyncerInstanceContract extends NestedBaseClass {
 
   public id?: string;
 
-  @Prop({ required: true, enum: chain_networks_list.map(e => e.key) })
+  @Prop({ required: true, enum: chain_networks_list.map(e => e.id) })
   @Field(type => NetworkScalar)
   public network: string;
 
