@@ -19,9 +19,15 @@ import { ScheduleModule } from '@nestjs/schedule';
 import { EventEmitterModule } from './modules/event-emitter/event-emitter.module';
 import { KeyBunchesModule } from './modules/key-bunches/key-bunches.module';
 import { ChainNetworksModule } from './providers/chain-networks';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
 
 @Module({
   imports: [
+
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+    }),
 
     ScheduleModule.forRoot(),
     EventEmitter2Module.forRoot(),
