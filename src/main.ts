@@ -17,7 +17,7 @@ async function bootstrap() {
 
   // app.useGlobalGuards(new AuthGuard());
 
-  app.enableCors();
+  app.enableCors();;
 
   await app.listen(8000);
 }
