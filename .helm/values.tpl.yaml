@@ -1,6 +1,6 @@
 host:
-  prod: api.interactwith.io
-  test: test-api.interactwith.io
+  prod: api.interactwith.com
+  test: test-api.interactwith.com
 
 # yeah i know it's temporary
 replicas:
