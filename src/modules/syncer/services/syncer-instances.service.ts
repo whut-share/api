@@ -49,14 +49,14 @@ export class SyncerInstancesService {
       throw new InvalidInputException('ACCESS_DENIED', 'Access denied');
     }
 
-    if(data.preset === 'dassets') {
-      const dassets_syncer = await this.syncer_instance_model.findOne({
+    if(data.preset === 'minter') {
+      const minter_syncer = await this.syncer_instance_model.findOne({
         project: project.id,
-        preset: 'dassets',
+        preset: 'minter',
       });
 
-      if(dassets_syncer) {
-        throw new InvalidInputException('DUPLICATE', 'Dassets syncer already exists');
+      if(minter_syncer) {
+        throw new InvalidInputException('DUPLICATE', 'Minter syncer already exists');
       }
     } else {
 

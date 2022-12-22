@@ -2,7 +2,7 @@ import { NetworkScalar } from "@/graphql/scalars";
 import { Field, InputType, ObjectType } from "@nestjs/graphql";
 
 @InputType()
-export class IProjectDassetsSettingsUpdate {
+export class IProjectMinterSettingsUpdate {
 
   @Field(type => [NetworkScalar], { nullable: true })
   include_networks?: string[];
@@ -21,6 +21,6 @@ export class IProjectUpdate {
   name?: string;
 
   @Field({ nullable: true })
-  dassets_settings?: IProjectDassetsSettingsUpdate;
+  minter_settings?: IProjectMinterSettingsUpdate;
   
 }

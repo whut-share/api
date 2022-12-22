@@ -85,7 +85,7 @@ type ProjectSyncerSettings {
   contracts_base_url: String
 }
 
-type ProjectDassetsSettings {
+type ProjectMinterSettings {
   include_networks: [String!]!
   token_base_url: String
   webhook_events_url: String
@@ -98,12 +98,12 @@ type Project {
   user: String!
   name: String!
   pic: String
-  dassets_settings: ProjectDassetsSettings!
+  minter_settings: ProjectMinterSettings!
   syncer_settings: ProjectSyncerSettings!
-  dassets_syncer_instance: SyncerInstance!
+  minter_syncer_instance: SyncerInstance!
 }
 
-type DassetsNft {
+type MinterNft {
   created_at: DateTime!
   updated_at: DateTime!
   project: ObjectId!
@@ -129,14 +129,14 @@ type SyncerEvent {
   is_processed: Boolean!
 }
 
-type DassetsNftAssetInfo {
+type MinterNftAssetInfo {
   id: String!
   name: String!
   description: String
   image_url: String
 }
 
-type DassetsCheckoutSessionPriceEstimate {
+type MinterCheckoutSessionPriceEstimate {
   price: Float!
   total_eth: Float!
   eth_price: Float!
@@ -145,7 +145,7 @@ type DassetsCheckoutSessionPriceEstimate {
   slippage: Float!
 }
 
-type DassetsCheckoutSession {
+type MinterCheckoutSession {
   created_at: DateTime!
   updated_at: DateTime!
   id: String!
@@ -160,12 +160,12 @@ type DassetsCheckoutSession {
   contract_type: String!
   is_succeeded: Boolean!
   expires_at: DateTime!
-  asset_info: DassetsNftAssetInfo!
+  asset_info: MinterNftAssetInfo!
   is_payed: Boolean!
   url: String!
   is_minted: Boolean!
   is_expired: Boolean!
-  price_estimation: DassetsCheckoutSessionPriceEstimate
+  price_estimation: MinterCheckoutSessionPriceEstimate
   stripe_pi_client_secret: String
 }
 
@@ -195,8 +195,8 @@ type Query {
   chain_networks: [ChainNetwork!]!
   me: User!
   users: [User!]!
-  dassets_nfts(filter: IDassetsNftsFilter): [DassetsNft!]!
-  dassets_nft(id: ObjectId!): DassetsNft!
+  minter_nfts(filter: IMinterNftsFilter): [MinterNft!]!
+  minter_nft(id: ObjectId!): MinterNft!
   syncer_events(filter: ISyncerEventsFilter!): [SyncerEvent!]!
   event_emitter_instances(filter: IEventEmitterInstancesFilter!): [EventEmitterInstance!]!
   event_emitter_instance(id: ObjectId!): EventEmitterInstance!
@@ -208,10 +208,10 @@ type Query {
   project_group(id: ObjectId!): ProjectGroup!
   key_bunches: [KeyBunch!]!
   key_bunch(id: ObjectId!): KeyBunch!
-  dassets_checkout_session(id: ObjectId!): DassetsCheckoutSession!
+  minter_checkout_session(id: ObjectId!): MinterCheckoutSession!
 }
 
-input IDassetsNftsFilter {
+input IMinterNftsFilter {
   network: Network
 }
 
@@ -242,9 +242,9 @@ type Mutation {
   projectGroupUpdate(id: ObjectId!, data: IProjectGroupUpdate!): ProjectGroup!
   projectGroupDelete(id: ObjectId!): Void!
   keyBunchCreate(data: IKeyBunchCreate!): KeyBunch!
-  dassetsCheckoutSessionCreate(data: IDassetsCheckoutSessionCreate!): DassetsCheckoutSession!
-  dassetsCheckoutSessionUpdate(id: ObjectId!, data: IDassetsCheckoutSessionUpdate!): DassetsCheckoutSession!
-  dassetsCheckoutSessionAttachStripePaymentIntent(id: ObjectId!): DassetsCheckoutSession!
+  minterCheckoutSessionCreate(data: IMinterCheckoutSessionCreate!): MinterCheckoutSession!
+  minterCheckoutSessionUpdate(id: ObjectId!, data: IMinterCheckoutSessionUpdate!): MinterCheckoutSession!
+  minterCheckoutSessionAttachStripePaymentIntent(id: ObjectId!): MinterCheckoutSession!
 }
 
 input IUserSignUp {
@@ -300,10 +300,10 @@ input IProjectCreate {
 
 input IProjectUpdate {
   name: String
-  dassets_settings: IProjectDassetsSettingsUpdate
+  minter_settings: IProjectMinterSettingsUpdate
 }
 
-input IProjectDassetsSettingsUpdate {
+input IProjectMinterSettingsUpdate {
   include_networks: [Network!]
   token_base_url: String
   webhook_events_url: String
@@ -326,19 +326,19 @@ input IKeyBunchCreate {
   project: ObjectId!
 }
 
-input IDassetsCheckoutSessionCreate {
+input IMinterCheckoutSessionCreate {
   project: ObjectId!
-  asset_info: IDassetsCheckoutSessionCreateAssetInfo!
+  asset_info: IMinterCheckoutSessionCreateAssetInfo!
 }
 
-input IDassetsCheckoutSessionCreateAssetInfo {
+input IMinterCheckoutSessionCreateAssetInfo {
   id: String!
   name: String!
   description: String
   image_url: String
 }
 
-input IDassetsCheckoutSessionUpdate {
+input IMinterCheckoutSessionUpdate {
   address: Address
   network: Network
 }

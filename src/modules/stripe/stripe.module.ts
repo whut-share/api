@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DassetsNftModelModule, PersistentRecordModelModule, ProjectModelModule, User, UserSchema } from '@/schemas';
+import { MinterNftModelModule, PersistentRecordModelModule, ProjectModelModule, User, UserSchema } from '@/schemas';
 import { StripeMigratorService } from './services/stripe-migrator.service';
 import { StripeController } from './stripe.controller';
 import Stripe from 'stripe';

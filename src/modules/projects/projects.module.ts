@@ -3,7 +3,7 @@ import { DataLoaderInterceptor } from 'nestjs-dataloader'
 
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DassetsNftModelModule, ProjectGroupModelModule, ProjectModelModule, SyncerInstanceModelModule, User, UserSchema } from '@/schemas';
+import { MinterNftModelModule, ProjectGroupModelModule, ProjectModelModule, SyncerInstanceModelModule, User, UserSchema } from '@/schemas';
 import { ProjectsService } from './services/projects.service';
 import { ProjectsSeedCmd } from './cmd/projects-seed.cmd';
 import { SyncerModule } from '../syncer/syncer.module';

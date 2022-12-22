@@ -2,5 +2,5 @@
   "tx_hash": "0x9761e5b646bf335818fa3c31b436a50184ef6eab7667313dc8c74fc5b3795d54",
   "address": "0x959D9f14375F33c816C4F3859530B164B795F267",
   "network": "goerli",
-  "contract": "Dassets"
+  "contract": "Minter"
 }

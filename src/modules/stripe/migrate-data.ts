@@ -1,11 +1,11 @@
 export const STRIPE_PRODUCTS_MIGRATE_DATA = {
-  'Dassets': {
-    name: 'Dassets',
+  'Minter': {
+    name: 'Minter',
   },
 };
 
 export const STRIPE_PRICES_MIGRATE_DATA = {
-  'Dassets': {
+  'Minter': {
     nickname: 'minting',
     unit_amount: 1000,
     recurring_interval: 'month',

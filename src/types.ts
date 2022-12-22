@@ -1,1 +1,1 @@
-export type TSyncerPreset = 'custom' | 'dassets';
+export type TSyncerPreset = 'custom' | 'minter';

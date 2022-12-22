@@ -25,7 +25,7 @@ export const randomElement = <T>(array: T[]): T => {
 export const assemblyContractRoute = (contract: string, network: string) => {
 
   const mapping = {
-    'Dassets': 'erc1155',
+    'Minter': 'erc1155',
     'InteractERC721': 'erc721',
   }
 
@@ -35,7 +35,7 @@ export const assemblyContractRoute = (contract: string, network: string) => {
 export const typeToContractName = (type: string): string => {
 
   const mapping = {
-    'erc1155': 'Dassets',
+    'erc1155': 'Minter',
     'erc721': 'InteractERC721',
   }
 

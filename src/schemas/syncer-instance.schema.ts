@@ -87,9 +87,9 @@ export class SyncerInstance extends BaseClass {
   @Field(type => ObjectIdScalar)
   public project: string;
 
-  @Prop({ enum: [ 'custom', 'dassets' ], default: 'custom' })
+  @Prop({ enum: [ 'custom', 'minter' ], default: 'custom' })
   @Field()
-  public preset?: 'custom' | 'dassets' = 'custom';
+  public preset?: 'custom' | 'minter' = 'custom';
 
   @Prop({ default: {}, type: SchemaTypes.Mixed })
   public metadata?: any;

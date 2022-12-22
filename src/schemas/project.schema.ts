@@ -45,7 +45,7 @@ export const ProjectSyncerSettingsSchema = fixSchema(SchemaFactory.createForClas
   minimize: false
 })
 @ObjectType()
-export class ProjectDassetsSettings {
+export class ProjectMinterSettings {
 
   @Prop({ default: [] })
   @Field(type => [String])
@@ -60,7 +60,7 @@ export class ProjectDassetsSettings {
   public webhook_events_url: string;
 }
 
-export const ProjectDassetsSettingsSchema = fixSchema(SchemaFactory.createForClass(ProjectDassetsSettings), ProjectDassetsSettings);
+export const ProjectMinterSettingsSchema = fixSchema(SchemaFactory.createForClass(ProjectMinterSettings), ProjectMinterSettings);
 
 @Schema({
   timestamps: {
@@ -100,9 +100,9 @@ export class Project extends BaseClass {
   @Field({ nullable: true })
   public pic?: string;
 
-  @Prop({ type: ProjectDassetsSettingsSchema, default: () => new ProjectDassetsSettings() })
+  @Prop({ type: ProjectMinterSettingsSchema, default: () => new ProjectMinterSettings() })
   @Field()
-  public dassets_settings?: ProjectDassetsSettings;
+  public minter_settings?: ProjectMinterSettings;
 
   @Prop({ type: ProjectSyncerSettings, default: () => new ProjectSyncerSettings() })
   @Field()
@@ -113,7 +113,7 @@ export class Project extends BaseClass {
   // }
 
   @Field(type => SyncerInstance)
-  public dassets_syncer_instance: SyncerInstance;
+  public minter_syncer_instance: SyncerInstance;
 }
 
 export const ProjectSchema = fixSchema(SchemaFactory.createForClass(Project), Project);

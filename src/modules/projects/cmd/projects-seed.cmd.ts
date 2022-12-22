@@ -27,7 +27,7 @@ export class ProjectsSeedCmd extends CommandRunner {
     await this.project_model.create({
       user: options.user,
       name: 'test',
-      dassets: {
+      minter: {
         include_networks: [ 'local' ],
         token_base_url: 'http://localhost:3000',
         webhook_events_url: 'http://localhost:3000',

@@ -3,7 +3,7 @@ import { DataLoaderInterceptor } from 'nestjs-dataloader'
 
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DassetsNftModelModule, KeyBunchModelModule, ProjectGroupModelModule, ProjectModelModule, SyncerInstanceModelModule, User, UserSchema } from '@/schemas';
+import { MinterNftModelModule, KeyBunchModelModule, ProjectGroupModelModule, ProjectModelModule, SyncerInstanceModelModule, User, UserSchema } from '@/schemas';
 import { KeyBunchesService } from './services/key-bunches.service';
 import { SyncerModule } from '../syncer/syncer.module';
 import { KeyBunchesResolver } from './key-bunches.resolver';

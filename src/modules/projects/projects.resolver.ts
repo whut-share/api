@@ -48,12 +48,12 @@ export class ProjectsResolver {
 
 
   @ResolveField(returns => SyncerInstance)
-  async dassets_syncer_instance(
+  async minter_syncer_instance(
     @Parent() project: TProjectDocument,
   ): Promise<Project> {
     return await this.syncer_instance_model.findOne({
       project: project._id,
-      preset: 'dassets',
+      preset: 'minter',
     });
   }
 

@@ -58,7 +58,7 @@ export class ProjectsService {
 
     await this.syncer_instances_service.create(user, {
       project: project.id,
-      preset: 'dassets',
+      preset: 'minter',
     });
 
     await this.key_bunches_service.create(user, {
