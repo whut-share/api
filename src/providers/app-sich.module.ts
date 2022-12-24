@@ -21,8 +21,11 @@ class SichProvider implements OnModuleDestroy, OnModuleInit {
   }
 
   onModuleInit() {
-    this.sich.start();
-    this.logger.verbose('Sich started');
+
+    if(process.env['ENABLE_SICH'] === 'true' && process.env['IS_BACKGROUND'] === 'true') {
+      this.sich.start();
+      this.logger.verbose('Sich started');
+    }
   }
 }
 
