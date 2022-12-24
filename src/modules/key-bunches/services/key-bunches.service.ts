@@ -7,6 +7,7 @@ import { merge } from 'lodash';
 import { assemblyContractRoute } from '@/helpers';
 import { IKeyBunchCreate } from '../interfaces/key-bunch-create.interface';
 import { SyncerInstancesService } from '@/modules/syncer/services/syncer-instances.service';
+import { OnEvent } from '@nestjs/event-emitter';
 
 
 @Injectable()

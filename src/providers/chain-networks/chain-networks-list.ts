@@ -7,6 +7,7 @@ export const chain_networks_list = [
     type: 'evm',
     block_time: 100,
     native_curr_symbol: 'ETH',
+    scan_url: 'https://etherscan.io',
   },
 
   {
@@ -16,6 +17,7 @@ export const chain_networks_list = [
     type: 'evm',
     block_time: 3000,
     native_curr_symbol: 'ETH',
+    scan_url: 'https://etherscan.io',
   },
 
   { // testnet
@@ -25,5 +27,6 @@ export const chain_networks_list = [
     type: 'evm',
     block_time: 10000,
     native_curr_symbol: 'GoETH',
+    scan_url: 'https://goerli.etherscan.io',
   },
 ];

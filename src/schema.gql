@@ -222,6 +222,8 @@ input ISyncerEventsFilter {
 
 input IEventEmitterInstancesFilter {
   syncer_instance: ObjectId
+  type: String
+  search: String
 }
 
 input ISyncerInstancesFilter {

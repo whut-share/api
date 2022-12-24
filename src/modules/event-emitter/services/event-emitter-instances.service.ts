@@ -88,7 +88,29 @@ export class EventEmitterInstancesService {
           $in: syncer_instance_ids,
         }
       })
-    }    
+    }
+
+    if(filter.search) {
+      merge(query, {
+        name: {
+          $regex: filter.search,
+          $options: 'i',
+        }
+      })
+    }
+
+    if(filter.type) {
+      if(filter.type === 'webhook') {
+        merge(query, {
+          is_webhook_emitter: true,
+        })
+      }
+      else if(filter.type === 'stream') {
+        merge(query, {
+          is_webhook_emitter: false,
+        })
+      }
+    }
 
     return await this.event_emitter_instance_model.find(query);
   }

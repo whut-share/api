@@ -4,6 +4,7 @@ import { Model } from 'mongoose';
 import { InvalidInputException } from '@/exceptions';
 import { User, TUserDocument } from '@/schemas';
 import { IUserCreate } from '../interfaces/user-create.interface';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class UsersService {
@@ -11,6 +12,8 @@ export class UsersService {
   constructor(
     @InjectModel(User.name)
     private user_model: Model<User>,
+
+    private event_emitter: EventEmitter2,
   ) {}
 
   async selectAll(): Promise<User[]> {
@@ -22,6 +25,7 @@ export class UsersService {
 
   async create(data: IUserCreate): Promise<TUserDocument> {
 
+
     if(await this.user_model.exists({ email: data.email })) {
       throw new InvalidInputException('EMAIL_BUSY', 'Email already busy');
     }
@@ -32,7 +36,11 @@ export class UsersService {
 
     user.setPassword(data.password);
 
-    return await user.save();
+    await user.save();
+
+    await this.event_emitter.emitAsync('user.created', user);
+
+    return user;
 
   }
 }
