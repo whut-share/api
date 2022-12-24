@@ -6,7 +6,8 @@ import { Command, CommandRunner, Option } from 'nest-commander';
 import { MinterMigratorService } from '../services/minter-migrator.service';
 
 interface BasicCommandOptions {
-  number: number;
+  force: boolean;
+  networks: string[];
 }
 
 @Command({
@@ -24,7 +25,29 @@ export class MinterMigrateCmd extends CommandRunner {
     options?: BasicCommandOptions,
   ) {
 
-    await this.minter_migrator_service.migrate();
+    await this.minter_migrator_service.migrate(
+      options.force, 
+      options.networks
+    );
     
+  }
+
+
+  @Option({
+    flags: '--force [boolean]',
+    description: '',
+    defaultValue: false,
+  })
+  force(val: string): boolean {
+    return val === 'true';
+  }
+
+  @Option({
+    flags: '--networks [string]',
+    description: '',
+    defaultValue: '',
+  })
+  networks(val: string): string[] {
+    return val.split(',');
   }
 }

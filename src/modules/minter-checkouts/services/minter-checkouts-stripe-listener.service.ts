@@ -27,7 +27,7 @@ export class MinterCheckoutsStripeListenerService {
     
     const session_id = payload.data.metadata.session_id;
     
-    if(payload.data.metadata.type !== 'dasset-checkout' || !session_id) {
+    if(payload.data.metadata.type !== 'minter-checkout' || !session_id) {
       return;
     }
 
@@ -52,6 +52,7 @@ export class MinterCheckoutsStripeListenerService {
     });
     
     session.payment_id = payload.data.id;
+    session.is_payed = true;
     await session.save();
 
   }

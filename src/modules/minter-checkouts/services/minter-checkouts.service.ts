@@ -104,7 +104,7 @@ export class MinterCheckoutsService {
         enabled: true,
       },
       metadata: {
-        type: 'dasset-checkout',
+        type: 'minter-checkout',
         session_id: session.id,
       },
     });

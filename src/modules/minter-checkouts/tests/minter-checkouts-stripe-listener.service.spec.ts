@@ -105,7 +105,7 @@ describe(MinterCheckoutsStripeListenerService.name, () => {
           ...StripePaymentIntentMock,
           metadata: {
             session_id: d_session.id,
-            type: 'dasset-checkout',
+            type: 'minter-checkout',
           },
         } as Stripe.PaymentIntent,
         evt_id: '123'

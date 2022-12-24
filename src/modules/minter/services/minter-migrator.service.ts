@@ -56,9 +56,8 @@ export class MinterMigratorService {
   }
 
 
-  async migrate(force = false) {
+  async migrate(force = false, networks_whitelist: string[]) {
     
-    const networks_whitelist = process.env['NETWORKS_WHITELIST']?.split(',') || [];
     const networks = chain_networks_list.filter(n => networks_whitelist.includes(n.id));
     const routes: ContractRoute[] = networks.reduce<ContractRoute[]>((acc, n) => {
       return [ ...acc, {
