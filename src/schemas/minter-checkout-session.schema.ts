@@ -145,7 +145,7 @@ export class MinterCheckoutSession extends BaseClass {
 
   @Field()
   public get url(): string {
-    return `${process.env['DA_CHECKOUT_URL']}/${this.id}`
+    return `${process.env['MINTER_CHECKOUT_URL']}/${this.id}`
   };
 
   @Field()
