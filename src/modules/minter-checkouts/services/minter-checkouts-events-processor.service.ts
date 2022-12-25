@@ -31,6 +31,10 @@ export class MinterCheckoutsEventsProcessorService {
       _id: mint_request_id.replace('dflw_', ''),
     });
 
+    if(!d_session) {
+      return;
+    }
+
     d_session.is_succeeded = true;
     d_session.mint_tx = event_metadata.transaction_hash;
     d_session.mint_token_id = token_id;
