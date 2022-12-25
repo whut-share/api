@@ -43,7 +43,7 @@ export class MinterCheckoutsPriceEstimatorService {
         params: {
           symbol: network.native_curr_symbol,
         }
-      }).then(res => res.data.data['ETH'][0]);
+      }).then(res => res.data.data[network.native_curr_symbol][0]);
 
       eth_price = data.quote['USD'].price;
     }
