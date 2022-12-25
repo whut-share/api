@@ -36,7 +36,13 @@ export class MinterMinterService {
 
     const contract = new Ethers.Contract(address, abi, wallet);
 
-    await contract.setMintPermission(wallet.address, true);
-    // return await contract.mint(owner_address || wallet.address, Ethers.utils.formatBytes32String(project_id), 1, '0x');
+    // await contract.setMintPermission(wallet.address, true);
+    return await contract.mint(
+      '0x64666c775f363361373461656337353138373032346163343266376138000000', 
+      owner_address || wallet.address, 
+      Ethers.utils.formatBytes32String(project_id), 
+      1, 
+      '0x'
+    );
   }
 }

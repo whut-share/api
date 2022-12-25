@@ -28,11 +28,11 @@ export class MinterSyncerListenerService implements OnModuleInit {
     for (const network in chsy_instances) {
 
       chsy_instances[network].on('!Minter.NftMinted', async (
+        event_metadata: IChainSyncerEventMetadata,
         mint_request_id: string,
         to: string, 
         id: string, 
         project_id: string,
-        event_metadata: IChainSyncerEventMetadata,
       ) => {
 
         to = to.toLowerCase();
@@ -55,12 +55,12 @@ export class MinterSyncerListenerService implements OnModuleInit {
 
 
       chsy_instances[network].on('!Minter.TransferSingle', async (
+        event_metadata: IChainSyncerEventMetadata,
         operator: string,
         from: string,
         to: string,
         id: string, 
         value: string,
-        event_metadata,
       ) => {
 
         to = to.toLowerCase();
