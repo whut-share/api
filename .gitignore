@@ -39,5 +39,5 @@ lerna-debug.log*
 .bc
 .helm/env.yaml
 .helm/values.yaml
-.env
+/.env
 contracts/routes/local-*
