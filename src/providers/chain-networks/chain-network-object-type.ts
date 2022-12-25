@@ -24,4 +24,7 @@ export class ChainNetwork {
   @Field({ nullable: true })
   icon_url?: string;
 
+  @Field({ nullable: true })
+  scan_url?: string;
+
 }

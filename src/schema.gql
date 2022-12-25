@@ -38,6 +38,7 @@ type ChainNetwork {
   block_time: Float!
   native_curr_symbol: String!
   icon_url: String
+  scan_url: String
 }
 
 type SyncerInstanceContract {

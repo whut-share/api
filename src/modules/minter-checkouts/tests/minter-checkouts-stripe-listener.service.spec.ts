@@ -60,7 +60,7 @@ describe(MinterCheckoutsStripeListenerService.name, () => {
       event_emitter = app.get(EventEmitter2);
       const minter_migrator_service = app.get<MinterMigratorService>(MinterMigratorService);
 
-      await minter_migrator_service.migrate();
+      await minter_migrator_service.migrate(true, [ 'local-test' ]);
     },
     async afterEachHandler() {
       

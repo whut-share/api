@@ -21,7 +21,7 @@ export class MinterEventsProcessorService {
     private project_model: Model<TProjectDocument>,
 
     @InjectModel(MinterNft.name)
-    private dasset_nft_model: Model<MinterNft>,
+    private minter_nft_model: Model<MinterNft>,
 
     @InjectModel(SyncerInstance.name)
     private syncer_instance_model: Model<TSyncerInstanceDocument>,
@@ -47,7 +47,7 @@ export class MinterEventsProcessorService {
 
     const nft_id = MinterNft.formatId(network, token_id);
 
-    let nft = await this.dasset_nft_model.create({
+    let nft = await this.minter_nft_model.create({
       _id: nft_id,
       project: project_id,
       owner: to,
@@ -56,13 +56,7 @@ export class MinterEventsProcessorService {
       token_id: token_id,
       owner_synced_at: event_metadata.global_index,
       mint_request_id: mint_request_id,
-    }).catch(err => err.code === 11000 ? this.dasset_nft_model.findOne({ _id: nft_id }) : err);
-
-    if(!nft) {
-      nft = await this.dasset_nft_model.findOne({
-        _id: MinterNft.formatId(network, token_id),
-      });
-    }
+    }).catch(err => err.code === 11000 ? this.minter_nft_model.findOne({ _id: nft_id }) : err);
 
     const event_id = utils.keccak256(utils.toUtf8Bytes(`${network}_${event_metadata.global_index}`));
 
@@ -97,7 +91,7 @@ export class MinterEventsProcessorService {
 
     const nft_id = MinterNft.formatId(network, token_id);
 
-    const nft = await this.dasset_nft_model.findOne({
+    const nft = await this.minter_nft_model.findOne({
       _id: nft_id,
     });
 
@@ -105,7 +99,7 @@ export class MinterEventsProcessorService {
       return false;
     }
 
-    await this.dasset_nft_model.updateOne({
+    await this.minter_nft_model.updateOne({
       _id: nft.id,
       owner_synced_at: { $lt: event_metadata.global_index },
     }, {
