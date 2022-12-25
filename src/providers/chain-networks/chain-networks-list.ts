@@ -29,4 +29,14 @@ export const chain_networks_list = [
     native_curr_symbol: 'GoETH',
     scan_url: 'https://goerli.etherscan.io',
   },
+
+  {
+    default_rpc: 'https://bscrpc.com',
+    archive_rpc: 'https://bscrpc.com',
+    id: 'bnb',
+    type: 'evm',
+    block_time: 4000,
+    native_curr_symbol: 'BNB',
+    scan_url: 'https://bscscan.com',
+  },
 ];
