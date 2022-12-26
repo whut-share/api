@@ -27,6 +27,8 @@ export class MinterNftsResolver {
   async minter_nfts(
     @UserParam() user: TUserDocument,
     @Args('filter', { nullable: true }) filter: IMinterNftsFilter,
+    @Args('pagination', { nullable: true }) pagination: IPagination,
+    @Args('sort', { nullable: true }) sort: ISort,
   ): Promise<MinterNft[]> {
     return await this.minter_nfts_service.select(user, filter);
   }

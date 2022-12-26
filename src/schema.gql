@@ -196,7 +196,7 @@ type Query {
   chain_networks: [ChainNetwork!]!
   me: User!
   users: [User!]!
-  minter_nfts(filter: IMinterNftsFilter): [MinterNft!]!
+  minter_nfts(filter: IMinterNftsFilter, pagination: IPagination, sort: ISort): [MinterNft!]!
   minter_nft(id: ObjectId!): MinterNft!
   syncer_events(filter: ISyncerEventsFilter!): [SyncerEvent!]!
   event_emitter_instances(filter: IEventEmitterInstancesFilter!): [EventEmitterInstance!]!
@@ -214,6 +214,21 @@ type Query {
 
 input IMinterNftsFilter {
   network: Network
+}
+
+input IPagination {
+  take: Int = 512
+  page: Int = 1
+}
+
+input ISort {
+  direction: SortDirection = ASC
+  by_field: String = "createdAt"
+}
+
+enum SortDirection {
+  ASC
+  DESC
 }
 
 input ISyncerEventsFilter {
