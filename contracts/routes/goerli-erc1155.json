@@ -1,6 +1,6 @@
 {
-  "tx_hash": "0x1a9258098ef51367ab61301eba57ed173655b13f04b1a95a7e8e700eb78e3f99",
-  "address": "0x65cE0C6B3ba8236C967Ba5299DBd9BddC0dA10Db",
+  "tx_hash": "0xef0852d9d1f142b8c63caf84d046254c3d28396d987c419c06e74f153379e221",
+  "address": "0x07c13daF8aDB5D842cde31D7601738A0E0B82495",
   "network": "goerli",
   "contract": "Minter"
 }
